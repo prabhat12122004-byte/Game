@@ -1,7 +1,7 @@
 {
   "name": "game",
   "main": "worker.js",
-  "compatibility_date": "2026-08-20",
+  "compatibility_date": "2026-08-19",
   "assets": {
     "directory": "./public"
   },
