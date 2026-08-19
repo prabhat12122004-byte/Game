@@ -1,14 +1,22 @@
-name = "holi-warriors-v20"
-main = "src/worker.js"
-compatibility_date = "2026-08-19"
-
-[assets]
-directory = "./public"
-
-[[durable_objects.bindings]]
-name = "ROOMS"
-class_name = "GameRoom"
-
-[[migrations]]
-tag = "v1"
-new_sqlite_classes = ["GameRoom"]
+{
+  "name": "game",
+  "main": "worker.js",
+  "compatibility_date": "2026-08-20",
+  "assets": {
+    "directory": "./public"
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "ROOMS",
+        "class_name": "GameRoom"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["GameRoom"]
+    }
+  ]
+}
