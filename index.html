@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Holi Warriors V20</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Arial,sans-serif;background:#0b2418;color:#fff;touch-action:none}
+button,input{font:inherit}.screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:18px;background:linear-gradient(145deg,#082719,#123d29)}
+.card{width:min(520px,94vw);background:#103a28;border:2px solid #9ee5b8;border-radius:26px;padding:28px;box-shadow:0 15px 45px #0008;text-align:center}
+h1{font-size:46px;margin:0 0 8px}.sub{color:#bcefc9;margin:8px 0 24px}
+.row{display:flex;gap:12px}.row>*{flex:1}.btn{border:0;border-radius:15px;padding:16px 12px;background:#3184e8;color:white;font-weight:800;margin:7px 0}.btn.alt{background:#df642e}.btn.green{background:#27a45d}.field{width:100%;padding:15px;border-radius:14px;border:2px solid #9ee5b8;background:#082719;color:#fff;text-align:center;margin:7px 0}
+#game{position:fixed;inset:0;display:none;background:#76c955}
+#hud{position:absolute;top:10px;left:10px;right:10px;display:flex;gap:10px;z-index:5}.hud{background:#123b28dd;border:2px solid #9ee5b8;border-radius:15px;padding:10px 14px;min-width:0;flex:1}.hud b{font-size:18px}.small{font-size:13px;color:#c9efd4}
+#arena{position:absolute;left:5%;right:5%;top:92px;bottom:112px;border:5px solid #d9f5cf;border-radius:4px;overflow:hidden;background:#76c955}
+#world{position:absolute;inset:0;background-image:linear-gradient(#0001 1px,transparent 1px),linear-gradient(90deg,#0001 1px,transparent 1px);background-size:38px 38px}
+.player{position:absolute;width:42px;height:42px;border-radius:50%;border:2px solid #fff;box-shadow:0 5px 8px #0005}.player::after{content:"";position:absolute;width:29px;height:9px;right:-21px;top:16px;background:#26384a;border-radius:3px;transform-origin:left center}.blue{background:#12aee0}.red{background:#ef4b55}.label{position:absolute;top:-23px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:bold;white-space:nowrap;text-shadow:0 1px 2px #000}
+.hp{position:absolute;top:-9px;left:50%;transform:translateX(-50%);height:6px;width:48px;background:#222;border-radius:4px;overflow:hidden}.hp i{display:block;height:100%;background:#37dc65}
+.block{position:absolute;background:#704723;border:3px solid #573417;border-radius:4px;box-shadow:inset 0 8px #996a3e}
+.balloon{position:absolute;width:13px;height:13px;border-radius:50%;background:#f7c23b;pointer-events:none;box-shadow:0 0 8px #fff8}
+#leftControl,#rightControl{position:absolute;bottom:12px;width:130px;height:130px;border-radius:50%;border:4px solid #dff4e5aa;background:#123b2870;z-index:10}
+#leftControl{left:35px}.stick{position:absolute;width:64px;height:64px;border-radius:50%;background:#dff4e5cc;left:50%;top:50%;transform:translate(-50%,-50%);border:3px solid #9bc9aa}
+#rightControl{right:35px}.fireCore{position:absolute;left:50%;top:50%;width:72px;height:72px;transform:translate(-50%,-50%);border-radius:50%;background:#ff6a2a;border:4px solid #ffd2bb;display:flex;align-items:center;justify-content:center;font-weight:900}
+#pause{position:absolute;right:10px;top:10px;z-index:8;background:#123b28;color:#fff;border:2px solid #9ee5b8;border-radius:12px;padding:12px}
+.overlay{position:absolute;inset:0;background:#061b10d9;display:none;align-items:center;justify-content:center;z-index:20}.overlay .card{max-width:420px}
+select{width:100%;padding:14px;border-radius:12px;background:#082719;color:white;border:2px solid #9ee5b8;margin:6px 0}
+</style>
+</head>
+<body>
+<div id="menu" class="screen">
+ <div class="card">
+  <h1>🌈 HOLI WARRIORS</h1><div class="sub">V20 • Friendly Water-Balloon Battle</div>
+  <button class="btn green" id="singleBtn">SINGLE PLAYER</button>
+  <button class="btn" id="createBtn">CREATE MULTIPLAYER ROOM</button>
+  <input id="roomInput" class="field" maxlength="6" placeholder="6-character room code">
+  <button class="btn" id="joinBtn">JOIN ROOM</button>
+  <select id="mapSel"><option value="jungle">🌿 Jungle</option><option value="sand">🏜️ Sand</option><option value="space">🚀 Space</option></select>
+  <select id="timeSel"><option value="180">3 minutes</option><option value="60">1 minute</option><option value="120">2 minutes</option><option value="300">5 minutes</option></select>
+  <div id="status" class="small">Single player: 2 bots. Multiplayer: bots automatically match the number of human players.</div>
+ </div>
+</div>
+
+<div id="game">
+ <div id="hud">
+  <div class="hud"><b>🌈 TEAM BLUE</b><div id="blueScore">0 points</div></div>
+  <div class="hud"><b id="timer">03:00</b><div id="roomText" class="small"></div></div>
+  <div class="hud"><b>TEAM RED</b><div id="redScore">0 points</div></div>
+ </div>
+ <button id="pause">⏸ PAUSE</button>
+ <div id="arena"><div id="world"></div></div>
+ <div id="leftControl"><div class="stick"></div></div>
+ <div id="rightControl"><div class="fireCore">💦</div></div>
+ <div id="pauseOverlay" class="overlay"><div class="card"><h2>PAUSED</h2><button class="btn green" id="resumeBtn">RESUME</button><button class="btn alt" id="restartBtn">RESTART</button><button class="btn" id="menuBtn">MAIN MENU</button></div></div>
+ <div id="endOverlay" class="overlay"><div class="card"><h2 id="resultTitle">ROUND OVER</h2><p id="resultText"></p><button class="btn green" id="againBtn">PLAY AGAIN</button><button class="btn" id="endMenuBtn">MAIN MENU</button></div></div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+let mode="single", room="", ws=null, map="jungle", roundSeconds=180, left={x:0,y:0}, right={x:0,y:0}, firing=false, running=false, paused=false, last=0, timer=180;
+let players=[];
+let me={id:"me",x:18,y:78,team:"blue",score:0,hits:0,out:0,angle:0};
+let bots=[];
+const colors={jungle:["#76c955","#3c8d2b"],sand:["#c89a5b","#a9793e"],space:["#050817","#111a3c"]};
+
+function setMap(){document.body.style.background=colors[map][0];$("world").style.backgroundColor=colors[map][0];}
+function makeBlock(x,y,w,h){let e=document.createElement("div");e.className="block";e.style.left=x+"%";e.style.top=y+"%";e.style.width=w+"%";e.style.height=h+"%";$("world").appendChild(e)}
+function drawBlocks(){document.querySelectorAll(".block").forEach(e=>e.remove()); if(map==="space"){$("world").style.backgroundImage="radial-gradient(circle at 20% 20%,#fff 1px,transparent 2px),radial-gradient(circle at 75% 35%,#fff 1px,transparent 2px),radial-gradient(circle at 55% 80%,#fff 1px,transparent 2px)";} else $("world").style.backgroundImage="linear-gradient(#0001 1px,transparent 1px),linear-gradient(90deg,#0001 1px,transparent 1px)";
+ [[7,9,20,15],[72,9,20,15],[38,32,24,14],[7,67,20,14],[72,66,20,14],[39,82,22,11]].forEach(a=>makeBlock(...a));}
+function spawnBot(i){return{id:"b"+i,x:50+(i%2)*30,y:15+Math.floor(i/2)*25,team:"red",score:0,hits:0,out:0,angle:Math.random()*6.28}}
+function renderPlayer(p){let id="p_"+p.id,e=document.getElementById(id);if(!e){e=document.createElement("div");e.id=id;e.className="player "+(p.team==="blue"?"blue":"red");$("world").appendChild(e);let l=document.createElement("div");l.className="label";l.textContent=p.id==="me"?"YOU":p.id.startsWith("b")?"BOT":"FRIEND";e.appendChild(l);let hp=document.createElement("div");hp.className="hp";hp.innerHTML="<i></i>";e.appendChild(hp)}
+ e.style.left=p.x+"%";e.style.top=p.y+"%";e.style.transform=`rotate(${p.angle}rad)`;e.querySelector(".hp i").style.width=Math.max(0,100-p.hits*10)+"%";e.style.opacity=p.out>0?"0.35":"1";
+}
+function allPlayers(){return [me,...bots].filter(Boolean)}
+function startGame(){mode=mode;map=$("mapSel").value;roundSeconds=+$("timeSel").value;timer=roundSeconds;me={id:"me",x:18,y:78,team:"blue",score:0,hits:0,out:0,angle:0};bots=[];let count=mode==="single"?2:1;for(let i=0;i<count;i++)bots.push(spawnBot(i));$("menu").style.display="none";$("game").style.display="block";setMap();drawBlocks();running=true;paused=false;last=performance.now();$("roomText").textContent=room?`ROOM ${room}`:"SINGLE PLAYER";requestAnimationFrame(loop)}
+function finish(){running=false;$("endOverlay").style.display="flex";let blue=me.score,red=bots.reduce((a,b)=>a+b.score,0);$("resultTitle").textContent=blue>red?"🏆 BLUE WINS":blue<red?"🌈 RED WINS":"🤝 DRAW";$("resultText").textContent=`Blue ${blue} points • Red ${red} points`;}
+function shoot(p,angle){if(p.out>0)return;let b=document.createElement("div");b.className="balloon";let x=p.x+3,y=p.y+3;b.style.left=x+"%";b.style.top=y+"%";$("world").appendChild(b);let dx=Math.cos(angle)*.9,dy=Math.sin(angle)*.9;let n=0;let t=setInterval(()=>{x+=dx;y+=dy;b.style.left=x+"%";b.style.top=y+"%";n++;let target=allPlayers().find(q=>q.team!==p.team&&q.out<=0&&Math.hypot(q.x-x,q.y-y)<4);if(target){target.hits++;p.score+=10;if(target.hits>=10){target.out=10;target.hits=0}clearInterval(t);b.remove()}if(n>70){clearInterval(t);b.remove()}},20)}
+function updateBots(dt){bots.forEach((b,i)=>{if(b.out>0){b.out-=dt;return}let a=Math.atan2(me.y-b.y,me.x-b.x);b.angle=a;b.x+=Math.cos(a)*dt*3.5;b.y+=Math.sin(a)*dt*3.5;if(Math.random()<dt*.7)shoot(b,a)})}
+function moveMe(dt){if(me.out>0)return;let speed=15;me.x=Math.max(2,Math.min(94,me.x+left.x*speed*dt));me.y=Math.max(2,Math.min(94,me.y+left.y*speed*dt));}
+function loop(now){if(!running)return;let dt=Math.min(.05,(now-last)/1000);last=now;if(!paused){timer-=dt;moveMe(dt);updateBots(dt);if(firing)shoot(me,me.angle);if(timer<=0){timer=0;finish()}if(me.out>0){me.out-=dt}if(me.out>0)me.x=18,me.y=78;let secs=Math.ceil(timer);$("timer").textContent=`${String(Math.floor(secs/60)).padStart(2,"0")}:${String(secs%60).padStart(2,"0")}`;$("blueScore").textContent=me.score+" points";$("redScore").textContent=bots.reduce((a,b)=>a+b.score,0)+" points";allPlayers().forEach(renderPlayer)}requestAnimationFrame(loop)}
+function control(el,callback){let active=false;const rect=()=>el.getBoundingClientRect();function go(e){let r=rect(),x=e.clientX-r.left-r.width/2,y=e.clientY-r.top-r.height/2,m=Math.min(r.width*.38,Math.hypot(x,y));if(m){x=x/m*Math.min(Math.hypot(x,y),r.width*.38);y=y/m*Math.min(Math.hypot(x,y),r.width*.38)}callback(x/(r.width*.38),y/(r.height*.38),Math.atan2(y,x))}el.addEventListener("pointerdown",e=>{active=true;el.setPointerCapture(e.pointerId);go(e)});el.addEventListener("pointermove",e=>{if(active)go(e)});el.addEventListener("pointerup",()=>{active=false;callback(0,0,me.angle)});el.addEventListener("pointercancel",()=>{active=false;callback(0,0,me.angle)})}
+control($("leftControl"),(x,y)=>{left={x,y}});
+control($("rightControl"),(x,y,a)=>{if(x||y){me.angle=a;firing=true}else firing=false});
+$("singleBtn").onclick=()=>{mode="single";room="";startGame()};
+$("createBtn").onclick=async()=>{mode="multi";room=Math.random().toString(36).slice(2,8).toUpperCase();$("status").textContent="Room created: "+room+" — share this code with your friend.";startGame();connectRoom()};
+$("joinBtn").onclick=()=>{room=$("roomInput").value.trim().toUpperCase();if(room.length!==6){$("status").textContent="Enter a 6-character room code.";return}mode="multi";startGame();connectRoom()};
+async function connectRoom(){try{let proto=location.protocol==="https:"?"wss":"ws";ws=new WebSocket(`${proto}://${location.host}/ws/${room}`);ws.onopen=()=>ws.send(JSON.stringify({type:"join"}));ws.onmessage=e=>{}}catch(e){}}
+$("pause").onclick=()=>{paused=true;$("pauseOverlay").style.display="flex"};$("resumeBtn").onclick=()=>{paused=false;$("pauseOverlay").style.display="none";last=performance.now()};$("restartBtn").onclick=()=>{ $("pauseOverlay").style.display="none";startGame()};$("menuBtn").onclick=$("endMenuBtn").onclick=()=>{running=false;$("game").style.display="none";$("pauseOverlay").style.display=$("endOverlay").style.display="none";$("menu").style.display="flex"};$("againBtn").onclick=()=>{$("endOverlay").style.display="none";startGame()};
+</script>
+</body>
+</html>
