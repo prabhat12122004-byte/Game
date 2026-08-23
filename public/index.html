@@ -2,165 +2,250 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Holi Warriors V20</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Holi Warriors V21</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Arial,sans-serif;background:#0b2418;color:#fff;touch-action:none}
-button,input{font:inherit}.screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:18px;background:linear-gradient(145deg,#082719,#123d29)}
-.card{width:min(520px,94vw);background:#103a28;border:2px solid #9ee5b8;border-radius:26px;padding:28px;box-shadow:0 15px 45px #0008;text-align:center}
-h1{font-size:46px;margin:0 0 8px}.sub{color:#bcefc9;margin:8px 0 24px}
-.row{display:flex;gap:12px}.row>*{flex:1}.btn{border:0;border-radius:15px;padding:16px 12px;background:#3184e8;color:white;font-weight:800;margin:7px 0}.btn.alt{background:#df642e}.btn.green{background:#27a45d}.field{width:100%;padding:15px;border-radius:14px;border:2px solid #9ee5b8;background:#082719;color:#fff;text-align:center;margin:7px 0}
-#game{position:fixed;inset:0;display:none;background:#76c955}
-#hud{position:absolute;top:10px;left:10px;right:10px;display:flex;gap:10px;z-index:5}.hud{background:#123b28dd;border:2px solid #9ee5b8;border-radius:15px;padding:10px 14px;min-width:0;flex:1}.hud b{font-size:18px}.small{font-size:13px;color:#c9efd4}
-#arena{position:absolute;left:5%;right:5%;top:92px;bottom:112px;border:5px solid #d9f5cf;border-radius:4px;overflow:hidden;background:#76c955}
-#world{position:absolute;inset:0;background-image:linear-gradient(#0001 1px,transparent 1px),linear-gradient(90deg,#0001 1px,transparent 1px);background-size:38px 38px}
-.player{position:absolute;width:42px;height:42px;border-radius:50%;border:2px solid #fff;box-shadow:0 5px 8px #0005}.player::after{content:"";position:absolute;width:29px;height:9px;right:-21px;top:16px;background:#26384a;border-radius:3px;transform-origin:left center}.blue{background:#12aee0}.red{background:#ef4b55}.label{position:absolute;top:-23px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:bold;white-space:nowrap;text-shadow:0 1px 2px #000}
-.hp{position:absolute;top:-9px;left:50%;transform:translateX(-50%);height:6px;width:48px;background:#222;border-radius:4px;overflow:hidden}.hp i{display:block;height:100%;background:#37dc65}
-.block{position:absolute;background:#704723;border:3px solid #573417;border-radius:4px;box-shadow:inset 0 8px #996a3e}
-.balloon{position:absolute;width:13px;height:13px;border-radius:50%;background:#f7c23b;pointer-events:none;box-shadow:0 0 8px #fff8}
-#leftControl,#rightControl{position:absolute;bottom:12px;width:130px;height:130px;border-radius:50%;border:4px solid #dff4e5aa;background:#123b2870;z-index:10}
-#leftControl{left:35px}.stick{position:absolute;width:64px;height:64px;border-radius:50%;background:#dff4e5cc;left:50%;top:50%;transform:translate(-50%,-50%);border:3px solid #9bc9aa}
-#rightControl{right:35px}.fireCore{position:absolute;left:50%;top:50%;width:72px;height:72px;transform:translate(-50%,-50%);border-radius:50%;background:#ff6a2a;border:4px solid #ffd2bb;display:flex;align-items:center;justify-content:center;font-weight:900}
-#pause{position:absolute;right:10px;top:10px;z-index:8;background:#123b28;color:#fff;border:2px solid #9ee5b8;border-radius:12px;padding:12px}
-.overlay{position:absolute;inset:0;background:#061b10d9;display:none;align-items:center;justify-content:center;z-index:20}.overlay .card{max-width:420px}
-select{width:100%;padding:14px;border-radius:12px;background:#082719;color:white;border:2px solid #9ee5b8;margin:6px 0}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Arial,sans-serif;background:#081b12;color:#fff;touch-action:none}
+button,input,select{font:inherit}button{cursor:pointer}
+.screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:12px;background:linear-gradient(145deg,#062516,#15502f);overflow:auto}
+.card{width:min(560px,94vw);max-height:94vh;overflow:auto;background:#103b28;border:2px solid #9ee5b8;border-radius:24px;padding:22px;box-shadow:0 15px 45px #0009;text-align:center}
+h1{font-size:clamp(34px,7vw,58px);margin:0 0 4px}.sub{font-size:13px;color:#bcefc9;margin:0 0 18px}.small{font-size:13px;color:#c9efd4}
+.field,select{width:100%;padding:13px;border-radius:12px;border:2px solid #9ee5b8;background:#082719;color:#fff;text-align:center;margin:6px 0}
+.row{display:flex;gap:8px}.row>*{flex:1}
+.btn{width:100%;border:0;border-radius:13px;padding:14px 10px;background:#3184e8;color:#fff;font-weight:800;margin:6px 0}.btn.green{background:#27a45d}.btn.orange{background:#e16b2d}.btn.gray{background:#52645a}
+.hidden{display:none!important}.pill{display:inline-block;padding:7px 12px;border-radius:999px;background:#092519;border:1px solid #6db98b;margin:4px}
+#game{position:fixed;inset:0;display:none;overflow:hidden;background:#76c955}
+#hud{position:absolute;top:max(6px,env(safe-area-inset-top));left:6px;right:6px;display:flex;gap:6px;z-index:20;pointer-events:none}
+.hud{background:#123b28dd;border:2px solid #9ee5b8;border-radius:11px;padding:6px 8px;min-width:0;flex:1;text-align:center;font-size:12px}.hud b{font-size:15px}
+#pause{position:absolute;right:6px;top:58px;z-index:30;background:#123b28;color:#fff;border:2px solid #9ee5b8;border-radius:10px;padding:8px 10px}
+#arena{position:absolute;left:5%;right:5%;top:66px;bottom:96px;border:3px solid #d9f5cf;border-radius:8px;overflow:hidden;background:#76c955}
+#world{position:absolute;inset:0}
+.player{position:absolute;width:38px;height:38px;border-radius:50%;border:2px solid #fff;box-shadow:0 4px 7px #0007;transform-origin:center}
+.player::after{content:"";position:absolute;width:25px;height:8px;right:-19px;top:14px;background:#ef7d35;border-radius:4px;transform-origin:left center}
+.blue{background:#12aee0}.red{background:#ef4b55}
+.label{position:absolute;top:-19px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:bold;white-space:nowrap;text-shadow:0 1px 2px #000}
+.hp{position:absolute;top:-7px;left:50%;transform:translateX(-50%);height:5px;width:44px;background:#222;border-radius:4px;overflow:hidden}.hp i{display:block;height:100%;background:#37dc65}
+.balloon{position:absolute;width:12px;height:12px;border-radius:50%;background:#f7c23b;border:1px solid #fff;pointer-events:none;box-shadow:0 0 7px #fff8}
+.block{position:absolute;background:#704723;border:2px solid #573417;border-radius:5px}
+#leftControl,#rightControl{position:absolute;bottom:8px;width:118px;height:118px;border-radius:50%;border:3px solid #dff4e5aa;background:#123b2870;z-index:30}
+#leftControl{left:18px}.stick{position:absolute;width:58px;height:58px;border-radius:50%;background:#dff4e5cc;left:50%;top:50%;transform:translate(-50%,-50%);border:3px solid #9bc9aa}
+#rightControl{right:18px}.fireCore{position:absolute;left:50%;top:50%;width:68px;height:68px;transform:translate(-50%,-50%);border-radius:50%;background:#ff6a2a;border:4px solid #ffd2bb;display:flex;align-items:center;justify-content:center;font-weight:900}
+.overlay{position:absolute;inset:0;background:#061b10df;display:none;align-items:center;justify-content:center;z-index:50}.overlay .card{max-width:430px}
+.countdown{font-size:50px;font-weight:900;color:#ffd65a}
+@media(max-height:420px){#arena{top:60px;bottom:82px}#leftControl,#rightControl{width:88px;height:88px;bottom:4px}.stick{width:44px;height:44px}.fireCore{width:54px;height:54px}.player{width:32px;height:32px}.player::after{top:11px}.hud{padding:4px 6px}.hud b{font-size:12px}}
 </style>
 </head>
 <body>
 <div id="menu" class="screen">
  <div class="card">
-  <h1>🌈 HOLI WARRIORS</h1><div class="sub">V20 • Friendly Water-Balloon Battle</div>
-  <button class="btn green" id="singleBtn">SINGLE PLAYER</button>
-  <button class="btn" id="createBtn">CREATE MULTIPLAYER ROOM</button>
-  <input id="roomInput" class="field" maxlength="6" placeholder="6-character room code">
-  <button class="btn" id="joinBtn">JOIN ROOM</button>
-  <select id="mapSel"><option value="jungle">🌿 Jungle</option><option value="sand">🏜️ Sand</option><option value="space">🚀 Space</option></select>
-  <select id="timeSel"><option value="180">3 minutes</option><option value="60">1 minute</option><option value="120">2 minutes</option><option value="300">5 minutes</option></select>
-  <div id="status" class="small">Single player: 2 bots. Multiplayer: bots automatically match the number of human players.</div>
+  <h1>🌈 HOLI WARRIORS</h1>
+  <div class="sub">Developed by Prabhat Kumar Singh</div>
+  <div id="nameStep">
+   <input id="nameInput" class="field" maxlength="18" placeholder="Enter your name">
+   <button class="btn green" id="saveName">CONTINUE</button>
+  </div>
+  <div id="modeStep" class="hidden">
+   <div class="pill">Player: <b id="savedName"></b></div>
+   <button class="btn green" id="singleBtn">SINGLE PLAYER</button>
+   <button class="btn" id="multiBtn">MULTIPLAYER</button>
+   <button class="btn gray" id="changeName">CHANGE NAME</button>
+  </div>
+  <div id="singleSetup" class="hidden">
+   <h2>Single Player</h2>
+   <select id="singleMap"><option value="jungle">🌿 Jungle</option><option value="sand">🏜️ Sand</option><option value="space">🚀 Space</option></select>
+   <select id="singleTime"><option value="180">3 minutes</option><option value="60">1 minute</option><option value="120">2 minutes</option><option value="300">5 minutes</option></select>
+   <select id="levelSel"></select>
+   <button class="btn green" id="startSingle">START BATTLE</button>
+   <button class="btn gray" id="backSingle">BACK</button>
+  </div>
+  <div id="multiSetup" class="hidden">
+   <h2>Multiplayer Lobby</h2>
+   <select id="multiMap"><option value="jungle">🌿 Jungle</option><option value="sand">🏜️ Sand</option><option value="space">🚀 Space</option></select>
+   <select id="multiTime"><option value="180">3 minutes</option><option value="60">1 minute</option><option value="120">2 minutes</option><option value="300">5 minutes</option></select>
+   <button class="btn green" id="createRoom">CREATE ROOM</button>
+   <input id="roomInput" class="field" maxlength="6" placeholder="Enter room code">
+   <button class="btn" id="joinRoom">JOIN ROOM</button>
+   <div id="lobby" class="hidden">
+    <h2>Room: <span id="roomCode"></span></h2>
+    <div id="lobbyPlayers" class="small">Waiting for players...</div>
+    <button class="btn green" id="readyBtn">READY</button>
+    <button class="btn gray" id="leaveRoom">LEAVE ROOM</button>
+   </div>
+   <div id="multiStatus" class="small">Create a room or join one. The battle starts only after Ready.</div>
+   <button class="btn gray" id="backMulti">BACK</button>
+  </div>
  </div>
 </div>
 
 <div id="game">
  <div id="hud">
-  <div class="hud"><b>🌈 TEAM BLUE</b><div id="blueScore">0 points</div></div>
+  <div class="hud"><b>🔵 BLUE</b><div id="blueScore">0</div></div>
   <div class="hud"><b id="timer">03:00</b><div id="roomText" class="small"></div></div>
-  <div class="hud"><b>TEAM RED</b><div id="redScore">0 points</div></div>
+  <div class="hud"><b>🔴 RED</b><div id="redScore">0</div></div>
  </div>
- <button id="pause">⏸ PAUSE</button>
+ <button id="pause">⏸</button>
  <div id="arena"><div id="world"></div></div>
  <div id="leftControl"><div class="stick"></div></div>
  <div id="rightControl"><div class="fireCore">💦</div></div>
- <div id="pauseOverlay" class="overlay"><div class="card"><h2>PAUSED</h2><button class="btn green" id="resumeBtn">RESUME</button><button class="btn alt" id="restartBtn">RESTART</button><button class="btn" id="menuBtn">MAIN MENU</button></div></div>
- <div id="endOverlay" class="overlay"><div class="card"><h2 id="resultTitle">ROUND OVER</h2><p id="resultText"></p><button class="btn green" id="againBtn">PLAY AGAIN</button><button class="btn" id="endMenuBtn">MAIN MENU</button></div></div>
+ <div id="pauseOverlay" class="overlay"><div class="card"><h2>PAUSED</h2><button class="btn green" id="resumeBtn">RESUME</button><button class="btn orange" id="restartBtn">RESTART</button><button class="btn" id="menuBtn">MAIN MENU</button></div></div>
+ <div id="outOverlay" class="overlay"><div class="card"><h2>YOU ARE OUT</h2><div class="countdown" id="outCount">10</div><p>Back in the game soon.</p></div></div>
+ <div id="endOverlay" class="overlay"><div class="card"><h2 id="resultTitle">ROUND OVER</h2><p id="resultText"></p><button class="btn green" id="againBtn">PLAY AGAIN</button><button class="btn" id="nextBtn">NEXT LEVEL</button><button class="btn gray" id="endMenuBtn">MAIN MENU</button></div></div>
 </div>
 
 <script>
 const $=id=>document.getElementById(id);
-let mode="single",room="",ws=null,map="jungle",roundSeconds=180,left={x:0,y:0},firing=false,running=false,paused=false,last=0,timer=180;
-let me={id:"me",x:18,y:78,team:"blue",score:0,hits:0,out:false,angle:0};
-let bots=[],remote=null,connected=false;
-const colors={jungle:["#76c955","#3c8d2b"],sand:["#c89a5b","#a9793e"],space:["#050817","#111a3c"]};
+const W=94,H=94;
+let playerName=localStorage.getItem("holiName")||"",mode="single",map="jungle",roundSeconds=180,level=1,room="",ws=null,ready=false,running=false,paused=false,last=0,timer=180;
+let left={x:0,y:0},angle=0,fireHeld=false,lastShot=0,shotCooldown=900;
+let me=null,entities={},projectiles={},botsNeeded=0,activeBotSlots=0,remainingBots=0,blueScore=0,redScore=0,startedByServer=false;
 
-function setStatus(text){$("status").textContent=text}
-function setMap(){document.body.style.background=colors[map][0];$("world").style.backgroundColor=colors[map][0]}
-function makeBlock(x,y,w,h){let e=document.createElement("div");e.className="block";e.style.left=x+"%";e.style.top=y+"%";e.style.width=w+"%";e.style.height=h+"%";$("world").appendChild(e)}
-function drawBlocks(){document.querySelectorAll(".block").forEach(e=>e.remove());if(map==="space")$("world").style.backgroundImage="radial-gradient(circle at 20% 20%,#fff 1px,transparent 2px),radial-gradient(circle at 75% 35%,#fff 1px,transparent 2px),radial-gradient(circle at 55% 80%,#fff 1px,transparent 2px)";else $("world").style.backgroundImage="linear-gradient(#0001 1px,transparent 1px),linear-gradient(90deg,#0001 1px,transparent 1px)";[[7,9,20,15],[72,9,20,15],[38,32,24,14],[7,67,20,14],[72,66,20,14],[39,82,22,11]].forEach(a=>makeBlock(...a))}
-function spawnBot(i){return{id:"b"+i,x:50+(i%2)*30,y:15+Math.floor(i/2)*25,team:"red",score:0,hits:0,out:false,angle:Math.random()*6.28}}
-function renderPlayer(p){
-  if(!p)return;
-  let id="p_"+p.id,e=document.getElementById(id);
-  if(!e){e=document.createElement("div");e.id=id;e.className="player "+(p.team==="blue"?"blue":"red");$("world").appendChild(e);let l=document.createElement("div");l.className="label";l.textContent=p.id==="me"?"YOU":p.id.startsWith("b")?"BOT":"FRIEND";e.appendChild(l);let hp=document.createElement("div");hp.className="hp";hp.innerHTML="<i></i>";e.appendChild(hp)}
-  e.style.left=p.x+"%";e.style.top=p.y+"%";e.style.transform=`rotate(${p.angle||0}rad)`;e.querySelector(".hp i").style.width=Math.max(0,100-(p.hits||0)*10)+"%";e.style.opacity=p.out?"0.35":"1";
+for(let i=1;i<=10;i++) $("levelSel").insertAdjacentHTML("beforeend",`<option value="${i}">Level ${i}</option>`);
+$("levelSel").value="1";
+function show(id){["nameStep","modeStep","singleSetup","multiSetup"].forEach(x=>$(x).classList.add("hidden"));$(id).classList.remove("hidden")}
+function initName(){if(playerName){$("nameInput").value=playerName;$("savedName").textContent=playerName;show("modeStep")}else show("nameStep")}
+$("saveName").onclick=()=>{let n=$("nameInput").value.trim();if(!n)return;playerName=n;localStorage.setItem("holiName",n);$("savedName").textContent=n;show("modeStep")};
+$("changeName").onclick=()=>show("nameStep");
+$("singleBtn").onclick=()=>{mode="single";show("singleSetup")};
+$("multiBtn").onclick=()=>{mode="multi";show("multiSetup")};
+$("backSingle").onclick=()=>show("modeStep");
+$("backMulti").onclick=()=>{disconnect();show("modeStep")};
+$("levelSel").onchange=()=>level=+$("levelSel").value;
+
+const maps={
+ jungle:["#76c955","#3c8d2b"],sand:["#c89a5b","#a9793e"],space:["#050817","#111a3c"]
+};
+function setMap(){let c=maps[map];$("game").style.background=c[0];$("world").style.backgroundColor=c[0];$("world").style.backgroundImage=map==="space"?"radial-gradient(circle at 20% 20%,#fff 1px,transparent 2px),radial-gradient(circle at 75% 35%,#fff 1px,transparent 2px),radial-gradient(circle at 55% 80%,#fff 1px,transparent 2px)":"linear-gradient(#0001 1px,transparent 1px),linear-gradient(90deg,#0001 1px,transparent 1px)"}
+function drawBlocks(){document.querySelectorAll(".block").forEach(e=>e.remove());[[7,9,20,15],[72,9,20,15],[38,32,24,14],[7,67,20,14],[72,66,20,14]].forEach(a=>{let e=document.createElement("div");e.className="block";e.style.cssText=`left:${a[0]}%;top:${a[1]}%;width:${a[2]}%;height:${a[3]}%`;$("world").appendChild(e)})}
+function resetWorld(){Object.values(projectiles).forEach(p=>p.el?.remove());projectiles={};$("world").querySelectorAll(".player").forEach(e=>e.remove());entities={};blueScore=redScore=0}
+function makeEntity(p){return {...p,hp:p.hp??100,outUntil:p.outUntil||0,angle:p.angle||0}}
+function addEntity(p){entities[p.id]=makeEntity(p);render(p)}
+function render(p){
+ let e=document.getElementById("p_"+p.id);
+ if(!e){e=document.createElement("div");e.id="p_"+p.id;e.className="player "+(p.team==="blue"?"blue":"red");e.innerHTML=`<div class="label"></div><div class="hp"><i></i></div>`;$("world").appendChild(e)}
+ e.style.left=p.x+"%";e.style.top=p.y+"%";e.style.transform=`rotate(${p.angle||0}rad)`;e.style.opacity=(p.outUntil>Date.now())?"0":"1";
+ e.querySelector(".label").textContent=p.id===me?.id?"YOU":(p.name||"BOT");
+ e.querySelector(".hp i").style.width=Math.max(0,p.hp)+"%";
 }
-function removePlayer(id){document.getElementById("p_"+id)?.remove()}
-function getTargets(){return mode==="multi"?(remote&&remote.out?[]:remote?[remote]:[]):bots.filter(b=>!b.out)}
-function startGame(){
-  map=$("mapSel").value;roundSeconds=+$('timeSel').value;timer=roundSeconds;left={x:0,y:0};firing=false;paused=false;remote=null;bots=[];
-  me={id:me.id||"me",x:me.team==="red"?78:18,y:78,team:me.team||"blue",score:0,hits:0,out:false,angle:me.team==="red"?Math.PI:0};
-  if(mode==="single")for(let i=0;i<2;i++)bots.push(spawnBot(i));
-  document.querySelectorAll(".player,.balloon").forEach(e=>e.remove());
-  $("menu").style.display="none";$("game").style.display="block";setMap();drawBlocks();running=true;last=performance.now();$("roomText").textContent=room?`ROOM ${room}`:"SINGLE PLAYER";requestAnimationFrame(loop)
+function removeEntity(id){$("p_"+id)?.remove();delete entities[id]}
+function randomId(prefix="p"){return prefix+Math.random().toString(36).slice(2,9)}
+function makeBot(i,team,owner){return makeEntity({id:"bot"+i,name:"BOT "+(i+1),team,x:team==="blue"?12+Math.random()*25:63+Math.random()*25,y:15+Math.random()*70,hp:100,angle:team==="blue"?0:Math.PI,bot:true,owner})}
+
+function startSingle(){
+ disconnect();mode="single";map=$("singleMap").value;roundSeconds=+$("singleTime").value;level=+$("levelSel").value;timer=roundSeconds;resetWorld();
+ me=makeEntity({id:"me",name:playerName,team:"blue",x:12,y:50,hp:1000,score:0,angle:0});
+ addEntity(me);
+ botsNeeded=level;remainingBots=level;activeBotSlots=Math.min(2,level);
+ for(let i=0;i<activeBotSlots;i++) addEntity(makeBot(i,"red","me"));
+ timer=roundSeconds;beginGame();
 }
-function finish(){running=false;const blue=me.team==="blue"?me.score:(remote?.score||0);const red=me.team==="red"?me.score:(remote?.score||0);$("endOverlay").style.display="flex";$("resultTitle").textContent=blue>red?"🏆 BLUE WINS":blue<red?"🌈 RED WINS":"🤝 DRAW";$("resultText").textContent=`Blue ${blue} points • Red ${red} points`}
-function send(obj){if(ws&&ws.readyState===WebSocket.OPEN)ws.send(JSON.stringify(obj))}
-function shoot(p,angle){
-  if(!p||p.out)return;
-  let b=document.createElement("div");b.className="balloon";let x=p.x+3,y=p.y+3;b.style.left=x+"%";b.style.top=y+"%";$("world").appendChild(b);
-  let dx=Math.cos(angle)*.9,dy=Math.sin(angle)*.9,n=0,t=setInterval(()=>{
-    x+=dx;y+=dy;b.style.left=x+"%";b.style.top=y+"%";n++;
-    let target=getTargets().find(q=>Math.hypot(q.x-x,q.y-y)<4);
-    if(target){
-      if(mode==="multi")send({type:"hit",targetId:target.id});
-      else{target.hits++;p.score+=10;if(target.hits>=10){target.hits=0;target.out=true;setTimeout(()=>{target.out=false;target.x=78;target.y=78},3000)}}
-      clearInterval(t);b.remove();return;
-    }
-    if(n>70){clearInterval(t);b.remove()}
-  },20)
+$("startSingle").onclick=startSingle;
+
+function beginGame(){ $("menu").style.display="none";$("game").style.display="block";setMap();drawBlocks();$("roomText").textContent=mode==="multi"?`ROOM ${room}`:`LEVEL ${level}`;running=true;paused=false;startedByServer=true;last=performance.now();requestAnimationFrame(loop)}
+function formatTime(s){s=Math.max(0,Math.ceil(s));return `${String(Math.floor(s/60)).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`}
+function shoot(ownerId){
+ let p=entities[ownerId];if(!p||p.outUntil>Date.now())return;
+ let now=Date.now();if(now-lastShot<shotCooldown)return;lastShot=now;
+ let id=randomId("b");let x=p.x,y=p.y;let b={id,owner:ownerId,team:p.team,x,y,angle:p.angle||0,el:document.createElement("div"),speed:58,life:0};
+ b.el.className="balloon";b.el.style.left=x+"%";b.el.style.top=y+"%";$("world").appendChild(b.el);projectiles[id]=b;
+ if(mode==="multi"&&ws?.readyState===1)ws.send(JSON.stringify({type:"balloon",balloon:{id,owner:ownerId,team:p.team,x,y,angle:p.angle||0}}));
 }
-function updateBots(dt){bots.forEach(b=>{if(b.out)return;let a=Math.atan2(me.y-b.y,me.x-b.x);b.angle=a;b.x+=Math.cos(a)*dt*3.5;b.y+=Math.sin(a)*dt*3.5;if(Math.random()<dt*.7)shoot(b,a)})}
-function moveMe(dt){if(me.out)return;let speed=15;me.x=Math.max(2,Math.min(94,me.x+left.x*speed*dt));me.y=Math.max(2,Math.min(94,me.y+left.y*speed*dt))}
-function syncState(){if(mode!=="multi"||!connected)return;send({type:"state",player:{x:me.x,y:me.y,angle:me.angle}})}
-function loop(now){
-  if(!running)return;let dt=Math.min(.05,(now-last)/1000);last=now;
-  if(!paused){
-    timer-=dt;moveMe(dt);if(mode==="single")updateBots(dt);if(firing)shoot(me,me.angle);if(timer<=0){timer=0;finish()}
-    if(me.out){/* server/local respawn state */}
-    let secs=Math.ceil(timer);$("timer").textContent=`${String(Math.floor(secs/60)).padStart(2,"0")}:${String(secs%60).padStart(2,"0")}`;
-    $("blueScore").textContent=(me.team==="blue"?me.score:(remote?.score||0))+" points";
-    $("redScore").textContent=(me.team==="red"?me.score:(remote?.score||0))+" points";
-    renderPlayer(me);if(remote)renderPlayer(remote);bots.forEach(renderPlayer)
+function receiveBalloon(b){
+ if(projectiles[b.id])return;
+ let x=b.x,y=b.y,p={...b,el:document.createElement("div"),speed:58,life:0};p.el.className="balloon";p.el.style.left=x+"%";p.el.style.top=y+"%";$("world").appendChild(p.el);projectiles[b.id]=p;
+}
+function hitCheck(b){
+ let targets=Object.values(entities).filter(q=>q.team!==b.team&&q.outUntil<=Date.now());
+ for(let q of targets){
+  if(Math.hypot(q.x-b.x,q.y-b.y)<3.8){q.hp-=10;if(q.hp<=0){q.hp=0;q.outUntil=Date.now()+10000;let scorer=entities[b.owner];if(scorer){scorer.score=(scorer.score||0)+10;if(scorer.team==="blue")blueScore+=10;else redScore+=10}}
+   if(mode==="multi"&&ws?.readyState===1)ws.send(JSON.stringify({type:"hit",target:q.id,owner:b.owner}));
+   return true;
   }
-  requestAnimationFrame(loop)
+ }return false;
 }
-function control(el,callback){let active=false;const rect=()=>el.getBoundingClientRect();function go(e){let r=rect(),x=e.clientX-r.left-r.width/2,y=e.clientY-r.top-r.height/2,len=Math.hypot(x,y),max=r.width*.38;if(len>max){x=x/len*max;y=y/len*max}callback(x/max,y/max,Math.atan2(y,x))}el.addEventListener("pointerdown",e=>{active=true;el.setPointerCapture(e.pointerId);go(e)});el.addEventListener("pointermove",e=>{if(active)go(e)});el.addEventListener("pointerup",()=>{active=false;callback(0,0,me.angle)});el.addEventListener("pointercancel",()=>{active=false;callback(0,0,me.angle)})}
-control($("leftControl"),(x,y)=>{left={x,y}});control($("rightControl"),(x,y,a)=>{if(x||y){me.angle=a;firing=true}else firing=false});
-
-function connectRoom(){
-  try{
-    const proto=location.protocol==="https:"?"wss":"ws";
-    ws=new WebSocket(`${proto}://${location.host}/ws/${room}`);
-    setStatus(`Connecting to room ${room}...`);
-    ws.onopen=()=>{connected=true;send({type:"join"});setStatus(`Connected to room ${room}. Share the code with your friend.`)};
-    ws.onmessage=e=>{
-      let m;try{m=JSON.parse(e.data)}catch{return}
-      if(m.type==="welcome"){
-        me.id=m.id;me.team=m.team;me.x=m.team==="blue"?18:78;me.y=78;me.score=0;me.hits=0;me.out=false;
-        const other=m.players?.find(p=>p.id!==me.id);if(other)remote={...other};
-        $("roomText").textContent=`ROOM ${room} • ${me.team.toUpperCase()}`;
-        setStatus(other?"Friend connected!":"Waiting for your friend...");
-      } else if(m.type==="player_joined"){
-        if(m.player.id!==me.id){remote={...m.player};setStatus("Friend connected!");$("roomText").textContent=`ROOM ${room} • 2 PLAYERS`}
-      } else if(m.type==="room_ready"){
-        setStatus("2 players connected — battle ready!");
-      } else if(m.type==="state"){
-        if(m.player.id!==me.id)remote={...remote,...m.player};
-      } else if(m.type==="hit_result"){
-        if(m.shooterId===me.id)me.score=m.shooterScore;
-        if(m.targetId===me.id){me.hits=m.targetHits;me.out=!!m.targetOut;if(me.out)setTimeout(()=>{if(running){me.out=false;me.hits=0}},3000)}
-        if(remote&&m.targetId===remote.id){remote.hits=m.targetHits;remote.out=!!m.targetOut}
-        if(remote&&m.shooterId===remote.id)remote.score=m.shooterScore;
-      } else if(m.type==="respawn"){
-        if(m.player.id===me.id){me={...me,...m.player};me.out=false}else if(remote&&m.player.id===remote.id){remote={...remote,...m.player}}
-      } else if(m.type==="player_left"){
-        if(remote&&remote.id===m.id)remote=null;removePlayer(m.id);setStatus("Friend disconnected. Waiting for another player...")
-      }
-    };
-    ws.onerror=()=>setStatus("Multiplayer connection error. Check the deployed URL.");
-    ws.onclose=()=>{connected=false;setStatus("Multiplayer disconnected")};
-  }catch(e){setStatus("Could not start multiplayer")}
+function updateProjectiles(dt){
+ for(let id in projectiles){let b=projectiles[id];b.x+=Math.cos(b.angle)*b.speed*dt/100;b.y+=Math.sin(b.angle)*b.speed*dt/100;b.life+=dt;b.el.style.left=b.x+"%";b.el.style.top=b.y+"%";if(hitCheck(b)||b.x<0||b.x>100||b.y<0||b.y>100||b.life>2){b.el.remove();delete projectiles[id]}}
 }
-
-$("singleBtn").onclick=()=>{mode="single";room="";me.id="me";me.team="blue";startGame()};
-$("createBtn").onclick=()=>{mode="multi";room=Math.random().toString(36).slice(2,8).toUpperCase();startGame();connectRoom()};
-$("joinBtn").onclick=()=>{const code=$("roomInput").value.trim().toUpperCase();if(!/^[A-Z0-9]{6}$/.test(code)){setStatus("Enter the 6-character room code.");return}mode="multi";room=code;startGame();connectRoom()};
-setInterval(syncState,50);
-
+function respawnLocal(){let now=Date.now();if(me.outUntil&&me.outUntil<=now){me.outUntil=0;me.hp=1000;me.x=12;me.y=50;hideOut()}}
+function showOut(){if(mode!=="multi"||me.outUntil<=Date.now())return;$("outOverlay").style.display="flex";let n=Math.ceil((me.outUntil-Date.now())/1000);$("outCount").textContent=n}
+function hideOut(){$("outOverlay").style.display="none"}
+function botAI(dt){
+ let now=Date.now();
+ Object.values(entities).filter(p=>p.bot&&p.owner===me?.id).forEach(b=>{
+  if(b.outUntil>now)return;
+  let enemies=Object.values(entities).filter(q=>q.team!==b.team&&q.outUntil<=now);
+  if(!enemies.length)return;
+  let t=enemies[0],a=Math.atan2(t.y-b.y,t.x-b.x);b.angle=a;b.x+=Math.cos(a)*dt*7;b.y+=Math.sin(a)*dt*7;
+  if(Math.random()<dt*1.2){let old=lastShot;lastShot=0;shoot(b.id);lastShot=old}
+ });
+ // Replace eliminated single-player bots one at a time.
+ if(mode==="single"){
+  let active=Object.values(entities).filter(p=>p.bot&&p.outUntil<=now);
+  let defeated=Object.values(entities).filter(p=>p.bot&&p.outUntil>now&&p.hp<=0);
+  if(active.length<activeBotSlots&&remainingBots>activeBotSlots){let idx=level-remainingBots;remainingBots--;addEntity(makeBot(idx,"red","me"))}
+ }
+}
+function updateScores(){Object.values(entities).forEach(p=>render(p));$("blueScore").textContent=blueScore+" points";$("redScore").textContent=redScore+" points";$("timer").textContent=formatTime(timer)}
+function finishRound(){
+ running=false; $("endOverlay").style.display="flex";
+ let blue=blueScore,red=redScore;
+ if(mode==="single"){let botsLeft=Object.values(entities).filter(p=>p.bot&&p.outUntil<=Date.now()).length;let win=botsLeft===0||remainingBots===0&&botsLeft===0;$("resultTitle").textContent=win?"🏆 LEVEL COMPLETE":"🌈 TIME UP";$("resultText").textContent=win?`Level ${level} cleared!`:`Blue ${blue} points • Red ${red} points`;$("nextBtn").style.display=win&&level<10?"block":"none";$("againBtn").textContent=win?"REPLAY LEVEL":"RESTART"}
+ else {$("resultTitle").textContent=blue>red?"🏆 BLUE WINS":red>blue?"🏆 RED WINS":"🤝 DRAW";$("resultText").textContent=`Blue ${blue} points • Red ${red} points`;$("nextBtn").style.display="none";$("againBtn").textContent="PLAY AGAIN"}
+}
+function loop(now){
+ if(!running)return;let dt=Math.min(.05,(now-last)/1000);last=now;
+ if(!paused){
+  timer-=dt;
+  if(me?.outUntil>Date.now()){showOut()}else{respawnLocal();hideOut();me.x=Math.max(2,Math.min(94,me.x+left.x*16*dt));me.y=Math.max(2,Math.min(94,me.y+left.y*16*dt))}
+  if(fireHeld)shoot(me.id);
+  botAI(dt);updateProjectiles(dt);
+  if(mode==="multi"&&ws?.readyState===1&&me)ws.send(JSON.stringify({type:"state",player:{id:me.id,x:me.x,y:me.y,hp:me.hp,outUntil:me.outUntil,angle:me.angle,score:me.score}}));
+  if(timer<=0)finishRound();
+  updateScores();
+ }
+ requestAnimationFrame(loop);
+}
+function control(el,cb){
+ let active=false;
+ function go(e){let r=el.getBoundingClientRect(),x=e.clientX-r.left-r.width/2,y=e.clientY-r.top-r.height/2,m=r.width*.38,l=Math.hypot(x,y)||1;if(l>m){x=x/l*m;y=y/l*m}cb(x/m,y/m,Math.atan2(y,x));}
+ el.addEventListener("pointerdown",e=>{active=true;el.setPointerCapture(e.pointerId);go(e);e.preventDefault()});
+ el.addEventListener("pointermove",e=>{if(active)go(e);e.preventDefault()});
+ ["pointerup","pointercancel"].forEach(t=>el.addEventListener(t,e=>{active=false;cb(0,0,angle);e.preventDefault()}));
+}
+control($("leftControl"),(x,y)=>{left={x,y}});
+control($("rightControl"),(x,y,a)=>{if(x||y){angle=a;me.angle=a;fireHeld=true}else fireHeld=false});
 $("pause").onclick=()=>{paused=true;$("pauseOverlay").style.display="flex"};
 $("resumeBtn").onclick=()=>{paused=false;$("pauseOverlay").style.display="none";last=performance.now()};
-$("restartBtn").onclick=()=>{$("pauseOverlay").style.display="none";startGame();if(mode==="multi")connectRoom()};
-function goMenu(){running=false;if(ws){try{ws.close()}catch{}}ws=null;connected=false;$("game").style.display="none";$("pauseOverlay").style.display="none";$("endOverlay").style.display="none";$("menu").style.display="flex";setStatus("Choose Single Player or Multiplayer")}
-$("menuBtn").onclick=goMenu;$("endMenuBtn").onclick=goMenu;$("againBtn").onclick=()=>{$("endOverlay").style.display="none";startGame();if(mode==="multi")connectRoom()};
-window.addEventListener("beforeunload",()=>{try{if(ws)ws.close()}catch{}});
-</script>
-</body>
-</html>
+function toMenu(){running=false;disconnect();$("game").style.display="none";$("pauseOverlay").style.display="none";$("endOverlay").style.display="none";hideOut();$("menu").style.display="flex";show("modeStep")}
+$("menuBtn").onclick=toMenu;$("endMenuBtn").onclick=toMenu;
+$("restartBtn").onclick=()=>{ $("pauseOverlay").style.display="none"; startSingle() };
+$("againBtn").onclick=()=>{ $("endOverlay").style.display="none"; mode==="single"?startSingle():createOrJoin(true) };
+$("nextBtn").onclick=()=>{if(level<10){level++;$("levelSel").value=level;$("endOverlay").style.display="none";startSingle()}};
+
+function roomURL(){return (location.protocol==="https:"?"wss":"ws")+"://"+location.host+"/ws/"+room}
+function connect(){
+ if(!room)return;
+ disconnect();ws=new WebSocket(roomURL());
+ ws.onopen=()=>ws.send(JSON.stringify({type:"join",name:playerName}));
+ ws.onmessage=e=>{let m;try{m=JSON.parse(e.data)}catch{return}
+  if(m.type==="room"){room=m.room;$("roomCode").textContent=room;$("multiStatus").textContent=m.message||"Room created.";$("lobby").classList.remove("hidden")}
+  if(m.type==="lobby"){renderLobby(m.players,m.max);if(m.map){map=m.map;roundSeconds=m.time}}
+  if(m.type==="start"){map=m.map;roundSeconds=m.time;timer=roundSeconds;resetWorld();me=makeEntity(m.me);m.players.forEach(p=>{if(p.id!==me.id)addEntity(p)});(m.bots||[]).forEach(addEntity);blueScore=redScore=0;beginGame()}
+  if(m.type==="state"){let p=entities[m.player.id];if(p&&p.id!==me.id)Object.assign(p,m.player)}
+  if(m.type==="balloon")receiveBalloon(m.balloon)
+  if(m.type==="hit"){let t=entities[m.target];if(t){t.hp=Math.max(0,t.hp-10);if(t.hp===0)t.outUntil=Date.now()+10000}let s=entities[m.owner];if(s){s.score=(s.score||0)+10;if(s.team==="blue")blueScore+=10;else redScore+=10}}
+  if(m.type==="result"){}
+ };
+ ws.onclose=()=>{if(mode==="multi")$("multiStatus").textContent="Connection closed."};
+}
+function renderLobby(players,max){
+ $("lobbyPlayers").innerHTML=players.map(p=>`<span class="pill">${p.name||"Player"} • ${p.team==="blue"?"🔵":"🔴"} ${p.ready?"READY":"NOT READY"}</span>`).join("")+
+ `<div class="small">${players.length}/${max} human players joined. Empty positions become bots when Ready starts.</div>`;
+}
+function disconnect(){try{ws?.close()}catch{}ws=null}
+function createOrJoin(silent=false){
+ map=$("multiMap").value;roundSeconds=+$("multiTime").value;
+ if(!room){room=Math.random().toString(36).slice(2,8).toUpperCase()}
+ connect();
+}
+$("createRoom").onclick=()=>{room=Math.random().toString(36).slice(2,8).toUpperCase();$("multiStatus").textContent="Creating room...";createOrJoin()};
+$("joinRoom").onclick=()=>{let r=$("roomInput").va
