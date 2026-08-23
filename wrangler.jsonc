@@ -10,15 +10,8 @@
   "d1_databases": [
     {
       "binding": "GameRoom",
-      "database_name": "GameRoom",
-      "database_id": "YOUR_DATABASE_ID"
-    }
-  ],
-
-  "migrations": [
-    {
-      "tag": "v1",
-      "new_sqlite_classes": ["GameRoom"]
+      "database_name": "gameroom",
+      "database_id": "5d602c5b-7250-4e96-9e0c-b4d0b2a56482"
     }
   ]
 }
