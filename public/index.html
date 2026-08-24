@@ -1,594 +1,934 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,
+      initial-scale=1,
+      maximum-scale=1,
+      user-scalable=no">
+
 <title>Holi Warriors</title>
 
 <style>
-*{box-sizing:border-box}
+
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
 
 html,body{
-  margin:0;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  font-family:Arial,sans-serif;
-  background:#062516;
-  color:white;
-  touch-action:none;
+    margin:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:Arial,sans-serif;
+    background:#062719;
+    color:white;
 }
 
 button,input,select{
-  font:inherit;
+    font:inherit;
 }
 
 button{
-  cursor:pointer;
-  -webkit-tap-highlight-color:transparent;
+    cursor:pointer;
 }
 
 .screen{
-  position:fixed;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:14px;
-  background:linear-gradient(145deg,#062516,#15502f);
-  overflow:auto;
+    position:fixed;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:
+    radial-gradient(circle at top,#165c3b,#062719 70%);
+    overflow:auto;
 }
 
 .card{
-  width:min(560px,94vw);
-  max-height:94vh;
-  overflow:auto;
-  background:#103b28;
-  border:2px solid #9ee5b8;
-  border-radius:24px;
-  padding:22px;
-  box-shadow:0 15px 45px #0009;
-  text-align:center;
+    width:min(650px,94vw);
+    max-height:94vh;
+    overflow:auto;
+
+    background:#0d3b29;
+
+    border:3px solid #9de7b9;
+    border-radius:28px;
+
+    padding:30px;
+
+    text-align:center;
+
+    box-shadow:
+    0 20px 60px #0009;
 }
 
 h1{
-  font-size:clamp(34px,7vw,58px);
-  margin:0 0 5px;
+    font-size:clamp(35px,6vw,58px);
+    margin:0 0 5px;
 }
 
-.sub{
-  font-size:14px;
-  color:#bcefc9;
-  margin-bottom:20px;
+.subtitle{
+    color:#bcefc9;
+    margin-bottom:25px;
+    font-size:16px;
+}
+
+.developer{
+    color:#bcefc9;
+    font-size:15px;
+    margin-bottom:25px;
 }
 
 .field,
 select{
-  display:block;
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  border:2px solid #9ee5b8;
-  background:#082719;
-  color:white;
-  text-align:center;
-  margin:8px 0;
-  outline:none;
+    width:100%;
+    padding:15px;
+    margin:7px 0;
+
+    border-radius:14px;
+    border:2px solid #9de7b9;
+
+    background:#062719;
+    color:white;
+
+    outline:none;
 }
 
 .field:focus,
 select:focus{
-  border-color:#38d879;
+    border-color:#40d87c;
 }
 
 .btn{
-  display:block;
-  width:100%;
-  border:0;
-  border-radius:13px;
-  padding:15px 10px;
-  background:#3184e8;
-  color:white;
-  font-weight:800;
-  margin:8px 0;
-  min-height:50px;
-}
+    width:100%;
 
-.btn.green{
-  background:#27a45d;
-}
+    border:0;
+    border-radius:16px;
 
-.btn.orange{
-  background:#e16b2d;
-}
+    padding:16px;
 
-.btn.gray{
-  background:#52645a;
+    margin:8px 0;
+
+    color:white;
+    font-weight:bold;
+    font-size:18px;
+
+    background:#3289e8;
+
+    transition:.15s;
 }
 
 .btn:active{
-  transform:scale(.98);
+    transform:scale(.97);
+}
+
+.green{
+    background:#28a95f;
+}
+
+.orange{
+    background:#e36b32;
+}
+
+.gray{
+    background:#53665d;
 }
 
 .hidden{
-  display:none!important;
-}
-
-.pill{
-  display:inline-block;
-  padding:8px 12px;
-  border-radius:999px;
-  background:#092519;
-  border:1px solid #6db98b;
-  margin:5px;
+    display:none !important;
 }
 
 .small{
-  font-size:13px;
-  color:#c9efd4;
+    font-size:14px;
+    color:#bcefc9;
+    line-height:1.5;
+}
+
+.titleBox{
+    margin-bottom:20px;
+}
+
+.sectionTitle{
+    font-size:24px;
+    margin:10px 0 15px;
+}
+
+.optionGrid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
+
+.option{
+    padding:15px;
+
+    background:#092d20;
+
+    border:2px solid #438f64;
+    border-radius:14px;
+
+    color:white;
+}
+
+.option.selected{
+    border-color:#40e37d;
+    background:#17633d;
+}
+
+.roomCode{
+    font-size:38px;
+    font-weight:bold;
+    letter-spacing:8px;
+
+    padding:18px;
+
+    margin:15px 0;
+
+    border-radius:15px;
+
+    background:#062719;
+    border:2px solid #9de7b9;
+}
+
+.players{
+    text-align:left;
+
+    background:#082d20;
+
+    border-radius:15px;
+
+    padding:15px;
+
+    margin:15px 0;
+}
+
+.playerRow{
+    padding:9px 0;
+    border-bottom:1px solid #28583f;
+}
+
+.playerRow:last-child{
+    border-bottom:0;
+}
+
+.teamBlue{
+    color:#38b9ff;
+}
+
+.teamRed{
+    color:#ff7078;
 }
 
 #game{
-  position:fixed;
-  inset:0;
-  display:none;
-  overflow:hidden;
-  background:#76c955;
+    position:fixed;
+    inset:0;
+
+    display:none;
+
+    background:#65b94f;
+
+    overflow:hidden;
 }
 
 #hud{
-  position:absolute;
-  top:max(6px,env(safe-area-inset-top));
-  left:6px;
-  right:6px;
-  display:flex;
-  gap:6px;
-  z-index:20;
-  pointer-events:none;
+    position:absolute;
+
+    top:8px;
+    left:8px;
+    right:8px;
+
+    display:flex;
+    gap:8px;
+
+    z-index:20;
 }
 
 .hud{
-  background:#123b28dd;
-  border:2px solid #9ee5b8;
-  border-radius:11px;
-  padding:6px 8px;
-  min-width:0;
-  flex:1;
-  text-align:center;
-  font-size:12px;
+    flex:1;
+
+    background:#103b29dd;
+
+    border:2px solid #9de7b9;
+
+    border-radius:14px;
+
+    padding:8px;
+
+    text-align:center;
+
+    min-width:0;
 }
 
 .hud b{
-  font-size:15px;
-}
-
-#pause{
-  position:absolute;
-  right:6px;
-  top:58px;
-  z-index:30;
-  background:#123b28;
-  color:white;
-  border:2px solid #9ee5b8;
-  border-radius:10px;
-  padding:8px 10px;
+    font-size:16px;
 }
 
 #arena{
-  position:absolute;
-  left:5%;
-  right:5%;
-  top:66px;
-  bottom:96px;
-  border:3px solid #d9f5cf;
-  border-radius:8px;
-  overflow:hidden;
-  background:#76c955;
+    position:absolute;
+
+    left:3%;
+    right:3%;
+
+    top:70px;
+    bottom:110px;
+
+    border:4px solid #e0f7d7;
+
+    overflow:hidden;
+
+    background:#65b94f;
 }
 
 #world{
-  position:absolute;
-  inset:0;
-}
+    position:absolute;
+    inset:0;
 
-.player{
-  position:absolute;
-  width:38px;
-  height:38px;
-  border-radius:50%;
-  border:2px solid white;
-  box-shadow:0 4px 7px #0007;
-  transform-origin:center;
-}
-
-.player::after{
-  content:"";
-  position:absolute;
-  width:25px;
-  height:8px;
-  right:-19px;
-  top:14px;
-  background:#ef7d35;
-  border-radius:4px;
-}
-
-.blue{
-  background:#12aee0;
-}
-
-.red{
-  background:#ef4b55;
-}
-
-.label{
-  position:absolute;
-  top:-19px;
-  left:50%;
-  transform:translateX(-50%);
-  font-size:10px;
-  font-weight:bold;
-  white-space:nowrap;
-  text-shadow:0 1px 2px #000;
-}
-
-.hp{
-  position:absolute;
-  top:-7px;
-  left:50%;
-  transform:translateX(-50%);
-  height:5px;
-  width:44px;
-  background:#222;
-  border-radius:4px;
-  overflow:hidden;
-}
-
-.hp i{
-  display:block;
-  height:100%;
-  background:#37dc65;
-}
-
-.balloon{
-  position:absolute;
-  width:12px;
-  height:12px;
-  border-radius:50%;
-  background:#f7c23b;
-  border:1px solid white;
-  pointer-events:none;
-  box-shadow:0 0 7px #fff8;
+    overflow:hidden;
 }
 
 .block{
-  position:absolute;
-  background:#704723;
-  border:2px solid #573417;
-  border-radius:5px;
+    position:absolute;
+
+    background:#704723;
+
+    border:3px solid #573417;
+
+    border-radius:5px;
 }
 
-#leftControl,
-#rightControl{
-  position:absolute;
-  bottom:8px;
-  width:118px;
-  height:118px;
-  border-radius:50%;
-  border:3px solid #dff4e5aa;
-  background:#123b2870;
-  z-index:30;
+.player{
+    position:absolute;
+
+    width:44px;
+    height:44px;
+
+    border-radius:50%;
+
+    border:3px solid white;
+
+    box-shadow:0 4px 8px #0007;
+
+    z-index:5;
+}
+
+.blue{
+    background:#18aee5;
+}
+
+.red{
+    background:#ed4c5a;
+}
+
+.playerName{
+    position:absolute;
+
+    top:-25px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    font-size:12px;
+    font-weight:bold;
+
+    white-space:nowrap;
+
+    text-shadow:0 2px 3px black;
+}
+
+.health{
+    position:absolute;
+
+    width:48px;
+    height:6px;
+
+    top:-9px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    background:#222;
+
+    border-radius:5px;
+
+    overflow:hidden;
+}
+
+.healthBar{
+    display:block;
+
+    height:100%;
+
+    background:#36dc65;
+}
+
+.balloon{
+    position:absolute;
+
+    width:14px;
+    height:14px;
+
+    border-radius:50%;
+
+    background:#ffcf3b;
+
+    box-shadow:0 0 8px white;
+
+    z-index:8;
+
+    pointer-events:none;
+}
+
+.control{
+    position:absolute;
+
+    bottom:10px;
+
+    width:120px;
+    height:120px;
+
+    border-radius:50%;
+
+    border:4px solid #dff4e5aa;
+
+    background:#123b2870;
+
+    z-index:30;
 }
 
 #leftControl{
-  left:18px;
-}
-
-.stick{
-  position:absolute;
-  width:58px;
-  height:58px;
-  border-radius:50%;
-  background:#dff4e5cc;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  border:3px solid #9bc9aa;
+    left:25px;
 }
 
 #rightControl{
-  right:18px;
+    right:25px;
 }
 
-.fireCore{
-  position:absolute;
-  left:50%;
-  top:50%;
-  width:68px;
-  height:68px;
-  transform:translate(-50%,-50%);
-  border-radius:50%;
-  background:#ff6a2a;
-  border:4px solid #ffd2bb;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:900;
+.stick{
+    position:absolute;
+
+    width:58px;
+    height:58px;
+
+    left:50%;
+    top:50%;
+
+    transform:translate(-50%,-50%);
+
+    border-radius:50%;
+
+    background:#e1f5e8cc;
+
+    border:3px solid #9bc9aa;
+}
+
+.fire{
+    position:absolute;
+
+    width:65px;
+    height:65px;
+
+    left:50%;
+    top:50%;
+
+    transform:translate(-50%,-50%);
+
+    border-radius:50%;
+
+    background:#ff7134;
+
+    border:4px solid #ffd2bb;
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    font-size:25px;
 }
 
 .overlay{
-  position:absolute;
-  inset:0;
-  background:#061b10df;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:50;
+    position:absolute;
+
+    inset:0;
+
+    background:#061b10dd;
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    z-index:100;
 }
 
 .overlay .card{
-  max-width:430px;
+    width:min(450px,90vw);
 }
 
 .countdown{
-  font-size:50px;
-  font-weight:900;
-  color:#ffd65a;
+    font-size:65px;
+    font-weight:bold;
 }
 
-@media(max-height:420px){
+@media(max-height:500px){
 
-  #arena{
-    top:60px;
-    bottom:82px;
-  }
+    .card{
+        padding:18px;
+    }
 
-  #leftControl,
-  #rightControl{
-    width:88px;
-    height:88px;
-    bottom:4px;
-  }
+    h1{
+        font-size:36px;
+    }
 
-  .stick{
-    width:44px;
-    height:44px;
-  }
+    .btn{
+        padding:11px;
+        font-size:16px;
+    }
 
-  .fireCore{
-    width:54px;
-    height:54px;
-  }
+    #arena{
+        top:60px;
+        bottom:90px;
+    }
 
-  .player{
-    width:32px;
-    height:32px;
-  }
+    .control{
+        width:95px;
+        height:95px;
+    }
 
-  .player::after{
-    top:11px;
-  }
+    .stick{
+        width:45px;
+        height:45px;
+    }
 
-  .hud{
-    padding:4px 6px;
-  }
-
-  .hud b{
-    font-size:12px;
-  }
 }
+
 </style>
 </head>
 
 <body>
 
-<!-- MAIN MENU -->
-<div id="menu" class="screen">
+<!-- =====================================================
+     START SCREEN
+===================================================== -->
+
+<div id="startScreen" class="screen">
 
 <div class="card">
 
+<div class="titleBox">
+
 <h1>🌈 HOLI WARRIORS</h1>
 
-<div class="sub">
+<div class="developer">
 Developed by Prabhat Kumar Singh
 </div>
 
-<!-- NAME -->
-<div id="nameStep">
+</div>
 
 <input
-  id="nameInput"
-  class="field"
-  maxlength="18"
-  autocomplete="name"
-  placeholder="Enter your name"
->
+id="playerName"
+class="field"
+placeholder="Enter your name"
+maxlength="18"
+autocomplete="off">
 
 <button
-  type="button"
-  class="btn green"
-  id="saveName"
->
+id="continueBtn"
+class="btn green">
+
 CONTINUE
+
 </button>
 
 </div>
 
-<!-- MODE -->
-<div id="modeStep" class="hidden">
-
-<div class="pill">
-Player: <b id="savedName"></b>
 </div>
 
-<button type="button" class="btn green" id="singleBtn">
-SINGLE PLAYER
+
+<!-- =====================================================
+     MODE SCREEN
+===================================================== -->
+
+<div id="modeScreen" class="screen hidden">
+
+<div class="card">
+
+<h2 class="sectionTitle">
+Welcome, <span id="welcomeName"></span>!
+</h2>
+
+<p class="small">
+Choose your game mode
+</p>
+
+<button
+id="singleModeBtn"
+class="btn green">
+
+🎮 SINGLE PLAYER
+
 </button>
 
-<button type="button" class="btn" id="multiBtn">
-MULTIPLAYER
+<button
+id="multiModeBtn"
+class="btn">
+
+👥 MULTIPLAYER
+
 </button>
 
-<button type="button" class="btn gray" id="changeName">
-CHANGE NAME
+<button
+id="backNameBtn"
+class="btn gray">
+
+BACK
+
 </button>
 
 </div>
 
-<!-- SINGLE PLAYER SETUP -->
-<div id="singleSetup" class="hidden">
+</div>
 
-<h2>Single Player</h2>
+
+<!-- =====================================================
+     SINGLE PLAYER SETUP
+===================================================== -->
+
+<div id="singleSetup" class="screen hidden">
+
+<div class="card">
+
+<h2 class="sectionTitle">
+🎮 SINGLE PLAYER
+</h2>
+
+<p class="small">
+Choose your battle settings
+</p>
+
+<label>Map</label>
 
 <select id="singleMap">
-<option value="jungle">🌿 Jungle</option>
-<option value="sand">🏜️ Sand</option>
-<option value="space">🚀 Space</option>
+
+<option value="jungle" selected>
+🌿 Jungle
+</option>
+
+<option value="sand">
+🏜️ Sand
+</option>
+
+<option value="space">
+🚀 Space
+</option>
+
 </select>
+
+<label>Time</label>
 
 <select id="singleTime">
-<option value="180">3 minutes</option>
-<option value="60">1 minute</option>
-<option value="120">2 minutes</option>
-<option value="300">5 minutes</option>
+
+<option value="60">
+1 Minute
+</option>
+
+<option value="120">
+2 Minutes
+</option>
+
+<option value="180" selected>
+3 Minutes
+</option>
+
+<option value="300">
+5 Minutes
+</option>
+
 </select>
 
-<select id="levelSel"></select>
+<label>Level</label>
 
-<button type="button" class="btn green" id="startSingle">
+<div class="optionGrid" id="levelGrid">
+
+</div>
+
+<p class="small">
+Default: Jungle • 3 Minutes • Level 1
+</p>
+
+<button
+id="startSingleBtn"
+class="btn green">
+
 START BATTLE
+
 </button>
 
-<button type="button" class="btn gray" id="backSingle">
+<button
+id="backModeBtn"
+class="btn gray">
+
 BACK
+
 </button>
 
 </div>
 
-<!-- MULTIPLAYER -->
-<div id="multiSetup" class="hidden">
+</div>
 
-<h2>Multiplayer Lobby</h2>
+
+<!-- =====================================================
+     MULTIPLAYER SETUP
+===================================================== -->
+
+<div id="multiSetup" class="screen hidden">
+
+<div class="card">
+
+<h2 class="sectionTitle">
+👥 MULTIPLAYER
+</h2>
 
 <select id="multiMap">
-<option value="jungle">🌿 Jungle</option>
-<option value="sand">🏜️ Sand</option>
-<option value="space">🚀 Space</option>
+
+<option value="jungle">
+🌿 Jungle
+</option>
+
+<option value="sand">
+🏜️ Sand
+</option>
+
+<option value="space">
+🚀 Space
+</option>
+
 </select>
 
 <select id="multiTime">
-<option value="180">3 minutes</option>
-<option value="60">1 minute</option>
-<option value="120">2 minutes</option>
-<option value="300">5 minutes</option>
+
+<option value="60">
+1 Minute
+</option>
+
+<option value="120">
+2 Minutes
+</option>
+
+<option value="180" selected>
+3 Minutes
+</option>
+
+<option value="300">
+5 Minutes
+</option>
+
 </select>
 
-<button type="button" class="btn green" id="createRoom">
+<button
+id="createRoomBtn"
+class="btn green">
+
 CREATE ROOM
+
 </button>
 
 <input
-  id="roomInput"
-  class="field"
-  maxlength="6"
-  autocomplete="off"
-  placeholder="Enter room code"
->
+id="joinRoomInput"
+class="field"
+maxlength="6"
+placeholder="Enter room code">
 
-<button type="button" class="btn" id="joinRoom">
+<button
+id="joinRoomBtn"
+class="btn">
+
 JOIN ROOM
+
 </button>
 
-<div id="lobby" class="hidden">
+<button
+id="backMultiBtn"
+class="btn gray">
+
+BACK
+
+</button>
+
+<p id="multiStatus" class="small"></p>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     MULTIPLAYER LOBBY
+===================================================== -->
+
+<div id="lobbyScreen" class="screen hidden">
+
+<div class="card">
 
 <h2>
-Room: <span id="roomCode"></span>
+MULTIPLAYER LOBBY
 </h2>
 
-<div id="lobbyPlayers" class="small">
+<p class="small">
+Share this room code with your friends
+</p>
+
+<div id="roomCodeDisplay"
+class="roomCode">
+
+------
+
+</div>
+
+<div id="playerList"
+class="players">
+
+<div class="playerRow">
 Waiting for players...
 </div>
 
-<button type="button" class="btn green" id="readyBtn">
+</div>
+
+<p class="small">
+Maximum 6 players • 3 Blue + 3 Red
+</p>
+
+<button
+id="readyBtn"
+class="btn green">
+
 READY
+
 </button>
 
-<button type="button" class="btn gray" id="leaveRoom">
+<button
+id="leaveRoomBtn"
+class="btn gray">
+
 LEAVE ROOM
-</button>
 
-</div>
-
-<div id="multiStatus" class="small">
-Create a room or join one.
-The battle starts only after Ready.
-</div>
-
-<button type="button" class="btn gray" id="backMulti">
-BACK
 </button>
 
 </div>
 
 </div>
-</div>
 
 
-<!-- GAME -->
+<!-- =====================================================
+     GAME
+===================================================== -->
+
 <div id="game">
 
 <div id="hud">
 
 <div class="hud">
-<b>🔵 BLUE</b>
-<div id="blueScore">0</div>
+
+<b class="teamBlue">
+BLUE
+</b>
+
+<div id="blueScore">
+0 points
+</div>
+
 </div>
 
 <div class="hud">
-<b id="timer">03:00</b>
-<div id="roomText" class="small"></div>
+
+<b id="timer">
+03:00
+</b>
+
+<div id="gameInfo">
+SINGLE PLAYER
+</div>
+
 </div>
 
 <div class="hud">
-<b>🔴 RED</b>
-<div id="redScore">0</div>
+
+<b class="teamRed">
+RED
+</b>
+
+<div id="redScore">
+0 points
 </div>
 
 </div>
 
-<button type="button" id="pause">
-⏸
-</button>
+</div>
+
 
 <div id="arena">
+
 <div id="world"></div>
+
 </div>
 
-<div id="leftControl">
+
+<div
+id="leftControl"
+class="control">
+
 <div class="stick"></div>
-</div>
 
-<div id="rightControl">
-<div class="fireCore">💦</div>
 </div>
 
 
-<!-- PAUSE -->
-<div id="pauseOverlay" class="overlay">
+<div
+id="rightControl"
+class="control">
+
+<div class="fire">
+💦
+</div>
+
+</div>
+
+
+<!-- Pause -->
+
+<div
+id="pauseOverlay"
+class="overlay">
 
 <div class="card">
 
 <h2>PAUSED</h2>
 
-<button type="button" class="btn green" id="resumeBtn">
+<button
+id="resumeBtn"
+class="btn green">
+
 RESUME
+
 </button>
 
-<button type="button" class="btn orange" id="restartBtn">
+<button
+id="restartGameBtn"
+class="btn">
+
 RESTART
+
 </button>
 
-<button type="button" class="btn" id="menuBtn">
+<button
+id="pauseMenuBtn"
+class="btn gray">
+
 MAIN MENU
+
 </button>
 
 </div>
@@ -596,28 +936,11 @@ MAIN MENU
 </div>
 
 
-<!-- OUT -->
-<div id="outOverlay" class="overlay">
+<!-- End -->
 
-<div class="card">
-
-<h2>YOU ARE OUT</h2>
-
-<div class="countdown" id="outCount">
-10
-</div>
-
-<p>
-Back in the game soon.
-</p>
-
-</div>
-
-</div>
-
-
-<!-- END -->
-<div id="endOverlay" class="overlay">
+<div
+id="endOverlay"
+class="overlay">
 
 <div class="card">
 
@@ -627,17 +950,50 @@ ROUND OVER
 
 <p id="resultText"></p>
 
-<button type="button" class="btn green" id="againBtn">
+<button
+id="playAgainBtn"
+class="btn green">
+
 PLAY AGAIN
+
 </button>
 
-<button type="button" class="btn" id="nextBtn">
-NEXT LEVEL
-</button>
+<button
+id="endMenuBtn"
+class="btn">
 
-<button type="button" class="btn gray" id="endMenuBtn">
 MAIN MENU
+
 </button>
+
+</div>
+
+</div>
+
+
+<!-- Respawn -->
+
+<div
+id="respawnOverlay"
+class="overlay">
+
+<div class="card">
+
+<h2>
+YOU ARE OUT
+</h2>
+
+<div
+id="respawnCountdown"
+class="countdown">
+
+10
+
+</div>
+
+<p>
+You will return to the battle.
+</p>
 
 </div>
 
@@ -648,777 +1004,593 @@ MAIN MENU
 
 <script>
 
-document.addEventListener("DOMContentLoaded", function(){
-
-"use strict";
+/* =====================================================
+   BASIC HELPERS
+===================================================== */
 
 const $ = id => document.getElementById(id);
 
-let playerName = localStorage.getItem("holiName") || "";
 
-let mode = "single";
+/* =====================================================
+   GAME DATA
+===================================================== */
+
+let playerName =
+localStorage.getItem("holiWarriorsPlayerName") || "";
+
+let selectedLevel = 1;
+
+let gameMode = "single";
+
 let map = "jungle";
-let roundSeconds = 180;
-let level = 1;
-let room = "";
-let ws = null;
 
-let running = false;
-let paused = false;
-let last = 0;
+let roundSeconds = 180;
+
 let timer = 180;
 
-let left = {x:0,y:0};
-let angle = 0;
-let fireHeld = false;
-let lastShot = 0;
+let running = false;
 
-/* Slow one-ball-at-a-time throwing */
-const shotCooldown = 900;
+let paused = false;
 
-let me = null;
-let entities = {};
-let projectiles = {};
+let firing = false;
 
-let activeBotSlots = 0;
-let remainingBots = 0;
+let lastFrame = 0;
 
-let blueScore = 0;
-let redScore = 0;
-
-
-/* LEVELS */
-
-for(let i=1;i<=10;i++){
-
-  const option = document.createElement("option");
-
-  option.value = i;
-  option.textContent = "Level " + i;
-
-  $("levelSel").appendChild(option);
-
-}
-
-$("levelSel").value = "1";
-
-
-/* SCREEN CONTROL */
-
-function show(id){
-
-  [
-    "nameStep",
-    "modeStep",
-    "singleSetup",
-    "multiSetup"
-  ].forEach(function(x){
-
-    $(x).classList.add("hidden");
-
-  });
-
-  $(id).classList.remove("hidden");
-
-}
-
-
-/* NAME */
-
-function initName(){
-
-  if(playerName){
-
-    $("nameInput").value = playerName;
-    $("savedName").textContent = playerName;
-
-    show("modeStep");
-
-  }else{
-
-    show("nameStep");
-
-  }
-
-}
-
-
-/* FIXED CONTINUE BUTTON */
-
-$("saveName").addEventListener("click", function(e){
-
-  e.preventDefault();
-  e.stopPropagation();
-
-  const n = $("nameInput").value.trim();
-
-  if(!n){
-
-    $("nameInput").focus();
-    $("nameInput").placeholder = "Please enter your name";
-
-    return;
-
-  }
-
-  playerName = n;
-
-  localStorage.setItem("holiName", playerName);
-
-  $("savedName").textContent = playerName;
-
-  show("modeStep");
-
-});
-
-
-$("nameInput").addEventListener("keydown", function(e){
-
-  if(e.key === "Enter"){
-
-    e.preventDefault();
-
-    $("saveName").click();
-
-  }
-
-});
-
-
-$("changeName").addEventListener("click", function(){
-
-  show("nameStep");
-  $("nameInput").focus();
-
-});
-
-
-/* MODE */
-
-$("singleBtn").addEventListener("click", function(){
-
-  mode = "single";
-
-  show("singleSetup");
-
-});
-
-
-$("multiBtn").addEventListener("click", function(){
-
-  mode = "multi";
-
-  show("multiSetup");
-
-});
-
-
-$("backSingle").addEventListener("click", function(){
-
-  show("modeStep");
-
-});
-
-
-$("backMulti").addEventListener("click", function(){
-
-  disconnect();
-
-  show("modeStep");
-
-});
-
-
-$("levelSel").addEventListener("change", function(){
-
-  level = Number(this.value);
-
-});
-
-
-/* MAPS */
-
-const maps = {
-
-  jungle:["#76c955","#3c8d2b"],
-  sand:["#c89a5b","#a9793e"],
-  space:["#050817","#111a3c"]
-
+let leftInput = {
+    x:0,
+    y:0
 };
 
+let roomCode = "";
 
-function setMap(){
+let ws = null;
 
-  const c = maps[map];
+let connected = false;
 
-  $("game").style.background = c[0];
+let ready = false;
 
-  $("world").style.backgroundColor = c[0];
+let bots = [];
 
-  if(map === "space"){
+let remotePlayers = [];
 
-    $("world").style.backgroundImage =
-      "radial-gradient(circle at 20% 20%,#fff 1px,transparent 2px)," +
-      "radial-gradient(circle at 75% 35%,#fff 1px,transparent 2px)," +
-      "radial-gradient(circle at 55% 80%,#fff 1px,transparent 2px)";
-
-  }else{
-
-    $("world").style.backgroundImage =
-      "linear-gradient(#0001 1px,transparent 1px)," +
-      "linear-gradient(90deg,#0001 1px,transparent 1px)";
-
-  }
-
-}
-
-
-/* BLOCKS */
-
-function drawBlocks(){
-
-  document.querySelectorAll(".block").forEach(function(e){
-
-    e.remove();
-
-  });
-
-  [
-    [7,9,20,15],
-    [72,9,20,15],
-    [38,32,24,14],
-    [7,67,20,14],
-    [72,66,20,14]
-  ].forEach(function(a){
-
-    const e = document.createElement("div");
-
-    e.className = "block";
-
-    e.style.cssText =
-      `left:${a[0]}%;top:${a[1]}%;width:${a[2]}%;height:${a[3]}%`;
-
-    $("world").appendChild(e);
-
-  });
-
-}
-
-
-/* WORLD */
-
-function resetWorld(){
-
-  Object.values(projectiles).forEach(function(p){
-
-    if(p.el) p.el.remove();
-
-  });
-
-  projectiles = {};
-
-  $("world").querySelectorAll(".player").forEach(function(e){
-
-    e.remove();
-
-  });
-
-  entities = {};
-
-  blueScore = 0;
-  redScore = 0;
-
-}
-
-
-function makeEntity(p){
-
-  return {
-    ...p,
-    hp:p.hp ?? 100,
-    outUntil:p.outUntil || 0,
-    angle:p.angle || 0
-  };
-
-}
-
-
-function addEntity(p){
-
-  entities[p.id] = makeEntity(p);
-
-  render(entities[p.id]);
-
-}
-
-
-function render(p){
-
-  let e = document.getElementById("p_" + p.id);
-
-  if(!e){
-
-    e = document.createElement("div");
-
-    e.id = "p_" + p.id;
-
-    e.className =
-      "player " + (p.team === "blue" ? "blue" : "red");
-
-    e.innerHTML =
-      '<div class="label"></div>' +
-      '<div class="hp"><i></i></div>';
-
-    $("world").appendChild(e);
-
-  }
-
-  e.style.left = p.x + "%";
-  e.style.top = p.y + "%";
-
-  e.style.transform =
-    `rotate(${p.angle || 0}rad)`;
-
-  e.style.opacity =
-    p.outUntil > Date.now() ? "0" : "1";
-
-  e.querySelector(".label").textContent =
-    p.id === me?.id
-      ? "YOU"
-      : (p.name || "BOT");
-
-  e.querySelector(".hp i").style.width =
-    Math.max(0,p.hp) + "%";
-
-}
-
-
-/* BOT */
-
-function makeBot(i,team,owner){
-
-  return makeEntity({
-
-    id:"bot" + i,
-
-    name:"BOT " + (i+1),
-
-    team:team,
-
-    x:team === "blue"
-      ? 12 + Math.random()*25
-      : 63 + Math.random()*25,
-
-    y:15 + Math.random()*70,
-
-    hp:100,
-
-    angle:team === "blue" ? 0 : Math.PI,
-
-    bot:true,
-
-    owner:owner
-
-  });
-
-}
-
-
-/* SINGLE PLAYER */
-
-function startSingle(){
-
-  disconnect();
-
-  mode = "single";
-
-  map = $("singleMap").value;
-
-  roundSeconds = Number($("singleTime").value);
-
-  level = Number($("levelSel").value);
-
-  timer = roundSeconds;
-
-  resetWorld();
-
-  me = makeEntity({
-
+let me = {
     id:"me",
-
-    name:playerName,
-
+    name:"",
     team:"blue",
 
-    x:12,
-
+    x:15,
     y:50,
 
     hp:1000,
 
     score:0,
 
+    out:false,
+
     angle:0
+};
 
-  });
 
-  addEntity(me);
+/* =====================================================
+   START SCREEN
+===================================================== */
 
-  remainingBots = level;
+$("playerName").value = playerName;
 
-  activeBotSlots = Math.min(2,level);
+function showScreen(id){
 
-  for(let i=0;i<activeBotSlots;i++){
+    document
+    .querySelectorAll(".screen")
+    .forEach(s => s.classList.add("hidden"));
 
-    addEntity(makeBot(i,"red","me"));
+    $(id).classList.remove("hidden");
+}
 
-  }
+$("continueBtn").onclick = function(){
 
-  beginGame();
+    const name =
+    $("playerName").value.trim();
+
+    if(!name){
+
+        $("playerName").focus();
+
+        alert("Please enter your name.");
+
+        return;
+    }
+
+    playerName = name;
+
+    localStorage.setItem(
+        "holiWarriorsPlayerName",
+        playerName
+    );
+
+    $("welcomeName").textContent =
+    playerName;
+
+    showScreen("modeScreen");
+};
+
+
+/* =====================================================
+   MODE
+===================================================== */
+
+$("singleModeBtn").onclick = function(){
+
+    gameMode = "single";
+
+    showScreen("singleSetup");
+
+};
+
+$("multiModeBtn").onclick = function(){
+
+    gameMode = "multi";
+
+    showScreen("multiSetup");
+
+};
+
+$("backNameBtn").onclick = function(){
+
+    showScreen("startScreen");
+
+};
+
+
+/* =====================================================
+   LEVEL BUTTONS
+===================================================== */
+
+for(let i=1;i<=10;i++){
+
+    const button =
+    document.createElement("button");
+
+    button.className =
+    "option" + (i===1 ? " selected":"");
+
+    button.textContent =
+    "LEVEL " + i;
+
+    button.dataset.level = i;
+
+    button.onclick = function(){
+
+        selectedLevel = Number(
+            this.dataset.level
+        );
+
+        document
+        .querySelectorAll("#levelGrid .option")
+        .forEach(b =>
+            b.classList.remove("selected")
+        );
+
+        this.classList.add("selected");
+
+    };
+
+    $("levelGrid").appendChild(button);
+}
+
+
+/* =====================================================
+   BACK BUTTONS
+===================================================== */
+
+$("backModeBtn").onclick =
+function(){
+
+    showScreen("modeScreen");
+
+};
+
+$("backMultiBtn").onclick =
+function(){
+
+    showScreen("modeScreen");
+
+};
+
+
+/* =====================================================
+   MAP
+===================================================== */
+
+const mapColors = {
+
+    jungle:"#67bd52",
+
+    sand:"#c59a61",
+
+    space:"#071020"
+
+};
+
+
+/* =====================================================
+   SINGLE PLAYER
+===================================================== */
+
+$("startSingleBtn").onclick =
+function(){
+
+    map =
+    $("singleMap").value;
+
+    roundSeconds =
+    Number($("singleTime").value);
+
+    gameMode = "single";
+
+    startSingleBattle();
+
+};
+
+
+/* =====================================================
+   SINGLE BATTLE
+===================================================== */
+
+function startSingleBattle(){
+
+    roomCode = "";
+
+    timer = roundSeconds;
+
+    running = true;
+
+    paused = false;
+
+    firing = false;
+
+    me = {
+
+        id:"me",
+
+        name:playerName,
+
+        team:"blue",
+
+        x:15,
+
+        y:50,
+
+        hp:1000,
+
+        score:0,
+
+        out:false,
+
+        angle:0
+
+    };
+
+    bots = [];
+
+    remotePlayers = [];
+
+    /*
+       Level 1 = 1 bot
+       Level 10 = 10 bots
+
+       But maximum 2 active at once.
+    */
+
+    for(
+        let i=0;
+        i<selectedLevel;
+        i++
+    ){
+
+        bots.push({
+
+            id:"bot_"+i,
+
+            name:"Bot "+(i+1),
+
+            team:"red",
+
+            hp:100,
+
+            score:0,
+
+            x:70,
+
+            y:20 + (i%5)*15,
+
+            angle:Math.PI,
+
+            out:false,
+
+            active:false
+
+        });
+
+    }
+
+    activateBots();
+
+    openGame();
 
 }
 
 
-$("startSingle").addEventListener("click",startSingle);
+/* =====================================================
+   ACTIVE BOTS
+===================================================== */
 
+function activateBots(){
 
-/* START GAME */
+    let activeCount =
+    bots.filter(b=>!b.out && b.active).length;
 
-function beginGame(){
+    for(const bot of bots){
 
-  $("menu").style.display = "none";
+        if(activeCount >= 2)
+            break;
 
-  $("game").style.display = "block";
+        if(!bot.out && !bot.active){
 
-  setMap();
+            bot.active = true;
 
-  drawBlocks();
+            bot.hp = 100;
 
-  $("roomText").textContent =
-    mode === "multi"
-      ? "ROOM " + room
-      : "LEVEL " + level;
+            bot.x =
+            70 + Math.random()*15;
 
-  running = true;
-  paused = false;
+            bot.y =
+            15 + Math.random()*70;
 
-  last = performance.now();
-
-  requestAnimationFrame(loop);
-
-}
-
-
-/* TIME */
-
-function formatTime(s){
-
-  s = Math.max(0,Math.ceil(s));
-
-  return String(Math.floor(s/60)).padStart(2,"0")
-    + ":" +
-    String(s%60).padStart(2,"0");
-
-}
-
-
-/* SHOOT */
-
-function shoot(ownerId){
-
-  const p = entities[ownerId];
-
-  if(!p || p.outUntil > Date.now()) return;
-
-  const now = Date.now();
-
-  if(now - lastShot < shotCooldown) return;
-
-  lastShot = now;
-
-  const id =
-    "b" + Math.random().toString(36).slice(2,9);
-
-  const b = {
-
-    id:id,
-    owner:ownerId,
-    team:p.team,
-    x:p.x,
-    y:p.y,
-    angle:p.angle || 0,
-    el:document.createElement("div"),
-    speed:58,
-    life:0
-
-  };
-
-  b.el.className = "balloon";
-
-  b.el.style.left = b.x + "%";
-  b.el.style.top = b.y + "%";
-
-  $("world").appendChild(b.el);
-
-  projectiles[id] = b;
-
-  if(mode === "multi" && ws?.readyState === 1){
-
-    ws.send(JSON.stringify({
-
-      type:"balloon",
-      balloon:{
-        id:id,
-        owner:ownerId,
-        team:p.team,
-        x:p.x,
-        y:p.y,
-        angle:p.angle || 0
-      }
-
-    }));
-
-  }
-
-}
-
-
-function receiveBalloon(b){
-
-  if(projectiles[b.id]) return;
-
-  const p = {
-
-    ...b,
-    el:document.createElement("div"),
-    speed:58,
-    life:0
-
-  };
-
-  p.el.className = "balloon";
-
-  p.el.style.left = p.x + "%";
-  p.el.style.top = p.y + "%";
-
-  $("world").appendChild(p.el);
-
-  projectiles[b.id] = p;
-
-}
-
-
-/* HIT */
-
-function hitCheck(b){
-
-  const targets =
-    Object.values(entities).filter(function(q){
-
-      return q.team !== b.team &&
-             q.outUntil <= Date.now();
-
-    });
-
-  for(const q of targets){
-
-    if(Math.hypot(q.x-b.x,q.y-b.y) < 3.8){
-
-      q.hp -= 10;
-
-      if(q.hp <= 0){
-
-        q.hp = 0;
-
-        q.outUntil = Date.now() + 10000;
-
-        const scorer = entities[b.owner];
-
-        if(scorer){
-
-          scorer.score = (scorer.score || 0) + 10;
-
-          if(scorer.team === "blue")
-            blueScore += 10;
-          else
-            redScore += 10;
+            activeCount++;
 
         }
 
-      }
+    }
 
-      if(mode === "multi" && ws?.readyState === 1){
+}
 
-        ws.send(JSON.stringify({
 
-          type:"hit",
-          targetId:q.id
+/* =====================================================
+   OPEN GAME
+===================================================== */
 
-        }));
+function openGame(){
 
-      }
+    document
+    .querySelectorAll(".screen")
+    .forEach(s =>
+        s.classList.add("hidden")
+    );
 
-      return true;
+    $("game").style.display = "block";
+
+    $("gameInfo").textContent =
+    gameMode==="single"
+    ? "LEVEL "+selectedLevel
+    : "MULTIPLAYER";
+
+    setArenaMap();
+
+    clearWorld();
+
+    running = true;
+
+    lastFrame =
+    performance.now();
+
+    requestAnimationFrame(gameLoop);
+
+}
+
+
+/* =====================================================
+   MAP
+===================================================== */
+
+function setArenaMap(){
+
+    $("arena").style.background =
+    mapColors[map];
+
+    $("world").style.background =
+    mapColors[map];
+
+}
+
+
+/* =====================================================
+   WORLD
+===================================================== */
+
+function clearWorld(){
+
+    $("world")
+    .querySelectorAll(
+        ".player,.balloon,.block"
+    )
+    .forEach(e=>e.remove());
+
+}
+
+
+/* =====================================================
+   DRAW OBSTACLES
+===================================================== */
+
+function drawBlocks(){
+
+    clearBlocks();
+
+    const blocks = [
+
+        [8,10,18,14],
+
+        [72,10,18,14],
+
+        [38,32,24,13],
+
+        [8,68,18,13],
+
+        [72,68,18,13]
+
+    ];
+
+    blocks.forEach(
+        ([x,y,w,h]) => {
+
+            const e =
+            document.createElement("div");
+
+            e.className = "block";
+
+            e.style.left = x+"%";
+            e.style.top = y+"%";
+            e.style.width = w+"%";
+            e.style.height = h+"%";
+
+            $("world").appendChild(e);
+
+        }
+    );
+
+}
+
+function clearBlocks(){
+
+    $("world")
+    .querySelectorAll(".block")
+    .forEach(e=>e.remove());
+
+}
+
+
+/* =====================================================
+   PLAYER RENDER
+===================================================== */
+
+function renderPlayer(p){
+
+    if(!p)
+        return;
+
+    const id =
+    "player_"+p.id;
+
+    let e =
+    document.getElementById(id);
+
+    if(!e){
+
+        e =
+        document.createElement("div");
+
+        e.id = id;
+
+        e.className =
+        "player "+
+        (p.team==="blue"
+        ?"blue"
+        :"red");
+
+        const name =
+        document.createElement("div");
+
+        name.className =
+        "playerName";
+
+        name.textContent =
+        p.name || "PLAYER";
+
+        e.appendChild(name);
+
+        const health =
+        document.createElement("div");
+
+        health.className =
+        "health";
+
+        const bar =
+        document.createElement("span");
+
+        bar.className =
+        "healthBar";
+
+        health.appendChild(bar);
+
+        e.appendChild(health);
+
+        $("world").appendChild(e);
 
     }
 
-  }
+    e.style.left =
+    p.x+"%";
 
-  return false;
+    e.style.top =
+    p.y+"%";
 
-}
+    e.style.transform =
+    `rotate(${p.angle||0}rad)`;
 
+    const percentage =
+    Math.max(
+        0,
+        (p.hp/100)*100
+    );
 
-/* PROJECTILES */
+    e.querySelector(
+        ".healthBar"
+    ).style.width =
+    percentage+"%";
 
-function updateProjectiles(dt){
-
-  for(const id in projectiles){
-
-    const b = projectiles[id];
-
-    b.x += Math.cos(b.angle) * b.speed * dt / 100;
-    b.y += Math.sin(b.angle) * b.speed * dt / 100;
-
-    b.life += dt;
-
-    b.el.style.left = b.x + "%";
-    b.el.style.top = b.y + "%";
-
-    if(
-      hitCheck(b) ||
-      b.x < 0 ||
-      b.x > 100 ||
-      b.y < 0 ||
-      b.y > 100 ||
-      b.life > 2
-    ){
-
-      b.el.remove();
-
-      delete projectiles[id];
-
-    }
-
-  }
+    e.style.opacity =
+    p.out ? "0.15":"1";
 
 }
 
 
-/* BOT AI */
+/* =====================================================
+   REMOVE
+===================================================== */
 
-function botAI(dt){
+function removePlayer(id){
 
-  const now = Date.now();
-
-  Object.values(entities)
-    .filter(p => p.bot && p.owner === me?.id)
-    .forEach(function(b){
-
-      if(b.outUntil > now) return;
-
-      const enemies =
-        Object.values(entities)
-        .filter(q =>
-          q.team !== b.team &&
-          q.outUntil <= now
-        );
-
-      if(!enemies.length) return;
-
-      const t = enemies[0];
-
-      const a =
-        Math.atan2(t.y-b.y,t.x-b.x);
-
-      b.angle = a;
-
-      b.x += Math.cos(a) * dt * 7;
-      b.y += Math.sin(a) * dt * 7;
-
-      if(Math.random() < dt*1.2){
-
-        const old = lastShot;
-
-        lastShot = 0;
-
-        shoot(b.id);
-
-        lastShot = old;
-
-      }
-
-    });
+    document
+    .getElementById(
+        "player_"+id
+    )
+    ?.remove();
 
 }
 
 
-/* SCORE */
+/* =====================================================
+   MOVEMENT
+===================================================== */
 
-function updateScores(){
+function movePlayer(dt){
 
-  Object.values(entities).forEach(render);
+    if(me.out)
+        return;
 
-  $("blueScore").textContent =
-    blueScore + " points";
+    const speed = 22;
 
-  $("redScore").textContent =
-    redScore + " points";
+    me.x +=
+    leftInput.x *
+    speed *
+    dt;
 
-  $("timer").textContent =
-    formatTime(timer);
+    me.y +=
+    leftInput.y *
+    speed *
+    dt;
 
-}
-
-
-/* FINISH */
-
-function finishRound(){
-
-  running = false;
-
-  $("endOverlay").style.display = "flex";
-
-  if(mode === "single"){
-
-    const botsLeft =
-      Object.values(entities)
-      .filter(p =>
-        p.bot &&
-        p.outUntil <= Date.now()
-      ).length;
-
-    const win =
-      botsLeft === 0;
-
-    $("resultTitle").textContent =
-      win ? "🏆 LEVEL COMPLETE" : "🌈 TIME UP";
-
-    $("resultText").textContent =
-      win
-        ? `Level ${level} cleared!`
-        : `Blue ${blueScore} points • Red ${redScore} points`;
-
-    $("nextBtn").style.display =
-      win && level < 10
-        ? "block"
-        : "none";
-
-    $("againBtn").textContent =
-      win ? "REPLAY LEVEL" : "RESTART";
-
-  }else{
-
-    $("resultTitle").textContent =
-      blueScore > redScore
-        ? "🏆 BLUE WINS"
-        : redScore > blueScore
-        ? "🏆 RED WINS"
-        : "🤝 DRAW";
-
-    $("resultText").textContent =
-      `Blue ${blueScore} points • Red ${redScore} points`;
-
-    $("nextBtn").style.display = "none";
-
-    $("againBtn").textC
+    me.x =
+    Math.max(
+        2,
+        Math.min(94,m
