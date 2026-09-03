@@ -1,356 +1,301 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 
 <meta name="viewport"
-content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-
-<meta name="theme-color" content="#172b18">
+content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <title>Hill Warriors</title>
 
 <style>
-
-/* =====================================================
-   GLOBAL
-===================================================== */
-
 *{
-  box-sizing:border-box;
-  -webkit-user-select:none;
-  user-select:none;
-  -webkit-touch-callout:none;
-  -webkit-tap-highlight-color:transparent;
+    box-sizing:border-box;
+    -webkit-user-select:none;
+    user-select:none;
+    -webkit-touch-callout:none;
 }
 
-html,
-body{
-  width:100%;
-  height:100%;
-  margin:0;
-  padding:0;
-  overflow:hidden;
-  background:#111;
-  font-family:Arial,sans-serif;
-  touch-action:none;
-}
-
-
-/* =====================================================
-   SCREENS
-===================================================== */
-
-.screen{
-  width:100%;
-  height:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-
-/* =====================================================
-   MAIN MENU
-===================================================== */
-
-#menu{
-  background:linear-gradient(#172b18,#315d2c);
-  color:white;
-  text-align:center;
-  padding:20px;
-}
-
-.menuBox{
-  width:min(430px,90vw);
-}
-
-.logo{
-  font-size:clamp(42px,9vw,78px);
-  font-weight:900;
-  color:#ffd83d;
-  text-shadow:4px 4px #000;
-}
-
-.developer{
-  font-size:18px;
-  margin-top:8px;
-}
-
-input{
-  width:100%;
-  padding:15px;
-  border:0;
-  border-radius:10px;
-  font-size:18px;
-  text-align:center;
-  margin:20px 0 10px;
-  -webkit-user-select:text;
-  user-select:text;
-}
-
-button{
-  border:0;
-  border-radius:12px;
-  padding:14px 22px;
-  margin:7px;
-  font-size:18px;
-  font-weight:bold;
-  cursor:pointer;
-  touch-action:manipulation;
-  -webkit-user-select:none;
-  user-select:none;
-  -webkit-touch-callout:none;
-}
-
-button:active{
-  transform:scale(.95);
-}
-
-.primary{
-  background:#ffd83d;
-  color:#111;
-}
-
-.secondary{
-  background:#eee;
-  color:#111;
+html,body{
+    margin:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:Arial,sans-serif;
+    background:#111;
+    touch-action:none;
 }
 
 .hidden{
-  display:none!important;
+    display:none !important;
+}
+
+.screen{
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+#menu{
+    background:linear-gradient(#172b18,#315d2c);
+    color:white;
+    text-align:center;
+}
+
+.menuBox{
+    width:min(430px,90%);
+}
+
+.logo{
+    font-size:clamp(42px,9vw,80px);
+    font-weight:900;
+    color:#ffd83d;
+    text-shadow:4px 4px #000;
+}
+
+.developer{
+    margin-top:8px;
+    font-size:18px;
+}
+
+input{
+    width:100%;
+    padding:15px;
+    margin:25px 0 10px;
+    border:0;
+    border-radius:10px;
+    font-size:18px;
+    text-align:center;
+    -webkit-user-select:text;
+    user-select:text;
+}
+
+button{
+    border:0;
+    border-radius:12px;
+    padding:15px 24px;
+    margin:7px;
+    font-size:18px;
+    font-weight:bold;
+    touch-action:manipulation;
+    -webkit-tap-highlight-color:transparent;
+}
+
+button:active{
+    transform:scale(.95);
+}
+
+.primary{
+    background:#ffd83d;
+    color:#111;
+}
+
+.secondary{
+    background:#eee;
+    color:#111;
 }
 
 
-/* =====================================================
-   GAME
-===================================================== */
+/* GAME */
 
 #game{
-  position:relative;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  background:#80cfff;
-  touch-action:none;
+    position:relative;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#80cfff;
+    touch-action:none;
 }
 
 #canvas{
-  position:absolute;
-  left:0;
-  top:0;
-  width:100%;
-  height:100%;
-  touch-action:none;
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
 }
 
-
-/* =====================================================
-   HUD
-===================================================== */
-
 #hud{
-  position:absolute;
-  left:12px;
-  top:10px;
-  z-index:20;
-  color:white;
-  font-size:18px;
-  font-weight:bold;
-  line-height:1.45;
-  text-shadow:2px 2px #000;
-  pointer-events:none;
+    position:absolute;
+    left:12px;
+    top:10px;
+    z-index:20;
+    color:white;
+    font-size:18px;
+    font-weight:bold;
+    line-height:1.5;
+    text-shadow:2px 2px #000;
+    pointer-events:none;
 }
 
 #pauseBtn{
-  position:absolute;
-  right:15px;
-  top:12px;
-  z-index:50;
-  margin:0;
-  background:white;
+    position:absolute;
+    right:12px;
+    top:10px;
+    z-index:50;
+    margin:0;
+    padding:10px 16px;
 }
-
-
-/* =====================================================
-   SOUND BUTTON
-===================================================== */
 
 #soundBtn{
-  position:absolute;
-  right:15px;
-  top:75px;
-  width:48px;
-  height:48px;
-  margin:0;
-  padding:0;
-  border-radius:50%;
-  background:white;
-  font-size:21px;
-  z-index:50;
+    position:absolute;
+    right:12px;
+    top:65px;
+    z-index:50;
+    width:45px;
+    height:45px;
+    margin:0;
+    padding:0;
+    border-radius:50%;
+    background:white;
 }
 
 
-/* =====================================================
-   DRIVING BUTTONS
-===================================================== */
+/* DRIVING BUTTONS */
 
 .control{
-  position:absolute;
+    position:absolute;
+    bottom:20px;
 
-  bottom:
-  max(18px,env(safe-area-inset-bottom));
+    width:105px;
+    height:105px;
 
-  width:120px;
-  height:80px;
+    padding:0;
+    margin:0;
 
-  margin:0;
-  padding:0;
+    border-radius:50%;
 
-  border-radius:50%;
+    border:4px solid rgba(255,255,255,.45);
 
-  z-index:100;
+    z-index:100;
 
-  font-size:0;
-  color:transparent;
+    font-size:0;
 
-  border:4px solid rgba(255,255,255,.35);
+    color:transparent;
 
-  touch-action:none;
+    text-indent:-9999px;
 
-  -webkit-user-select:none;
-  user-select:none;
+    touch-action:none;
 
-  -webkit-touch-callout:none;
+    -webkit-user-select:none;
+    user-select:none;
 
-  -webkit-tap-highlight-color:transparent;
+    -webkit-touch-callout:none;
 
-  box-shadow:0 5px 15px rgba(0,0,0,.45);
+    -webkit-tap-highlight-color:transparent;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.4);
 }
 
 #accelerate{
-  right:max(20px,env(safe-area-inset-right));
-  background:#16a34a;
+    right:20px;
+    background:#16a34a;
 }
 
 #brake{
-  left:max(20px,env(safe-area-inset-left));
-  background:#dc2626;
+    left:20px;
+    background:#dc2626;
 }
 
 .control:active{
-  transform:scale(.92);
+    transform:scale(.92);
 }
 
 
-/* =====================================================
-   PAUSE
-===================================================== */
+/* PAUSE */
 
 #pauseScreen{
-  position:absolute;
-  inset:0;
-  z-index:200;
-  background:rgba(0,0,0,.72);
-  color:white;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
+    position:absolute;
+    inset:0;
+    z-index:200;
+    background:rgba(0,0,0,.7);
+    color:white;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
 }
 
 #pauseScreen h1{
-  font-size:50px;
+    font-size:50px;
 }
 
 
-/* =====================================================
-   COUNTDOWN
-===================================================== */
+/* COUNTDOWN */
 
 #countdown{
-  position:absolute;
-  inset:0;
-  z-index:150;
+    position:absolute;
+    inset:0;
+    z-index:150;
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-  color:white;
+    color:white;
+    font-size:100px;
+    font-weight:900;
 
-  font-size:100px;
-  font-weight:900;
+    text-shadow:5px 5px #000;
 
-  text-shadow:5px 5px #000;
-
-  pointer-events:none;
+    pointer-events:none;
 }
 
 
-/* =====================================================
-   MULTIPLAYER
-===================================================== */
+/* OTHER SCREENS */
 
+#mode,
+#mapMenu,
 #lobby{
-  background:#172b18;
-  color:white;
-  text-align:center;
-  padding:20px;
+    background:#172b18;
+    color:white;
+    text-align:center;
 }
 
 #players{
-  width:min(450px,90vw);
-  margin:20px auto;
-  text-align:left;
+    width:min(450px,90%);
+    margin:20px auto;
+    text-align:left;
 }
 
 .player{
-  background:#333;
-  margin:5px 0;
-  padding:10px;
-  border-radius:8px;
+    background:#333;
+    margin:5px 0;
+    padding:10px;
+    border-radius:8px;
 }
 
-
-/* =====================================================
-   SMALL LANDSCAPE SCREENS
-===================================================== */
 
 @media(max-height:500px){
 
-  #hud{
-    font-size:14px;
-    top:7px;
-    left:8px;
-  }
+    .control{
+        width:75px;
+        height:75px;
+        bottom:12px;
+    }
 
-  #pauseBtn{
-    top:7px;
-    right:8px;
-    padding:9px 14px;
-  }
+    #hud{
+        font-size:14px;
+        top:7px;
+        left:8px;
+    }
 
-  #soundBtn{
-    top:65px;
-    right:8px;
-    width:42px;
-    height:42px;
-  }
+    #pauseBtn{
+        top:7px;
+        right:8px;
+    }
 
-  .control{
-    width:95px;
-    height:65px;
-  }
-
+    #soundBtn{
+        top:60px;
+        right:8px;
+        width:40px;
+        height:40px;
+    }
 }
-
 </style>
-
 </head>
-
 
 <body>
 
@@ -361,31 +306,33 @@ button:active{
 
 <div id="menu" class="screen">
 
-  <div class="menuBox">
+    <div class="menuBox">
 
-    <div class="logo">
-      HILL WARRIORS
+        <div class="logo">
+            HILL WARRIORS
+        </div>
+
+        <div class="developer">
+            Developed by Prabhat Kumar Singh
+        </div>
+
+        <input
+            id="playerName"
+            type="text"
+            maxlength="18"
+            placeholder="Enter your name"
+            autocomplete="off">
+
+        <button
+            id="startBtn"
+            class="primary"
+            type="button">
+
+            START GAME
+
+        </button>
+
     </div>
-
-    <div class="developer">
-      Developed by Prabhat Kumar Singh
-    </div>
-
-    <input
-      id="playerName"
-      type="text"
-      maxlength="18"
-      placeholder="Enter your name"
-      autocomplete="off">
-
-    <button
-      id="startBtn"
-      class="primary"
-      type="button">
-      START GAME
-    </button>
-
-  </div>
 
 </div>
 
@@ -394,45 +341,44 @@ button:active{
      MODE
 ===================================================== -->
 
-<div
-id="mode"
-class="screen hidden"
-style="
-background:#172b18;
-color:white;
-text-align:center;
-">
+<div id="mode" class="screen hidden">
 
-  <div>
+    <div>
 
-    <h1>HILL WARRIORS</h1>
+        <h1>HILL WARRIORS</h1>
 
-    <h2>Choose Game Mode</h2>
+        <h2>Choose Game Mode</h2>
 
-    <button
-      id="singleBtn"
-      class="primary"
-      type="button">
-      SINGLE PLAYER
-    </button>
+        <button
+            id="singleBtn"
+            class="primary"
+            type="button">
 
-    <button
-      id="multiBtn"
-      class="secondary"
-      type="button">
-      MULTIPLAYER
-    </button>
+            SINGLE PLAYER
 
-    <br>
+        </button>
 
-    <button
-      id="backBtn"
-      class="secondary"
-      type="button">
-      BACK
-    </button>
+        <button
+            id="multiBtn"
+            class="secondary"
+            type="button">
 
-  </div>
+            MULTIPLAYER
+
+        </button>
+
+        <br>
+
+        <button
+            id="backBtn"
+            class="secondary"
+            type="button">
+
+            BACK
+
+        </button>
+
+    </div>
 
 </div>
 
@@ -441,106 +387,116 @@ text-align:center;
      MAP
 ===================================================== -->
 
-<div
-id="mapMenu"
-class="screen hidden"
-style="
-background:#172b18;
-color:white;
-text-align:center;
-">
+<div id="mapMenu" class="screen hidden">
 
-  <div>
+    <div>
 
-    <h1>SELECT MAP</h1>
+        <h1>SELECT MAP</h1>
 
-    <button
-      class="primary mapBtn"
-      data-map="jungle"
-      type="button">
-      🌴 JUNGLE
-    </button>
+        <button
+            class="primary mapBtn"
+            data-map="jungle"
+            type="button">
 
-    <button
-      class="primary mapBtn"
-      data-map="sand"
-      type="button">
-      🏜️ SAND
-    </button>
+            🌴 JUNGLE
 
-    <button
-      class="primary mapBtn"
-      data-map="space"
-      type="button">
-      🚀 SPACE
-    </button>
+        </button>
 
-    <br>
+        <button
+            class="primary mapBtn"
+            data-map="sand"
+            type="button">
 
-    <button
-      id="mapBack"
-      class="secondary"
-      type="button">
-      BACK
-    </button>
+            🏜️ SAND
 
-  </div>
+        </button>
+
+        <button
+            class="primary mapBtn"
+            data-map="space"
+            type="button">
+
+            🚀 SPACE
+
+        </button>
+
+        <br>
+
+        <button
+            id="mapBack"
+            class="secondary"
+            type="button">
+
+            BACK
+
+        </button>
+
+    </div>
 
 </div>
 
 
 <!-- =====================================================
-     MULTIPLAYER LOBBY
+     MULTIPLAYER
 ===================================================== -->
 
 <div id="lobby" class="screen hidden">
 
-  <div>
+    <div>
 
-    <h1>MULTIPLAYER</h1>
+        <h1>MULTIPLAYER</h1>
 
-    <p>Maximum 4 players</p>
+        <p>Maximum 4 players</p>
 
-    <input
-      id="roomCode"
-      placeholder="Enter room code"
-      autocomplete="off">
+        <input
+            id="roomCode"
+            placeholder="Enter room code">
 
-    <br>
+        <br>
 
-    <button
-      id="joinBtn"
-      class="primary"
-      type="button">
-      JOIN ROOM
-    </button>
+        <button
+            id="createBtn"
+            class="primary"
+            type="button">
 
-    <button
-      id="createBtn"
-      class="secondary"
-      type="button">
-      CREATE ROOM
-    </button>
+            CREATE ROOM
 
-    <h2 id="roomTitle"></h2>
+        </button>
 
-    <div id="players"></div>
+        <button
+            id="joinBtn"
+            class="secondary"
+            type="button">
 
-    <button
-      id="readyBtn"
-      class="primary hidden"
-      type="button">
-      READY
-    </button>
+            JOIN ROOM
 
-    <button
-      id="lobbyBack"
-      class="secondary"
-      type="button">
-      MAIN MENU
-    </button>
+        </button>
 
-  </div>
+        <h2 id="roomTitle"></h2>
+
+        <div id="players"></div>
+
+        <button
+            id="readyBtn"
+            class="primary hidden"
+            type="button">
+
+            READY
+
+        </button>
+
+        <br>
+
+        <button
+            id="lobbyBack"
+            class="secondary"
+            type="button">
+
+            MAIN MENU
+
+        </button>
+
+    </div>
 
 </div>
 
@@ -551,86 +507,94 @@ text-align:center;
 
 <div id="game" class="hidden">
 
-  <canvas id="canvas"></canvas>
+    <canvas id="canvas"></canvas>
 
-  <div id="hud">
+    <div id="hud">
 
-    Distance:
-    <span id="distance">0</span> m
+        Distance:
+        <span id="distance">0</span> m
 
-    <br>
+        <br>
 
-    Position:
-    <span id="position">1</span>/4
+        Position:
+        <span id="position">1</span>/4
 
-    <br>
+        <br>
 
-    Fuel:
-    <span id="fuel">100</span>%
+        Fuel:
+        <span id="fuel">100</span>%
 
-  </div>
+    </div>
 
-
-  <button
-    id="pauseBtn"
-    type="button">
-    PAUSE
-  </button>
-
-
-  <button
-    id="soundBtn"
-    type="button">
-    🔊
-  </button>
-
-
-  <!-- GREEN ACCELERATOR -->
-
-  <button
-    id="accelerate"
-    class="control"
-    type="button"
-    aria-label="Accelerate">
-  </button>
-
-
-  <!-- RED BRAKE -->
-
-  <button
-    id="brake"
-    class="control"
-    type="button"
-    aria-label="Brake">
-  </button>
-
-
-  <!-- PAUSE -->
-
-  <div
-    id="pauseScreen"
-    class="hidden">
-
-    <h1>PAUSED</h1>
 
     <button
-      id="resumeBtn"
-      class="primary"
-      type="button">
-      RESUME
+        id="pauseBtn"
+        type="button">
+
+        PAUSE
+
     </button>
+
 
     <button
-      id="menuBtn"
-      class="secondary"
-      type="button">
-      MAIN MENU
+        id="soundBtn"
+        type="button">
+
+        🔊
+
     </button>
 
-  </div>
+
+    <!-- GREEN ACCELERATE -->
+
+    <button
+        id="accelerate"
+        class="control"
+        type="button"
+        aria-label="Accelerate">
+    </button>
 
 
-  <div id="countdown"></div>
+    <!-- RED BRAKE -->
+
+    <button
+        id="brake"
+        class="control"
+        type="button"
+        aria-label="Brake">
+    </button>
+
+
+    <!-- PAUSE SCREEN -->
+
+    <div
+        id="pauseScreen"
+        class="hidden">
+
+        <h1>PAUSED</h1>
+
+        <button
+            id="resumeBtn"
+            class="primary"
+            type="button">
+
+            RESUME
+
+        </button>
+
+        <button
+            id="menuBtn"
+            class="secondary"
+            type="button">
+
+            MAIN MENU
+
+        </button>
+
+    </div>
+
+
+    <div id="countdown"></div>
 
 </div>
 
@@ -650,9 +614,7 @@ text-align:center;
 ===================================================== */
 
 function $(id){
-
-  return document.getElementById(id);
-
+    return document.getElementById(id);
 }
 
 
@@ -661,310 +623,297 @@ function $(id){
 ===================================================== */
 
 let playerName =
-  localStorage.getItem("hillWarriorsName") || "";
+    localStorage.getItem("hillWarriorsName") || "";
 
 let selectedMap =
-  "jungle";
+    "jungle";
 
 let gameMode =
-  "single";
+    "single";
 
 let running =
-  false;
+    false;
 
 let paused =
-  false;
-
-let animationID =
-  0;
-
-let racers =
-  [];
-
-let car =
-  null;
-
-let terrain =
-  [];
+    false;
 
 let accelerate =
-  false;
+    false;
 
 let brake =
-  false;
+    false;
+
+let racers =
+    [];
+
+let car =
+    null;
+
+let terrain =
+    [];
+
+let animationID =
+    null;
 
 
 /* =====================================================
    AUDIO
 ===================================================== */
 
-let audioContext =
-  null;
+let audio =
+    null;
 
-let masterGain =
-  null;
+let master =
+    null;
 
-let engineOsc =
-  null;
+let engine =
+    null;
 
 let engineGain =
-  null;
+    null;
 
 let soundEnabled =
-  true;
+    true;
 
 
-function initAudio(){
+/*
+   Audio is completely optional.
+   If Android/WebView doesn't support it,
+   the game still works.
+*/
 
-  if(audioContext)
-    return true;
+function setupAudio(){
 
-  try{
+    if(audio)
+        return;
 
-    const AudioContextClass =
-      window.AudioContext ||
-      window.webkitAudioContext;
+    try{
 
-    if(!AudioContextClass)
-      return false;
+        const AudioClass =
+            window.AudioContext ||
+            window.webkitAudioContext;
 
-    audioContext =
-      new AudioContextClass();
+        if(!AudioClass)
+            return;
 
-    masterGain =
-      audioContext.createGain();
+        audio =
+            new AudioClass();
 
-    masterGain.gain.value =
-      0.25;
+        master =
+            audio.createGain();
 
-    masterGain.connect(
-      audioContext.destination
-    );
+        master.gain.value =
+            0.25;
 
-    return true;
+        master.connect(
+            audio.destination
+        );
 
-  }
-  catch(error){
+    }
+    catch(error){
 
-    console.log(
-      "Audio unavailable",
-      error
-    );
+        audio = null;
+        master = null;
 
-    audioContext =
-      null;
-
-    return false;
-
-  }
+    }
 
 }
 
 
-function resumeAudio(){
+function wakeAudio(){
 
-  if(!soundEnabled)
-    return;
+    setupAudio();
 
-  if(!initAudio())
-    return;
+    if(!audio)
+        return;
 
-  try{
+    try{
 
-    if(
-      audioContext.state ===
-      "suspended"
-    ){
+        if(
+            audio.state ===
+            "suspended"
+        ){
 
-      audioContext.resume();
+            audio.resume();
+
+        }
 
     }
-
-  }
-  catch(error){}
+    catch(error){}
 
 }
 
 
 function beep(
-  frequency,
-  duration,
-  type,
-  volume
+    frequency,
+    duration
 ){
 
-  if(!soundEnabled)
-    return;
+    if(!soundEnabled)
+        return;
 
-  if(!initAudio())
-    return;
+    setupAudio();
 
-  try{
+    if(!audio || !master)
+        return;
 
-    const oscillator =
-      audioContext.createOscillator();
+    try{
 
-    const gain =
-      audioContext.createGain();
+        const oscillator =
+            audio.createOscillator();
 
-    oscillator.type =
-      type || "sine";
+        const gain =
+            audio.createGain();
 
-    oscillator.frequency.value =
-      frequency;
+        oscillator.type =
+            "square";
 
-    gain.gain.setValueAtTime(
-      0,
-      audioContext.currentTime
-    );
+        oscillator.frequency.value =
+            frequency;
 
-    gain.gain.linearRampToValueAtTime(
-      volume || .1,
-      audioContext.currentTime+.01
-    );
+        gain.gain.setValueAtTime(
+            0,
+            audio.currentTime
+        );
 
-    gain.gain.exponentialRampToValueAtTime(
-      .001,
-      audioContext.currentTime+
-      duration
-    );
+        gain.gain.linearRampToValueAtTime(
+            0.12,
+            audio.currentTime+0.01
+        );
 
-    oscillator.connect(gain);
+        gain.gain.exponentialRampToValueAtTime(
+            0.001,
+            audio.currentTime+duration
+        );
 
-    gain.connect(masterGain);
+        oscillator.connect(gain);
 
-    oscillator.start();
+        gain.connect(master);
 
-    oscillator.stop(
-      audioContext.currentTime+
-      duration+
-      .03
-    );
+        oscillator.start();
 
-  }
-  catch(error){}
+        oscillator.stop(
+            audio.currentTime+
+            duration+
+            0.03
+        );
+
+    }
+    catch(error){}
 
 }
 
+
+/* Engine */
 
 function startEngine(){
 
-  if(!soundEnabled)
-    return;
+    if(!soundEnabled)
+        return;
 
-  if(!initAudio())
-    return;
+    setupAudio();
 
-  if(engineOsc)
-    return;
+    if(!audio || !master)
+        return;
 
-  try{
+    if(engine)
+        return;
 
-    engineOsc =
-      audioContext.createOscillator();
+    try{
 
-    engineGain =
-      audioContext.createGain();
+        engine =
+            audio.createOscillator();
 
-    engineOsc.type =
-      "sawtooth";
+        engineGain =
+            audio.createGain();
 
-    engineOsc.frequency.value =
-      90;
+        engine.type =
+            "sawtooth";
 
-    engineGain.gain.value =
-      .02;
+        engine.frequency.value =
+            80;
 
-    engineOsc.connect(
-      engineGain
-    );
+        engineGain.gain.value =
+            0.02;
 
-    engineGain.connect(
-      masterGain
-    );
+        engine.connect(
+            engineGain
+        );
 
-    engineOsc.start();
+        engineGain.connect(
+            master
+        );
 
-  }
-  catch(error){
+        engine.start();
 
-    engineOsc =
-      null;
+    }
+    catch(error){
 
-    engineGain =
-      null;
+        engine = null;
+        engineGain = null;
 
-  }
+    }
 
 }
 
 
-function updateEngineSound(){
-
-  if(
-    !engineOsc ||
-    !engineGain ||
-    !audioContext
-  )
-    return;
-
-  try{
+function updateEngine(){
 
     if(
-      !running ||
-      paused ||
-      !soundEnabled
-    ){
+        !engine ||
+        !engineGain ||
+        !audio ||
+        !car
+    )
+        return;
 
-      engineGain.gain.setTargetAtTime(
-        0,
-        audioContext.currentTime,
-        .05
-      );
+    try{
 
-      return;
+        if(
+            !running ||
+            paused ||
+            !soundEnabled
+        ){
+
+            engineGain.gain.value =
+                0;
+
+            return;
+
+        }
+
+        const speed =
+            Math.abs(car.vx);
+
+        engine.frequency.value =
+            80 + speed*30;
+
+        engineGain.gain.value =
+            0.015 +
+            Math.min(
+                speed*0.006,
+                0.04
+            );
 
     }
-
-    const speed =
-      Math.abs(
-        car.vx
-      );
-
-    engineOsc.frequency.setTargetAtTime(
-      80 + speed*30,
-      audioContext.currentTime,
-      .04
-    );
-
-    engineGain.gain.setTargetAtTime(
-      .018 + speed*.006,
-      audioContext.currentTime,
-      .05
-    );
-
-  }
-  catch(error){}
+    catch(error){}
 
 }
 
 
 function stopEngine(){
 
-  if(engineOsc){
+    if(engine){
 
-    try{
-      engineOsc.stop();
+        try{
+            engine.stop();
+        }
+        catch(error){}
+
     }
-    catch(error){}
 
-  }
-
-  engineOsc =
-    null;
-
-  engineGain =
-    null;
+    engine = null;
+    engineGain = null;
 
 }
 
@@ -973,244 +922,196 @@ function stopEngine(){
    SOUND BUTTON
 ===================================================== */
 
-$("soundBtn").addEventListener(
-  "click",
-  function(){
+$("soundBtn").onclick =
+function(){
 
     soundEnabled =
-      !soundEnabled;
+        !soundEnabled;
 
     $("soundBtn").textContent =
-      soundEnabled
-      ? "🔊"
-      : "🔇";
+        soundEnabled
+        ? "🔊"
+        : "🔇";
 
     if(soundEnabled){
 
-      resumeAudio();
+        wakeAudio();
 
-      beep(
-        700,
-        .1,
-        "square",
-        .08
-      );
+        beep(
+            700,
+            0.1
+        );
 
-      if(running)
-        startEngine();
-
-    }
-    else{
-
-      if(engineGain){
-
-        try{
-
-          engineGain.gain.value =
-            0;
-
-        }
-        catch(error){}
-
-      }
+        if(running)
+            startEngine();
 
     }
 
-  }
-);
+};
 
 
 /* =====================================================
-   SCREEN FUNCTION
+   SCREEN
 ===================================================== */
 
 function showScreen(id){
 
-  const screens = [
-    "menu",
-    "mode",
-    "mapMenu",
-    "lobby",
-    "game"
-  ];
+    $("menu").classList.add("hidden");
+    $("mode").classList.add("hidden");
+    $("mapMenu").classList.add("hidden");
+    $("lobby").classList.add("hidden");
+    $("game").classList.add("hidden");
 
-  screens.forEach(
-    function(screen){
-
-      $(screen)
-        .classList
-        .add("hidden");
-
-    }
-  );
-
-  $(id)
-    .classList
-    .remove("hidden");
+    $(id).classList.remove("hidden");
 
 }
 
 
 /* =====================================================
-   MAIN MENU
+   START BUTTON
 ===================================================== */
 
-$("playerName").value =
-  playerName;
-
-
-$("startBtn").addEventListener(
-  "click",
-  function(){
+$("startBtn").onclick =
+function(){
 
     /*
-      IMPORTANT:
-      Audio is attempted only
-      AFTER the button press.
-      Audio failure can never
-      stop this button.
+       FIRST change screen.
+       This means even if audio has
+       a problem, START still works.
     */
 
     const name =
-      $("playerName")
-      .value
-      .trim();
+        $("playerName").value.trim();
 
     if(!name){
 
-      $("playerName")
-        .focus();
+        $("playerName").focus();
 
-      $("playerName")
-        .placeholder =
-        "Please enter your name";
+        $("playerName").placeholder =
+            "Please enter your name";
 
-      return;
+        return;
 
     }
 
     playerName =
-      name;
+        name;
 
     try{
 
-      localStorage.setItem(
-        "hillWarriorsName",
-        playerName
-      );
+        localStorage.setItem(
+            "hillWarriorsName",
+            playerName
+        );
 
     }
     catch(error){}
 
-    resumeAudio();
-
-    beep(
-      650,
-      .1,
-      "square",
-      .08
-    );
 
     showScreen("mode");
 
-  }
-);
+
+    /*
+       Audio comes AFTER the
+       screen change.
+    */
+
+    setTimeout(
+        function(){
+
+            wakeAudio();
+
+            beep(
+                650,
+                0.1
+            );
+
+        },
+        10
+    );
+
+};
 
 
 /* =====================================================
-   MODE BUTTONS
+   MODE
 ===================================================== */
 
-$("singleBtn").addEventListener(
-  "click",
-  function(){
-
-    beep(
-      600,
-      .08,
-      "square",
-      .07
-    );
+$("singleBtn").onclick =
+function(){
 
     gameMode =
-      "single";
+        "single";
+
+    beep(
+        600,
+        0.08
+    );
 
     showScreen("mapMenu");
 
-  }
-);
+};
 
 
-$("multiBtn").addEventListener(
-  "click",
-  function(){
-
-    beep(
-      600,
-      .08,
-      "square",
-      .07
-    );
+$("multiBtn").onclick =
+function(){
 
     gameMode =
-      "multi";
+        "multi";
+
+    beep(
+        600,
+        0.08
+    );
 
     showScreen("lobby");
 
-  }
-);
+};
 
 
-$("backBtn").addEventListener(
-  "click",
-  function(){
+$("backBtn").onclick =
+function(){
 
     showScreen("menu");
 
-  }
-);
+};
 
 
 /* =====================================================
-   MAP BUTTONS
+   MAP
 ===================================================== */
 
-document
-.querySelectorAll(".mapBtn")
-.forEach(
-  function(button){
+const mapButtons =
+    document.querySelectorAll(".mapBtn");
 
-    button.addEventListener(
-      "click",
-      function(){
+
+mapButtons.forEach(
+function(button){
+
+    button.onclick =
+    function(){
 
         selectedMap =
-          button.dataset.map;
+            button.dataset.map;
 
         beep(
-          700,
-          .08,
-          "square",
-          .07
+            700,
+            0.08
         );
 
         startSinglePlayer();
 
-      }
-    );
+    };
 
-  }
-);
+});
 
 
-$("mapBack").addEventListener(
-  "click",
-  function(){
+$("mapBack").onclick =
+function(){
 
     showScreen("mode");
 
-  }
-);
+};
 
 
 /* =====================================================
@@ -1218,62 +1119,60 @@ $("mapBack").addEventListener(
 ===================================================== */
 
 const canvas =
-  $("canvas");
+    $("canvas");
 
 const ctx =
-  canvas.getContext("2d");
+    canvas.getContext("2d");
 
 let W =
-  window.innerWidth;
-
-let H =
-  window.innerHeight;
-
-
-function resizeCanvas(){
-
-  const dpr =
-    Math.min(
-      window.devicePixelRatio || 1,
-      2
-    );
-
-  W =
     window.innerWidth;
 
-  H =
+let H =
     window.innerHeight;
 
-  canvas.width =
-    W*dpr;
 
-  canvas.height =
-    H*dpr;
+function resize(){
 
-  canvas.style.width =
-    W+"px";
+    W =
+        window.innerWidth;
 
-  canvas.style.height =
-    H+"px";
+    H =
+        window.innerHeight;
 
-  ctx.setTransform(
-    dpr,
-    0,
-    0,
-    dpr,
-    0,
-    0
-  );
+    const dpr =
+        Math.min(
+            window.devicePixelRatio || 1,
+            2
+        );
+
+    canvas.width =
+        W*dpr;
+
+    canvas.height =
+        H*dpr;
+
+    canvas.style.width =
+        W+"px";
+
+    canvas.style.height =
+        H+"px";
+
+    ctx.setTransform(
+        dpr,
+        0,
+        0,
+        dpr,
+        0,
+        0
+    );
 
 }
 
 
-window.addEventListener(
-  "resize",
-  resizeCanvas
-);
+window.onresize =
+    resize;
 
-resizeCanvas();
+resize();
 
 
 /* =====================================================
@@ -1282,103 +1181,99 @@ resizeCanvas();
 
 function makeTerrain(){
 
-  terrain = [];
+    terrain = [];
 
-  for(
-    let x=0;
-    x<12000;
-    x+=20
-  ){
-
-    let y;
-
-    if(
-      selectedMap ===
-      "jungle"
+    for(
+        let x=0;
+        x<12000;
+        x+=20
     ){
 
-      y =
-        H*.70 +
-        Math.sin(x*.008)*55 +
-        Math.sin(x*.021)*25;
+        let y;
+
+        if(
+            selectedMap ===
+            "jungle"
+        ){
+
+            y =
+                H*0.70 +
+                Math.sin(x*0.008)*55 +
+                Math.sin(x*0.021)*25;
+
+        }
+        else if(
+            selectedMap ===
+            "sand"
+        ){
+
+            y =
+                H*0.72 +
+                Math.sin(x*0.006)*65 +
+                Math.sin(x*0.017)*20;
+
+        }
+        else{
+
+            y =
+                H*0.65 +
+                Math.sin(x*0.009)*75 +
+                Math.sin(x*0.026)*30;
+
+        }
+
+        terrain.push({
+            x:x,
+            y:y
+        });
 
     }
-    else if(
-      selectedMap ===
-      "sand"
-    ){
-
-      y =
-        H*.72 +
-        Math.sin(x*.006)*65 +
-        Math.sin(x*.017)*20;
-
-    }
-    else{
-
-      y =
-        H*.65 +
-        Math.sin(x*.009)*75 +
-        Math.sin(x*.026)*30;
-
-    }
-
-    terrain.push({
-      x:x,
-      y:y
-    });
-
-  }
 
 }
 
 
 function groundY(x){
 
-  if(
-    !terrain.length
-  ){
+    if(
+        terrain.length === 0
+    ){
 
-    return H*.7;
+        return H*0.7;
 
-  }
+    }
 
-  if(x<=0){
+    if(x<=0)
+        return terrain[0].y;
 
-    return terrain[0].y;
+    let i =
+        Math.floor(x/20);
 
-  }
+    if(
+        i>=terrain.length-1
+    ){
 
-  let index =
-    Math.floor(x/20);
+        i =
+            terrain.length-2;
 
-  if(
-    index >=
-    terrain.length-1
-  ){
+    }
 
-    index =
-      terrain.length-2;
+    if(i<0)
+        i=0;
 
-  }
+    const a =
+        terrain[i];
 
-  if(index<0)
-    index=0;
+    const b =
+        terrain[i+1];
 
-  const a =
-    terrain[index];
+    const t =
+        (x-a.x)/
+        (b.x-a.x);
 
-  const b =
-    terrain[index+1];
-
-  const ratio =
-    (x-a.x)/
-    (b.x-a.x);
-
-  return (
-    a.y+
-    (b.y-a.y)*ratio
-  );
+    return (
+        a.y+
+        (b.y-a.y)*t
+    );
 
 }
 
@@ -1387,108 +1282,104 @@ function groundY(x){
    CAR
 ===================================================== */
 
-function createCar(
-  x,
-  color
+function newCar(
+    x,
+    color
 ){
 
-  return {
+    return {
 
-    x:x,
+        x:x,
 
-    y:
-      groundY(x)-35,
+        y:
+            groundY(x)-35,
 
-    vx:0,
+        vx:0,
 
-    vy:0,
+        vy:0,
 
-    angle:0,
+        angle:0,
 
-    color:color,
+        color:color,
 
-    airborne:false
+        airborne:false
 
-  };
-
-}
-
-
-/* =====================================================
-   SINGLE RACE
-===================================================== */
-
-function createSingleRace(){
-
-  racers = [
-
-    createCar(
-      100,
-      "#2477ff"
-    ),
-
-    createCar(
-      50,
-      "#e53935"
-    ),
-
-    createCar(
-      0,
-      "#20b45a"
-    ),
-
-    createCar(
-      -50,
-      "#ff8c00"
-    )
-
-  ];
-
-  car =
-    racers[0];
+    };
 
 }
 
 
 /* =====================================================
-   START SINGLE
+   SINGLE PLAYER
 ===================================================== */
+
+function makeSingleRace(){
+
+    racers = [
+
+        newCar(
+            100,
+            "#2477ff"
+        ),
+
+        newCar(
+            50,
+            "#e53935"
+        ),
+
+        newCar(
+            0,
+            "#20b45a"
+        ),
+
+        newCar(
+            -50,
+            "#ff8c00"
+        )
+
+    ];
+
+    car =
+        racers[0];
+
+}
+
 
 function startSinglePlayer(){
 
-  showScreen("game");
+    makeTerrain();
 
-  makeTerrain();
+    makeSingleRace();
 
-  createSingleRace();
+    running =
+        true;
 
-  running =
-    true;
+    paused =
+        false;
 
-  paused =
-    false;
+    accelerate =
+        false;
 
-  accelerate =
-    false;
+    brake =
+        false;
 
-  brake =
-    false;
+    $("pauseScreen")
+        .classList
+        .add("hidden");
 
-  $("pauseScreen")
-    .classList
-    .add("hidden");
+    showScreen("game");
 
-  cancelAnimationFrame(
-    animationID
-  );
+    wakeAudio();
 
-  resumeAudio();
+    startEngine();
 
-  startEngine();
+    countdown();
 
-  startCountdown();
+    cancelAnimationFrame(
+        animationID
+    );
 
-  gameLoop();
+    gameLoop();
 
 }
 
@@ -1497,33 +1388,53 @@ function startSinglePlayer(){
    COUNTDOWN
 ===================================================== */
 
-function startCountdown(){
+function countdown(){
 
-  let number =
-    3;
+    let n =
+        3;
 
-  $("countdown")
-    .textContent =
-    number;
+    $("countdown")
+        .textContent =
+        n;
 
-  beep(
-    500,
-    .15,
-    "square",
-    .1
-  );
+    beep(
+        500,
+        0.15
+    );
 
-  const timer =
-    setInterval(
-      function(){
 
-        number--;
+    const timer =
+        setInterval(
+        function(){
 
-        if(number>0){
+            n--;
 
-          $("countdown")
-            .textContent =
-            number;
+            if(n>0){
 
-          beep(
-            50
+                $("countdown")
+                    .textContent =
+                    n;
+
+                beep(
+                    500,
+                    0.15
+                );
+
+            }
+            else{
+
+                $("countdown")
+                    .textContent =
+                    "GO!";
+
+                beep(
+                    900,
+                    0.3
+                );
+
+                setTimeout(
+                    function(){
+
+                        $("countdown")
+                            .textContent =
+   
