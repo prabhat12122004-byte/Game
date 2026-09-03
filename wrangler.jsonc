@@ -7,11 +7,21 @@
     "directory": "./public"
   },
 
-  "d1_databases": [
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "GameRoom",
+        "class_name": "GameRoom"
+      }
+    ]
+  },
+
+  "migrations": [
     {
-      "binding": "GameRoom",
-      "database_name": "gameroom",
-      "database_id": "5d602c5b-7250-4e96-9e0c-b4d0b2a56482"
+      "tag": "v1",
+      "new_sqlite_classes": [
+        "GameRoom"
+      ]
     }
   ]
 }
