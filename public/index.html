@@ -5,11 +5,11 @@
 <meta charset="UTF-8">
 
 <meta name="viewport"
-      content="width=device-width,
-               initial-scale=1,
-               maximum-scale=1,
-               user-scalable=no,
-               viewport-fit=cover">
+content="width=device-width,
+initial-scale=1,
+maximum-scale=1,
+user-scalable=no,
+viewport-fit=cover">
 
 <meta name="theme-color" content="#111111">
 
@@ -18,7 +18,7 @@
 <style>
 
 /* =========================================================
-   BASIC PAGE
+   BASIC
 ========================================================= */
 
 *{
@@ -46,31 +46,9 @@ body{
 
   background:#111;
 
-  user-select:none;
-  -webkit-user-select:none;
-
-  -webkit-touch-callout:none;
-
   touch-action:none;
 
   font-family:Arial,sans-serif;
-}
-
-
-/* Prevent Android long-press menus */
-
-button,
-div,
-canvas,
-span,
-h1,
-h2,
-p{
-
-  user-select:none;
-  -webkit-user-select:none;
-  -webkit-touch-callout:none;
-
 }
 
 
@@ -98,10 +76,10 @@ p{
 #menu{
 
   background:
-    linear-gradient(
-      #172b18,
-      #315d2c
-    );
+  linear-gradient(
+    #172b18,
+    #315d2c
+  );
 
   color:white;
 
@@ -115,18 +93,18 @@ p{
 .logo{
 
   font-size:
-    clamp(
-      40px,
-      8vw,
-      80px
-    );
+  clamp(
+    40px,
+    8vw,
+    80px
+  );
 
   font-weight:900;
 
   color:#ffd83d;
 
   text-shadow:
-    4px 4px #000;
+  4px 4px #000;
 
 }
 
@@ -143,10 +121,10 @@ p{
 .menuBox{
 
   width:
-    min(
-      430px,
-      90vw
-    );
+  min(
+    430px,
+    90vw
+  );
 
   margin-top:30px;
 
@@ -236,7 +214,7 @@ button:active{
 
 
 /* =========================================================
-   GAME SCREEN
+   GAME
 ========================================================= */
 
 #game{
@@ -246,9 +224,9 @@ button:active{
   width:100%;
   height:100%;
 
-  background:#80cfff;
-
   overflow:hidden;
+
+  background:#80cfff;
 
   touch-action:none;
 
@@ -290,15 +268,14 @@ canvas{
 
   font-weight:bold;
 
+  line-height:1.5;
+
   text-shadow:
-    2px 2px #000;
+  2px 2px #000;
 
   z-index:50;
 
   pointer-events:none;
-
-  user-select:none;
-  -webkit-user-select:none;
 
 }
 
@@ -308,16 +285,16 @@ canvas{
   position:absolute;
 
   right:
-    max(
-      15px,
-      env(safe-area-inset-right)
-    );
+  max(
+    15px,
+    env(safe-area-inset-right)
+  );
 
   top:
-    max(
-      12px,
-      env(safe-area-inset-top)
-    );
+  max(
+    12px,
+    env(safe-area-inset-top)
+  );
 
   z-index:100;
 
@@ -325,13 +302,13 @@ canvas{
 
   background:white;
 
-  touch-action:manipulation;
+  color:#111;
 
 }
 
 
 /* =========================================================
-   MOBILE DRIVING CONTROLS
+   DRIVE BUTTONS
 ========================================================= */
 
 .control{
@@ -339,36 +316,35 @@ canvas{
   position:absolute;
 
   bottom:
-    max(
-      18px,
-      env(safe-area-inset-bottom)
-    );
+  max(
+    18px,
+    env(safe-area-inset-bottom)
+  );
 
-  width:130px;
+  width:120px;
   height:80px;
 
   border-radius:50%;
 
   z-index:200;
 
-  font-size:20px;
+  margin:0;
+  padding:0;
 
-  font-weight:900;
-
-  opacity:.94;
+  border:4px solid rgba(255,255,255,.35);
 
   display:flex;
 
   align-items:center;
   justify-content:center;
 
-  text-align:center;
+  font-size:0;
 
-  white-space:nowrap;
+  line-height:0;
 
-  margin:0;
+  text-indent:-9999px;
 
-  padding:0;
+  overflow:hidden;
 
   cursor:pointer;
 
@@ -383,61 +359,53 @@ canvas{
 
   -webkit-tap-highlight-color:transparent;
 
-  -webkit-user-drag:none;
-
   outline:none;
 
   box-shadow:
-    0 5px 12px rgba(0,0,0,.45);
+  0 6px 15px rgba(0,0,0,.45);
 
 }
 
 
-/* Brake */
-
-#brake{
-
-  left:
-    max(
-      20px,
-      env(safe-area-inset-left)
-    );
-
-  background:#e9e9e9;
-
-  color:#111;
-
-}
-
-
-/* Accelerate */
+/* GREEN = ACCELERATE */
 
 #accelerate{
 
   right:
-    max(
-      20px,
-      env(safe-area-inset-right)
-    );
+  max(
+    20px,
+    env(safe-area-inset-right)
+  );
 
-  background:#ffd83d;
-
-  color:#111;
+  background:#18a957;
 
 }
 
 
-/* Button press visual */
+/* RED = BRAKE */
+
+#brake{
+
+  left:
+  max(
+    20px,
+    env(safe-area-inset-left)
+  );
+
+  background:#d92f2f;
+
+}
+
 
 .control:active{
 
-  transform:scale(.93);
+  transform:scale(.92);
 
 }
 
 
 /* =========================================================
-   PAUSE SCREEN
+   PAUSE
 ========================================================= */
 
 #pauseScreen{
@@ -447,12 +415,7 @@ canvas{
   inset:0;
 
   background:
-    rgba(
-      0,
-      0,
-      0,
-      .68
-    );
+  rgba(0,0,0,.7);
 
   z-index:300;
 
@@ -489,9 +452,8 @@ canvas{
 
   display:flex;
 
-  justify-content:center;
-
   align-items:center;
+  justify-content:center;
 
   color:white;
 
@@ -500,7 +462,7 @@ canvas{
   font-weight:900;
 
   text-shadow:
-    5px 5px #000;
+  5px 5px #000;
 
   pointer-events:none;
 
@@ -508,7 +470,7 @@ canvas{
 
 
 /* =========================================================
-   MULTIPLAYER LOBBY
+   LOBBY
 ========================================================= */
 
 #lobby{
@@ -529,10 +491,10 @@ canvas{
   margin:20px auto;
 
   width:
-    min(
-      450px,
-      90vw
-    );
+  min(
+    450px,
+    90vw
+  );
 
   text-align:left;
 
@@ -553,37 +515,31 @@ canvas{
 
 
 /* =========================================================
-   SMALL SCREENS
+   MOBILE
 ========================================================= */
 
 @media(max-height:500px){
 
   .control{
 
-    width:105px;
+    width:95px;
     height:65px;
-
-    font-size:16px;
-
-    bottom:12px;
 
   }
 
   #hud{
 
-    font-size:14px;
-
-    top:8px;
-
     left:8px;
+    top:7px;
+
+    font-size:14px;
 
   }
 
   #pauseBtn{
 
-    top:8px;
-
     right:8px;
+    top:7px;
 
     padding:8px 14px;
 
@@ -593,24 +549,40 @@ canvas{
 
 
 /* =========================================================
-   VERY SMALL WIDTH
+   SOUND BUTTON
 ========================================================= */
 
-@media(max-width:700px){
+#soundBtn{
 
-  .control{
+  position:absolute;
 
-    width:115px;
-    height:70px;
+  right:
+  max(
+    15px,
+    env(safe-area-inset-right)
+  );
 
-  }
+  top:80px;
+
+  z-index:100;
+
+  width:48px;
+  height:48px;
+
+  padding:0;
+  margin:0;
+
+  border-radius:50%;
+
+  background:white;
+
+  font-size:22px;
 
 }
 
 </style>
 
 </head>
-
 
 <body>
 
@@ -654,39 +626,35 @@ canvas{
 
 
 <!-- ========================================================
-     MODE SELECTION
+     MODE
 ========================================================= -->
 
 <div
-  id="mode"
-  class="screen hidden"
-  style="
-    background:#172b18;
-    color:white;
-    text-align:center;
-  ">
+id="mode"
+class="screen hidden"
+style="
+background:#172b18;
+color:white;
+text-align:center;
+">
 
   <div>
 
-    <h1>
-      HILL WARRIORS
-    </h1>
+    <h1>HILL WARRIORS</h1>
 
-    <h2>
-      Choose Game Mode
-    </h2>
+    <h2>Choose Game Mode</h2>
 
     <button
-      class="primary"
-      id="singleBtn">
+    class="primary"
+    id="singleBtn">
 
       SINGLE PLAYER
 
     </button>
 
     <button
-      class="secondary"
-      id="multiBtn">
+    class="secondary"
+    id="multiBtn">
 
       MULTIPLAYER
 
@@ -695,8 +663,8 @@ canvas{
     <br>
 
     <button
-      class="secondary"
-      id="backBtn">
+    class="secondary"
+    id="backBtn">
 
       BACK
 
@@ -709,43 +677,41 @@ canvas{
 
 
 <!-- ========================================================
-     MAP SELECTION
+     MAP
 ========================================================= -->
 
 <div
-  id="mapMenu"
-  class="screen hidden"
-  style="
-    background:#172b18;
-    color:white;
-    text-align:center;
-  ">
+id="mapMenu"
+class="screen hidden"
+style="
+background:#172b18;
+color:white;
+text-align:center;
+">
 
   <div>
 
-    <h1>
-      SELECT MAP
-    </h1>
+    <h1>SELECT MAP</h1>
 
     <button
-      class="primary mapBtn"
-      data-map="jungle">
+    class="primary mapBtn"
+    data-map="jungle">
 
       🌴 JUNGLE
 
     </button>
 
     <button
-      class="primary mapBtn"
-      data-map="sand">
+    class="primary mapBtn"
+    data-map="sand">
 
       🏜️ SAND
 
     </button>
 
     <button
-      class="primary mapBtn"
-      data-map="space">
+    class="primary mapBtn"
+    data-map="space">
 
       🚀 SPACE
 
@@ -754,8 +720,8 @@ canvas{
     <br>
 
     <button
-      class="secondary"
-      id="mapBack">
+    class="secondary"
+    id="mapBack">
 
       BACK
 
@@ -772,37 +738,33 @@ canvas{
 ========================================================= -->
 
 <div
-  id="lobby"
-  class="screen hidden">
+id="lobby"
+class="screen hidden">
 
   <div>
 
-    <h1>
-      MULTIPLAYER
-    </h1>
+    <h1>MULTIPLAYER</h1>
 
-    <p>
-      Maximum 4 players
-    </p>
+    <p>Maximum 4 players</p>
 
     <input
-      id="roomCode"
-      placeholder="Enter room code"
-      autocomplete="off">
+    id="roomCode"
+    placeholder="Enter room code"
+    autocomplete="off">
 
     <br>
 
     <button
-      class="primary"
-      id="joinBtn">
+    class="primary"
+    id="joinBtn">
 
       JOIN ROOM
 
     </button>
 
     <button
-      class="secondary"
-      id="createBtn">
+    class="secondary"
+    id="createBtn">
 
       CREATE ROOM
 
@@ -813,16 +775,16 @@ canvas{
     <div id="players"></div>
 
     <button
-      class="primary hidden"
-      id="readyBtn">
+    class="primary hidden"
+    id="readyBtn">
 
       READY
 
     </button>
 
     <button
-      class="secondary"
-      id="lobbyBack">
+    class="secondary"
+    id="lobbyBack">
 
       MAIN MENU
 
@@ -846,83 +808,78 @@ canvas{
   <div id="hud">
 
     Distance:
-    <span id="distance">
-      0
-    </span>
+    <span id="distance">0</span>
     m
 
     <br>
 
     Position:
-    <span id="position">
-      1
-    </span>/4
+    <span id="position">1</span>/4
 
     <br>
 
     Fuel:
-    <span id="fuel">
-      100
-    </span>%
+    <span id="fuel">100</span>%
 
   </div>
 
 
   <button
-    id="pauseBtn">
+  id="pauseBtn">
 
     PAUSE
 
   </button>
 
 
-  <!-- BRAKE -->
-
   <button
-    class="control"
-    id="brake"
-    type="button"
-    aria-label="Brake">
+  id="soundBtn"
+  aria-label="Sound">
 
-    BRAKE
+    🔊
 
   </button>
 
 
-  <!-- ACCELERATE -->
+  <!-- GREEN BLANK ACCELERATE BUTTON -->
 
   <button
-    class="control"
-    id="accelerate"
-    type="button"
-    aria-label="Accelerate">
-
-    ACCELERATE
-
+  class="control"
+  id="accelerate"
+  type="button"
+  aria-label="Accelerate">
   </button>
 
 
-  <!-- PAUSE MENU -->
+  <!-- RED BLANK BRAKE BUTTON -->
+
+  <button
+  class="control"
+  id="brake"
+  type="button"
+  aria-label="Brake">
+  </button>
+
+
+  <!-- PAUSE SCREEN -->
 
   <div
-    id="pauseScreen"
-    class="hidden">
+  id="pauseScreen"
+  class="hidden">
 
-    <h1>
-      PAUSED
-    </h1>
+    <h1>PAUSED</h1>
 
     <button
-      class="primary"
-      id="resumeBtn">
+    class="primary"
+    id="resumeBtn">
 
       RESUME
 
     </button>
 
     <button
-      class="secondary"
-      id="menuBtn">
+    class="secondary"
+    id="menuBtn">
 
       MAIN MENU
 
@@ -941,74 +898,515 @@ canvas{
 
 /* =========================================================
    HILL WARRIORS
-   Touch-fixed version
+   SOUND + TOUCH + FIXED DRIVING
 ========================================================= */
 
 "use strict";
 
 
 /* =========================================================
-   BASIC VARIABLES
+   HELPERS
 ========================================================= */
 
 const $ =
-  id =>
-    document.getElementById(id);
+id => document.getElementById(id);
 
+
+/* =========================================================
+   VARIABLES
+========================================================= */
 
 let playerName =
-  localStorage.getItem(
-    "hillWarriorsName"
-  ) || "";
-
+localStorage.getItem(
+  "hillWarriorsName"
+) || "";
 
 let selectedMap =
-  "jungle";
-
+"jungle";
 
 let gameMode =
-  "single";
-
+"single";
 
 let running =
-  false;
-
+false;
 
 let paused =
-  false;
-
+false;
 
 let animationID;
 
 
 /* =========================================================
-   DISABLE LONG-PRESS / TEXT CONTEXT MENU
+   AUDIO SYSTEM
 ========================================================= */
 
-document.addEventListener(
-  "contextmenu",
-  function(e){
+let audioContext =
+null;
 
-    /*
-      Prevent Android's
-      Copy / Share / Read aloud
-      menu during gameplay.
-    */
+let masterGain =
+null;
 
-    if(
-      e.target.closest &&
-      e.target.closest(".control")
-    ){
+let engineOsc =
+null;
 
-      e.preventDefault();
+let engineGain =
+null;
 
-      return false;
+let soundEnabled =
+true;
+
+
+/* Initialize audio */
+
+function initAudio(){
+
+  if(audioContext)
+    return;
+
+
+  const AudioCtx =
+    window.AudioContext ||
+    window.webkitAudioContext;
+
+
+  if(!AudioCtx)
+    return;
+
+
+  audioContext =
+    new AudioCtx();
+
+
+  masterGain =
+    audioContext.createGain();
+
+
+  masterGain.gain.value =
+    0.35;
+
+
+  masterGain.connect(
+    audioContext.destination
+  );
+
+}
+
+
+/* Resume audio */
+
+function resumeAudio(){
+
+  initAudio();
+
+
+  if(
+    audioContext &&
+    audioContext.state ===
+    "suspended"
+  ){
+
+    audioContext.resume();
+
+  }
+
+}
+
+
+/* Simple sound */
+
+function beep(
+  frequency,
+  duration,
+  type="sine",
+  volume=.12
+){
+
+  if(!soundEnabled)
+    return;
+
+
+  resumeAudio();
+
+
+  if(!audioContext)
+    return;
+
+
+  const osc =
+    audioContext.createOscillator();
+
+
+  const gain =
+    audioContext.createGain();
+
+
+  osc.type =
+    type;
+
+
+  osc.frequency.value =
+    frequency;
+
+
+  gain.gain.setValueAtTime(
+    0,
+    audioContext.currentTime
+  );
+
+
+  gain.gain.linearRampToValueAtTime(
+    volume,
+    audioContext.currentTime+.01
+  );
+
+
+  gain.gain.exponentialRampToValueAtTime(
+    .001,
+    audioContext.currentTime+
+    duration
+  );
+
+
+  osc.connect(gain);
+
+  gain.connect(masterGain);
+
+
+  osc.start();
+
+  osc.stop(
+    audioContext.currentTime+
+    duration+
+    .03
+  );
+
+}
+
+
+/* =========================================================
+   SOUND EFFECTS
+========================================================= */
+
+
+/* Button click */
+
+function soundClick(){
+
+  beep(
+    600,
+    .08,
+    "square",
+    .08
+  );
+
+}
+
+
+/* Countdown */
+
+function soundCountdown(){
+
+  beep(
+    500,
+    .16,
+    "square",
+    .13
+  );
+
+}
+
+
+/* GO */
+
+function soundGo(){
+
+  beep(
+    900,
+    .35,
+    "square",
+    .15
+  );
+
+}
+
+
+/* Brake */
+
+function soundBrake(){
+
+  beep(
+    170,
+    .12,
+    "sawtooth",
+    .10
+  );
+
+}
+
+
+/* Landing */
+
+function soundLanding(){
+
+  beep(
+    90,
+    .12,
+    "triangle",
+    .12
+  );
+
+}
+
+
+/* Crash */
+
+function soundCrash(){
+
+  beep(
+    70,
+    .35,
+    "sawtooth",
+    .16
+  );
+
+  setTimeout(
+    function(){
+
+      beep(
+        45,
+        .25,
+        "square",
+        .10
+      );
+
+    },
+    100
+  );
+
+}
+
+
+/* Finish */
+
+function soundFinish(){
+
+  beep(
+    600,
+    .15,
+    "square",
+    .12
+  );
+
+  setTimeout(
+    function(){
+
+      beep(
+        800,
+        .15,
+        "square",
+        .12
+      );
+
+    },
+    160
+  );
+
+  setTimeout(
+    function(){
+
+      beep(
+        1000,
+        .35,
+        "square",
+        .14
+      );
+
+    },
+    320
+  );
+
+}
+
+
+/* =========================================================
+   ENGINE SOUND
+========================================================= */
+
+function startEngine(){
+
+  if(!soundEnabled)
+    return;
+
+
+  resumeAudio();
+
+
+  if(
+    !audioContext ||
+    engineOsc
+  )
+    return;
+
+
+  engineOsc =
+    audioContext.createOscillator();
+
+
+  engineGain =
+    audioContext.createGain();
+
+
+  engineOsc.type =
+    "sawtooth";
+
+
+  engineOsc.frequency.value =
+    90;
+
+
+  engineGain.gain.value =
+    .025;
+
+
+  engineOsc.connect(
+    engineGain
+  );
+
+
+  engineGain.connect(
+    masterGain
+  );
+
+
+  engineOsc.start();
+
+}
+
+
+function updateEngine(){
+
+  if(
+    !audioContext ||
+    !engineOsc ||
+    !engineGain
+  )
+    return;
+
+
+  if(
+    !running ||
+    paused ||
+    !soundEnabled
+  ){
+
+    engineGain.gain.setTargetAtTime(
+      0,
+      audioContext.currentTime,
+      .05
+    );
+
+    return;
+
+  }
+
+
+  const speed =
+    Math.abs(car.vx);
+
+
+  const frequency =
+    75 +
+    Math.min(
+      speed*35,
+      300
+    );
+
+
+  engineOsc.frequency.setTargetAtTime(
+    frequency,
+    audioContext.currentTime,
+    .04
+  );
+
+
+  const volume =
+    .018 +
+    Math.min(
+      speed*.008,
+      .045
+    );
+
+
+  engineGain.gain.setTargetAtTime(
+    volume,
+    audioContext.currentTime,
+    .05
+  );
+
+}
+
+
+/* Stop engine */
+
+function stopEngine(){
+
+  if(engineOsc){
+
+    try{
+      engineOsc.stop();
+    }
+    catch(err){}
+
+  }
+
+  engineOsc =
+    null;
+
+  engineGain =
+    null;
+
+}
+
+
+/* =========================================================
+   SOUND TOGGLE
+========================================================= */
+
+$("soundBtn").addEventListener(
+  "click",
+  function(){
+
+    soundEnabled =
+      !soundEnabled;
+
+
+    $("soundBtn")
+      .textContent =
+      soundEnabled
+      ? "🔊"
+      : "🔇";
+
+
+    if(soundEnabled){
+
+      resumeAudio();
+
+      startEngine();
+
+      soundClick();
+
+    }
+    else{
+
+      if(engineGain){
+
+        engineGain.gain.value =
+          0;
+
+      }
 
     }
 
-  },
-  {
-    passive:false
   }
 );
 
@@ -1028,16 +1426,15 @@ function show(id){
   ]
   .forEach(
     x =>
-      $(x).classList.add(
-        "hidden"
-      )
+    $(x)
+    .classList
+    .add("hidden")
   );
 
 
   $(id)
-    .classList.remove(
-      "hidden"
-    );
+  .classList
+  .remove("hidden");
 
 }
 
@@ -1047,12 +1444,17 @@ function show(id){
 ========================================================= */
 
 $("playerName").value =
-  playerName;
+playerName;
 
 
 $("startBtn").addEventListener(
   "click",
   function(){
+
+    resumeAudio();
+
+    soundClick();
+
 
     const name =
       $("playerName")
@@ -1062,7 +1464,8 @@ $("startBtn").addEventListener(
 
     if(!name){
 
-      $("playerName").focus();
+      $("playerName")
+      .focus();
 
       return;
 
@@ -1086,12 +1489,14 @@ $("startBtn").addEventListener(
 
 
 /* =========================================================
-   GAME MODE
+   MODE
 ========================================================= */
 
 $("singleBtn").addEventListener(
   "click",
   function(){
+
+    soundClick();
 
     gameMode =
       "single";
@@ -1106,6 +1511,8 @@ $("multiBtn").addEventListener(
   "click",
   function(){
 
+    soundClick();
+
     gameMode =
       "multi";
 
@@ -1119,6 +1526,8 @@ $("backBtn").addEventListener(
   "click",
   function(){
 
+    soundClick();
+
     show("menu");
 
   }
@@ -1126,41 +1535,45 @@ $("backBtn").addEventListener(
 
 
 /* =========================================================
-   MAP SELECTION
+   MAP
 ========================================================= */
 
 document
-  .querySelectorAll(".mapBtn")
-  .forEach(
-    btn => {
+.querySelectorAll(".mapBtn")
+.forEach(
+  btn => {
 
-      btn.addEventListener(
-        "click",
-        function(){
+    btn.addEventListener(
+      "click",
+      function(){
 
-          selectedMap =
-            btn.dataset.map;
+        soundClick();
+
+        selectedMap =
+          btn.dataset.map;
 
 
-          if(
-            gameMode ===
-            "single"
-          ){
+        if(
+          gameMode ===
+          "single"
+        ){
 
-            startSinglePlayer();
-
-          }
+          startSinglePlayer();
 
         }
-      );
 
-    }
-  );
+      }
+    );
+
+  }
+);
 
 
 $("mapBack").addEventListener(
   "click",
   function(){
+
+    soundClick();
 
     show("mode");
 
@@ -1173,14 +1586,10 @@ $("mapBack").addEventListener(
 ========================================================= */
 
 const canvas =
-  $("canvas");
-
+$("canvas");
 
 const ctx =
-  canvas.getContext(
-    "2d"
-  );
-
+canvas.getContext("2d");
 
 let W;
 let H;
@@ -1198,25 +1607,22 @@ function resize(){
   W =
     window.innerWidth;
 
-
   H =
     window.innerHeight;
 
 
   canvas.width =
-    W * dpr;
-
+    W*dpr;
 
   canvas.height =
-    H * dpr;
+    H*dpr;
 
 
   canvas.style.width =
-    W + "px";
-
+    W+"px";
 
   canvas.style.height =
-    H + "px";
+    H+"px";
 
 
   ctx.setTransform(
@@ -1245,12 +1651,13 @@ resize();
 ========================================================= */
 
 let terrain =
-  [];
+[];
 
 
 function makeTerrain(){
 
-  terrain = [];
+  terrain =
+  [];
 
 
   for(
@@ -1268,15 +1675,15 @@ function makeTerrain(){
     ){
 
       y =
-        H * .70
-        +
-        Math.sin(
-          x * .008
-        ) * 55
-        +
-        Math.sin(
-          x * .021
-        ) * 25;
+      H*.70
+      +
+      Math.sin(
+        x*.008
+      )*55
+      +
+      Math.sin(
+        x*.021
+      )*25;
 
     }
 
@@ -1286,30 +1693,30 @@ function makeTerrain(){
     ){
 
       y =
-        H * .72
-        +
-        Math.sin(
-          x * .006
-        ) * 65
-        +
-        Math.sin(
-          x * .017
-        ) * 20;
+      H*.72
+      +
+      Math.sin(
+        x*.006
+      )*65
+      +
+      Math.sin(
+        x*.017
+      )*20;
 
     }
 
     else{
 
       y =
-        H * .65
-        +
-        Math.sin(
-          x * .009
-        ) * 75
-        +
-        Math.sin(
-          x * .026
-        ) * 30;
+      H*.65
+      +
+      Math.sin(
+        x*.009
+      )*75
+      +
+      Math.sin(
+        x*.026
+      )*30;
 
     }
 
@@ -1325,12 +1732,12 @@ function makeTerrain(){
 
 
 /* =========================================================
-   GROUND HEIGHT
+   GROUND
 ========================================================= */
 
 function groundY(x){
 
-  if(x <= 0){
+  if(x<=0){
 
     return terrain[0]
       ? terrain[0].y
@@ -1341,54 +1748,47 @@ function groundY(x){
 
   let i =
     Math.floor(
-      x / 20
+      x/20
     );
 
 
   if(
-    i >=
-    terrain.length - 1
+    i>=
+    terrain.length-1
   ){
 
     i =
-      terrain.length - 2;
+      terrain.length-2;
 
   }
 
 
-  if(i < 0)
+  if(i<0)
     i=0;
 
 
   const a =
     terrain[i];
 
-
   const b =
     terrain[i+1];
 
 
   const t =
-    (
-      x-a.x
-    ) /
-    (
-      b.x-a.x
-    );
+    (x-a.x)/
+    (b.x-a.x);
 
 
   return (
-    a.y +
-    (
-      b.y-a.y
-    ) * t
+    a.y+
+    (b.y-a.y)*t
   );
 
 }
 
 
 /* =========================================================
-   CAR CREATION
+   CAR
 ========================================================= */
 
 function createCar(
@@ -1413,7 +1813,9 @@ function createCar(
 
     distance:x,
 
-    finished:false
+    airborne:false,
+
+    previousGround:false
 
   };
 
@@ -1425,355 +1827,11 @@ function createCar(
 ========================================================= */
 
 let racers =
-  [];
-
+[];
 
 let car;
 
 
 /* =========================================================
-   SINGLE PLAYER RACE
-========================================================= */
-
-function createSingleRace(){
-
-  racers = [];
-
-
-  /*
-    USER
-  */
-
-  racers.push(
-    createCar(
-      100,
-      "#2477ff"
-    )
-  );
-
-
-  /*
-    BOT 1
-  */
-
-  racers.push(
-    createCar(
-      50,
-      "#e53935"
-    )
-  );
-
-
-  /*
-    BOT 2
-  */
-
-  racers.push(
-    createCar(
-      0,
-      "#20b45a"
-    )
-  );
-
-
-  /*
-    BOT 3
-  */
-
-  racers.push(
-    createCar(
-      -50,
-      "#ff8c00"
-    )
-  );
-
-
-  car =
-    racers[0];
-
-}
-
-
-/* =========================================================
-   START SINGLE PLAYER
-========================================================= */
-
-function startSinglePlayer(){
-
-  show("game");
-
-
-  makeTerrain();
-
-
-  createSingleRace();
-
-
-  running =
-    true;
-
-
-  paused =
-    false;
-
-
-  $("pauseScreen")
-    .classList.add(
-      "hidden"
-    );
-
-
-  /*
-    Reset buttons
-  */
-
-  accelerate =
-    false;
-
-  brake =
-    false;
-
-
-  startCountdown();
-
-
-  /*
-    IMPORTANT:
-    Start the game loop.
-  */
-
-  cancelAnimationFrame(
-    animationID
-  );
-
-
-  gameLoop();
-
-}
-
-
-/* =========================================================
-   COUNTDOWN
-========================================================= */
-
-function startCountdown(){
-
-  let n=3;
-
-
-  $("countdown")
-    .textContent =
-    n;
-
-
-  const timer =
-    setInterval(
-      function(){
-
-        n--;
-
-
-        if(n>0){
-
-          $("countdown")
-            .textContent =
-            n;
-
-        }
-
-        else{
-
-          $("countdown")
-            .textContent =
-            "GO!";
-
-
-          setTimeout(
-            function(){
-
-              $("countdown")
-                .textContent =
-                "";
-
-            },
-            500
-          );
-
-
-          clearInterval(
-            timer
-          );
-
-        }
-
-      },
-      700
-    );
-
-}
-
-
-/* =========================================================
-   MOBILE CONTROL VARIABLES
-========================================================= */
-
-let accelerate =
-  false;
-
-
-let brake =
-  false;
-
-
-const accelerateButton =
-  $("accelerate");
-
-
-const brakeButton =
-  $("brake");
-
-
-/* =========================================================
-   ACCELERATE TOUCH CONTROL
-========================================================= */
-
-function accelerateStart(e){
-
-  if(e){
-
-    e.preventDefault();
-
-    e.stopPropagation();
-
-  }
-
-
-  accelerate =
-    true;
-
-
-  /*
-    Keep ownership of
-    the touch pointer.
-  */
-
-  if(
-    e &&
-    e.pointerId !== undefined &&
-    accelerateButton
-      .setPointerCapture
-  ){
-
-    try{
-
-      accelerateButton
-        .setPointerCapture(
-          e.pointerId
-        );
-
-    }
-    catch(err){}
-
-  }
-
-}
-
-
-function accelerateStop(e){
-
-  if(e){
-
-    e.preventDefault();
-
-    e.stopPropagation();
-
-  }
-
-
-  accelerate =
-    false;
-
-
-  if(
-    e &&
-    e.pointerId !== undefined &&
-    accelerateButton
-      .releasePointerCapture
-  ){
-
-    try{
-
-      accelerateButton
-        .releasePointerCapture(
-          e.pointerId
-        );
-
-    }
-    catch(err){}
-
-  }
-
-}
-
-
-/* =========================================================
-   BRAKE TOUCH CONTROL
-========================================================= */
-
-function brakeStart(e){
-
-  if(e){
-
-    e.preventDefault();
-
-    e.stopPropagation();
-
-  }
-
-
-  brake =
-    true;
-
-
-  if(
-    e &&
-    e.pointerId !== undefined &&
-    brakeButton
-      .setPointerCapture
-  ){
-
-    try{
-
-      brakeButton
-        .setPointerCapture(
-          e.pointerId
-        );
-
-    }
-    catch(err){}
-
-  }
-
-}
-
-
-function brakeStop(e){
-
-  if(e){
-
-    e.preventDefault();
-
-    e.stopPropagation();
-
-  }
-
-
-  brake =
-    false;
-
-
-  if(
-    e &&
-    e.pointerId !== undefined &&
-    brakeButton
-      .releasePointerCapture
+   SINGLE PLAYER
+===========================
