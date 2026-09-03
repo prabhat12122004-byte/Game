@@ -1,151 +1,389 @@
 export class GameRoom {
+
   constructor(state, env) {
+
     this.state = state;
     this.env = env;
-    this.sessions = new Map();
-    this.room = "";
+
+    this.players = new Map();
+
     this.started = false;
+
     this.map = "jungle";
-    this.time = 180;
+
   }
 
-  broadcast(obj) {
-    const data = JSON.stringify(obj);
-    for (const ws of this.sessions.keys()) {
-      try { ws.send(data); } catch {}
+
+  broadcast(message){
+
+    const data =
+      JSON.stringify(message);
+
+    for(const ws of this.players.keys()){
+
+      try{
+
+        ws.send(data);
+
+      }
+      catch{}
+
     }
+
   }
 
-  roster() {
-    return [...this.sessions.values()].map((p) => ({
-      id:p.id,name:p.name,team:p.team,ready:p.ready
-    }));
+
+  getPlayers(){
+
+    return [
+      ...this.players.values()
+    ];
+
   }
 
-  async fetch(request) {
-    if (request.headers.get("Upgrade") !== "websocket")
-      return new Response("Holi Warriors GameRoom");
 
-    const pair = new WebSocketPair();
-    const [client, server] = Object.values(pair);
+  async fetch(request){
+
+    if(
+      request.headers.get("Upgrade")
+      !==
+      "websocket"
+    ){
+
+      return new Response(
+        "Hill Warriors multiplayer server"
+      );
+
+    }
+
+
+    const pair =
+      new WebSocketPair();
+
+    const client =
+      pair[0];
+
+    const server =
+      pair[1];
+
     server.accept();
 
-    let pid = crypto.randomUUID();
-    const firstFreeTeam = this.sessions.size % 2 === 0 ? "blue" : "red";
 
-    server.addEventListener("message", (event) => {
-      let m;
-      try { m = JSON.parse(event.data); } catch { return; }
+    const id =
+      crypto.randomUUID();
 
-      if (m.type === "join") {
-        if (this.sessions.size >= 6) {
-          try { server.send(JSON.stringify({type:"error",message:"Room is full."})); } catch {}
-          try { server.close(); } catch {}
-          return;
+
+    server.addEventListener(
+      "message",
+      event => {
+
+        let msg;
+
+        try{
+
+          msg =
+            JSON.parse(
+              event.data
+            );
+
         }
-        const p = {
-          id:pid,
-          name:String(m.name || "Player").slice(0,18),
-          team:firstFreeTeam,
-          ready:false
-        };
-        this.sessions.set(server,p);
-        this.room = new URL(request.url).pathname.split("/").pop().toUpperCase();
-        server.send(JSON.stringify({type:"room",room:this.room,message:"Room created/joined. Choose Ready when you are prepared."}));
-        this.broadcast({type:"lobby",players:this.roster(),max:6,map:this.map,time:this.time});
-        return;
+        catch{
+
+          return;
+
+        }
+
+
+        /* JOIN */
+
+        if(msg.type==="join"){
+
+          /* Maximum 4 human players */
+
+          if(this.players.size>=4){
+
+            server.send(
+              JSON.stringify({
+                type:"full",
+                message:
+                  "Room is full. Maximum 4 players."
+              })
+            );
+
+            server.close();
+
+            return;
+
+          }
+
+
+          const player={
+
+            id:id,
+
+            name:
+              String(
+                msg.name ||
+                "Player"
+              ).slice(0,18),
+
+            ready:false,
+
+            color:
+              this.players.size===0
+              ? "#2477ff"
+              : this.players.size===1
+              ? "#e53935"
+              : this.players.size===2
+              ? "#20b45a"
+              : "#ff8c00"
+
+          };
+
+
+          this.players.set(
+            server,
+            player
+          );
+
+
+          this.broadcast({
+
+            type:"lobby",
+
+            players:
+              this.getPlayers(),
+
+            maximum:4
+
+          });
+
+
+          return;
+
+        }
+
+
+        const player =
+          this.players.get(server);
+
+
+        if(!player)
+          return;
+
+
+        /* READY */
+
+        if(msg.type==="ready"){
+
+          player.ready=true;
+
+
+          this.broadcast({
+
+            type:"lobby",
+
+            players:
+              this.getPlayers(),
+
+            maximum:4
+
+          });
+
+
+          const players =
+            this.getPlayers();
+
+
+          /* Start when everyone is ready */
+
+          if(
+            players.length>0 &&
+            players.every(
+              p=>p.ready
+            )
+          ){
+
+            this.startGame();
+
+          }
+
+        }
+
       }
+    );
 
-      const p = this.sessions.get(server);
-      if (!p) return;
 
-      if (m.type === "ready") {
-        p.ready = !!m.ready;
-        if (m.map) this.map = ["jungle","sand","space"].includes(m.map) ? m.map : "jungle";
-        if ([60,120,180,300].includes(Number(m.time))) this.time = Number(m.time);
+    server.addEventListener(
+      "close",
+      ()=>{
 
-        this.broadcast({type:"lobby",players:this.roster(),max:6,map:this.map,time:this.time});
+        this.players.delete(
+          server
+        );
 
-        // The battle starts when at least one player is connected and all
-        // currently connected humans are ready. Empty slots are bots.
-        const people = [...this.sessions.values()];
-        if (people.length && people.every(x => x.ready)) this.startBattle();
-        return;
+        this.broadcast({
+
+          type:"lobby",
+
+          players:
+            this.getPlayers(),
+
+          maximum:4
+
+        });
+
       }
+    );
 
-      if (m.type === "state") {
-        this.broadcast({type:"state",player:m.player});
-        return;
+
+    return new Response(
+      null,
+      {
+        status:101,
+        webSocket:client
       }
+    );
 
-      if (m.type === "balloon") {
-        // Relay the projectile to every other client so opponent balloons
-        // are visible on all devices.
-        this.broadcast({type:"balloon",balloon:m.balloon});
-        return;
-      }
-
-      if (m.type === "hit") {
-        this.broadcast({type:"hit",target:m.target,owner:m.owner});
-        return;
-      }
-    });
-
-    server.addEventListener("close", () => {
-      this.sessions.delete(server);
-      if (!this.started) this.broadcast({type:"lobby",players:this.roster(),max:6,map:this.map,time:this.time});
-    });
-
-    return new Response(null,{status:101,webSocket:client});
   }
 
-  startBattle() {
-    if (this.started) return;
-    this.started = true;
 
-    const humans = [...this.sessions.values()];
-    const bots = [];
-    let blueCount = humans.filter(p=>p.team==="blue").length;
-    let redCount = humans.filter(p=>p.team==="red").length;
-    let botIndex = 0;
+  startGame(){
 
-    while (blueCount < 3) {
-      const owner = humans[botIndex % humans.length].id;
-      bots.push({id:`bot${botIndex++}`,name:`BOT ${botIndex}`,team:"blue",x:18+Math.random()*20,y:15+Math.random()*70,hp:100,angle:0,bot:true,owner});
-      blueCount++;
-    }
-    while (redCount < 3) {
-      const owner = humans[botIndex % humans.length].id;
-      bots.push({id:`bot${botIndex++}`,name:`BOT ${botIndex}`,team:"red",x:62+Math.random()*20,y:15+Math.random()*70,hp:100,angle:3.14,bot:true,owner});
-      redCount++;
+    if(this.started)
+      return;
+
+
+    this.started=true;
+
+
+    const humans =
+      this.getPlayers();
+
+
+    /*
+      Always make exactly
+      four racers.
+
+      1 human = 3 bots
+      2 humans = 2 bots
+      3 humans = 1 bot
+      4 humans = 0 bots
+    */
+
+    const botCount =
+      4-humans.length;
+
+
+    const bots=[];
+
+
+    for(
+      let i=0;
+      i<botCount;
+      i++
+    ){
+
+      bots.push({
+
+        id:"bot-"+i,
+
+        name:"BOT "+(i+1),
+
+        color:"#777777",
+
+        bot:true
+
+      });
+
     }
 
-    for (const ws of this.sessions.keys()) {
-      const me = this.sessions.get(ws);
-      const humansForClient = humans.map(p=>({
-        id:p.id,name:p.name,team:p.team,x:p.team==="blue"?12:82,y:50,hp:100,outUntil:0,angle:p.team==="blue"?0:3.14,score:0
-      }));
-      const mine = humansForClient.find(x=>x.id===me.id);
-      ws.send(JSON.stringify({
-        type:"start",
-        map:this.map,
-        time:this.time,
-        me:mine,
-        players:humansForClient,
-        bots
-      }));
+
+    for(
+      const ws of this.players.keys()
+    ){
+
+      ws.send(
+
+        JSON.stringify({
+
+          type:"start",
+
+          map:this.map,
+
+          players:
+            humans,
+
+          bots:bots
+
+        })
+
+      );
+
     }
+
   }
+
 }
 
+
+/* =========================
+   MAIN WORKER
+========================= */
+
 export default {
-  async fetch(request, env) {
-    const url = new URL(request.url);
-    if (url.pathname.startsWith("/ws/")) {
-      const code = url.pathname.split("/")[2] || "default";
-      const id = env.ROOMS.idFromName(code);
-      return env.ROOMS.get(id).fetch(request);
+
+  async fetch(request,env){
+
+    const url =
+      new URL(request.url);
+
+
+    /*
+      Multiplayer WebSocket
+      endpoint:
+
+      /ws/ROOMCODE
+    */
+
+    if(
+      url.pathname.startsWith(
+        "/ws/"
+      )
+    ){
+
+      const code =
+        url.pathname
+          .split("/")[2]
+          || "DEFAULT";
+
+
+      const id =
+        env.GameRoom.idFromName(
+          code
+        );
+
+
+      const room =
+        env.GameRoom.get(id);
+
+
+      return room.fetch(
+        request
+      );
+
     }
-    return env.ASSETS.fetch(request);
+
+
+    /*
+      Serve game files
+      from /public
+    */
+
+    return env.ASSETS.fetch(
+      request
+    );
+
   }
+
 };
