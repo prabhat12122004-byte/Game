@@ -1,631 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport"
-      content="width=device-width,
-               initial-scale=1,
-               maximum-scale=1,
-               user-scalable=no,
-               viewport-fit=cover">
-
-<meta name="theme-color" content="#111111">
-
+      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Hill Warriors</title>
 
 <style>
-
-/* =========================================================
-   BASIC PAGE
-========================================================= */
-
 *{
   box-sizing:border-box;
-
   user-select:none;
   -webkit-user-select:none;
-  -moz-user-select:none;
-  -ms-user-select:none;
-
-  -webkit-touch-callout:none;
-  -webkit-tap-highlight-color:transparent;
 }
 
-html,
-body{
-
+html,body{
+  margin:0;
   width:100%;
   height:100%;
-
-  margin:0;
-  padding:0;
-
   overflow:hidden;
-
   background:#111;
-
-  user-select:none;
-  -webkit-user-select:none;
-
-  -webkit-touch-callout:none;
-
-  touch-action:none;
-
   font-family:Arial,sans-serif;
 }
 
-
-/* Prevent Android long-press menus */
-
-button,
-div,
-canvas,
-span,
-h1,
-h2,
-p{
-
-  user-select:none;
-  -webkit-user-select:none;
-  -webkit-touch-callout:none;
-
+body{
+  touch-action:none;
 }
-
-
-/* =========================================================
-   SCREENS
-========================================================= */
 
 .screen{
-
   width:100%;
   height:100%;
-
   display:flex;
-
   align-items:center;
   justify-content:center;
-
 }
-
-
-/* =========================================================
-   MAIN MENU
-========================================================= */
 
 #menu{
-
-  background:
-    linear-gradient(
-      #172b18,
-      #315d2c
-    );
-
+  background:linear-gradient(#172b18,#315d2c);
   color:white;
-
   text-align:center;
-
   padding:25px;
-
 }
-
 
 .logo{
-
-  font-size:
-    clamp(
-      40px,
-      8vw,
-      80px
-    );
-
+  font-size:clamp(40px,8vw,80px);
   font-weight:900;
-
   color:#ffd83d;
-
-  text-shadow:
-    4px 4px #000;
-
+  text-shadow:4px 4px #000;
 }
-
 
 .developer{
-
   margin-top:5px;
-
   font-size:18px;
-
 }
-
 
 .menuBox{
-
-  width:
-    min(
-      430px,
-      90vw
-    );
-
+  width:min(430px,90vw);
   margin-top:30px;
-
 }
-
 
 input{
-
   width:100%;
-
   padding:15px;
-
   border:0;
-
   border-radius:10px;
-
   font-size:18px;
-
   text-align:center;
-
   margin-bottom:12px;
-
-  user-select:text;
-  -webkit-user-select:text;
-
 }
-
 
 button{
-
   border:0;
-
   border-radius:12px;
-
   padding:15px 22px;
-
   margin:7px;
-
   font-size:18px;
-
   font-weight:bold;
-
   cursor:pointer;
-
-  user-select:none;
-  -webkit-user-select:none;
-
-  -webkit-touch-callout:none;
-
-  touch-action:manipulation;
-
-  -webkit-tap-highlight-color:transparent;
-
 }
-
-
-button:active{
-
-  transform:scale(.96);
-
-}
-
 
 .primary{
-
   background:#ffd83d;
-
   color:#222;
-
 }
-
 
 .secondary{
-
   background:#eee;
-
   color:#222;
-
 }
-
 
 .hidden{
-
   display:none!important;
-
 }
 
-
-/* =========================================================
-   GAME SCREEN
-========================================================= */
+/* GAME */
 
 #game{
-
   position:relative;
-
   width:100%;
   height:100%;
-
   background:#80cfff;
-
-  overflow:hidden;
-
-  touch-action:none;
-
 }
-
 
 canvas{
-
   position:absolute;
-
   left:0;
   top:0;
-
   width:100%;
   height:100%;
-
-  touch-action:none;
-
-  user-select:none;
-  -webkit-user-select:none;
-
 }
-
-
-/* =========================================================
-   HUD
-========================================================= */
 
 #hud{
-
   position:absolute;
-
   left:15px;
   top:12px;
-
   color:white;
-
   font-size:18px;
-
   font-weight:bold;
-
-  text-shadow:
-    2px 2px #000;
-
-  z-index:50;
-
-  pointer-events:none;
-
-  user-select:none;
-  -webkit-user-select:none;
-
+  text-shadow:2px 2px #000;
+  z-index:5;
 }
-
 
 #pauseBtn{
-
   position:absolute;
-
-  right:
-    max(
-      15px,
-      env(safe-area-inset-right)
-    );
-
-  top:
-    max(
-      12px,
-      env(safe-area-inset-top)
-    );
-
-  z-index:100;
-
+  right:15px;
+  top:12px;
+  z-index:10;
   padding:10px 18px;
-
   background:white;
-
-  touch-action:manipulation;
-
 }
-
-
-/* =========================================================
-   MOBILE DRIVING CONTROLS
-========================================================= */
 
 .control{
-
   position:absolute;
-
-  bottom:
-    max(
-      18px,
-      env(safe-area-inset-bottom)
-    );
-
-  width:130px;
-  height:80px;
-
-  border-radius:50%;
-
-  z-index:200;
-
+  bottom:18px;
+  width:120px;
+  height:75px;
+  border-radius:20px;
+  z-index:10;
   font-size:20px;
-
   font-weight:900;
-
-  opacity:.94;
-
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-
-  text-align:center;
-
-  white-space:nowrap;
-
-  margin:0;
-
-  padding:0;
-
-  cursor:pointer;
-
-  pointer-events:auto;
-
-  touch-action:none;
-
-  user-select:none;
-  -webkit-user-select:none;
-
-  -webkit-touch-callout:none;
-
-  -webkit-tap-highlight-color:transparent;
-
-  -webkit-user-drag:none;
-
-  outline:none;
-
-  box-shadow:
-    0 5px 12px rgba(0,0,0,.45);
-
+  opacity:.9;
 }
-
-
-/* Brake */
 
 #brake{
-
-  left:
-    max(
-      20px,
-      env(safe-area-inset-left)
-    );
-
+  left:20px;
   background:#e9e9e9;
-
-  color:#111;
-
 }
-
-
-/* Accelerate */
 
 #accelerate{
-
-  right:
-    max(
-      20px,
-      env(safe-area-inset-right)
-    );
-
+  right:20px;
   background:#ffd83d;
-
-  color:#111;
-
 }
-
-
-/* Button press visual */
-
-.control:active{
-
-  transform:scale(.93);
-
-}
-
-
-/* =========================================================
-   PAUSE SCREEN
-========================================================= */
 
 #pauseScreen{
-
   position:absolute;
-
   inset:0;
-
-  background:
-    rgba(
-      0,
-      0,
-      0,
-      .68
-    );
-
-  z-index:300;
-
+  background:rgba(0,0,0,.65);
+  z-index:20;
   display:flex;
-
   flex-direction:column;
-
   align-items:center;
   justify-content:center;
-
   color:white;
-
 }
-
 
 #pauseScreen h1{
-
   font-size:50px;
-
 }
-
-
-/* =========================================================
-   COUNTDOWN
-========================================================= */
-
-#countdown{
-
-  position:absolute;
-
-  inset:0;
-
-  z-index:250;
-
-  display:flex;
-
-  justify-content:center;
-
-  align-items:center;
-
-  color:white;
-
-  font-size:100px;
-
-  font-weight:900;
-
-  text-shadow:
-    5px 5px #000;
-
-  pointer-events:none;
-
-}
-
-
-/* =========================================================
-   MULTIPLAYER LOBBY
-========================================================= */
 
 #lobby{
-
   background:#172b18;
-
   color:white;
-
   text-align:center;
-
   padding:20px;
-
 }
-
 
 #players{
-
   margin:20px auto;
-
-  width:
-    min(
-      450px,
-      90vw
-    );
-
+  width:min(450px,90vw);
   text-align:left;
-
 }
-
 
 .player{
-
   background:#333;
-
   margin:5px;
-
   padding:10px;
-
   border-radius:8px;
-
 }
 
-
-/* =========================================================
-   SMALL SCREENS
-========================================================= */
-
-@media(max-height:500px){
-
-  .control{
-
-    width:105px;
-    height:65px;
-
-    font-size:16px;
-
-    bottom:12px;
-
-  }
-
-  #hud{
-
-    font-size:14px;
-
-    top:8px;
-
-    left:8px;
-
-  }
-
-  #pauseBtn{
-
-    top:8px;
-
-    right:8px;
-
-    padding:8px 14px;
-
-  }
-
+#countdown{
+  position:absolute;
+  inset:0;
+  z-index:30;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  font-size:100px;
+  font-weight:900;
+  text-shadow:5px 5px #000;
+  pointer-events:none;
 }
-
-
-/* =========================================================
-   VERY SMALL WIDTH
-========================================================= */
-
-@media(max-width:700px){
-
-  .control{
-
-    width:115px;
-    height:70px;
-
-  }
-
-}
-
 </style>
-
 </head>
-
 
 <body>
 
-
-<!-- ========================================================
-     MAIN MENU
-========================================================= -->
+<!-- MAIN MENU -->
 
 <div id="menu" class="screen">
 
   <div class="menuBox">
 
-    <div class="logo">
-      HILL WARRIORS
-    </div>
+    <div class="logo">HILL WARRIORS</div>
 
     <div class="developer">
       Developed by Prabhat Kumar Singh
@@ -633,73 +219,40 @@ canvas{
 
     <br>
 
-    <input
-      id="playerName"
-      placeholder="Enter your name"
-      maxlength="18"
-      autocomplete="off">
+    <input id="playerName"
+           placeholder="Enter your name"
+           maxlength="18">
 
-    <button
-      class="primary"
-      id="startBtn">
-
+    <button class="primary" id="startBtn">
       START GAME
-
     </button>
 
   </div>
-
 </div>
 
 
+<!-- MODE SELECTION -->
 
-<!-- ========================================================
-     MODE SELECTION
-========================================================= -->
-
-<div
-  id="mode"
-  class="screen hidden"
-  style="
-    background:#172b18;
-    color:white;
-    text-align:center;
-  ">
+<div id="mode" class="screen hidden" style="background:#172b18;color:white;text-align:center">
 
   <div>
 
-    <h1>
-      HILL WARRIORS
-    </h1>
+    <h1>HILL WARRIORS</h1>
 
-    <h2>
-      Choose Game Mode
-    </h2>
+    <h2>Choose Game Mode</h2>
 
-    <button
-      class="primary"
-      id="singleBtn">
-
+    <button class="primary" id="singleBtn">
       SINGLE PLAYER
-
     </button>
 
-    <button
-      class="secondary"
-      id="multiBtn">
-
+    <button class="secondary" id="multiBtn">
       MULTIPLAYER
-
     </button>
 
     <br>
 
-    <button
-      class="secondary"
-      id="backBtn">
-
+    <button class="secondary" id="backBtn">
       BACK
-
     </button>
 
   </div>
@@ -707,58 +260,31 @@ canvas{
 </div>
 
 
+<!-- MAP SELECTION -->
 
-<!-- ========================================================
-     MAP SELECTION
-========================================================= -->
-
-<div
-  id="mapMenu"
-  class="screen hidden"
-  style="
-    background:#172b18;
-    color:white;
-    text-align:center;
-  ">
+<div id="mapMenu" class="screen hidden"
+     style="background:#172b18;color:white;text-align:center">
 
   <div>
 
-    <h1>
-      SELECT MAP
-    </h1>
+    <h1>SELECT MAP</h1>
 
-    <button
-      class="primary mapBtn"
-      data-map="jungle">
-
+    <button class="primary mapBtn" data-map="jungle">
       🌴 JUNGLE
-
     </button>
 
-    <button
-      class="primary mapBtn"
-      data-map="sand">
-
+    <button class="primary mapBtn" data-map="sand">
       🏜️ SAND
-
     </button>
 
-    <button
-      class="primary mapBtn"
-      data-map="space">
-
+    <button class="primary mapBtn" data-map="space">
       🚀 SPACE
-
     </button>
 
     <br>
 
-    <button
-      class="secondary"
-      id="mapBack">
-
+    <button class="secondary" id="mapBack">
       BACK
-
     </button>
 
   </div>
@@ -766,66 +292,39 @@ canvas{
 </div>
 
 
+<!-- MULTIPLAYER LOBBY -->
 
-<!-- ========================================================
-     MULTIPLAYER LOBBY
-========================================================= -->
-
-<div
-  id="lobby"
-  class="screen hidden">
+<div id="lobby" class="screen hidden">
 
   <div>
 
-    <h1>
-      MULTIPLAYER
-    </h1>
+    <h1>MULTIPLAYER</h1>
 
-    <p>
-      Maximum 4 players
-    </p>
+    <p>Maximum 4 players</p>
 
-    <input
-      id="roomCode"
-      placeholder="Enter room code"
-      autocomplete="off">
+    <input id="roomCode"
+           placeholder="Enter room code">
 
     <br>
 
-    <button
-      class="primary"
-      id="joinBtn">
-
+    <button class="primary" id="joinBtn">
       JOIN ROOM
-
     </button>
 
-    <button
-      class="secondary"
-      id="createBtn">
-
+    <button class="secondary" id="createBtn">
       CREATE ROOM
-
     </button>
 
     <h2 id="roomTitle"></h2>
 
     <div id="players"></div>
 
-    <button
-      class="primary hidden"
-      id="readyBtn">
-
+    <button class="primary hidden" id="readyBtn">
       READY
-
     </button>
 
-    <button
-      class="secondary"
-      id="lobbyBack">
-
+    <button class="secondary" id="lobbyBack">
       MAIN MENU
-
     </button>
 
   </div>
@@ -833,189 +332,74 @@ canvas{
 </div>
 
 
-
-<!-- ========================================================
-     GAME
-========================================================= -->
+<!-- GAME -->
 
 <div id="game" class="hidden">
 
   <canvas id="canvas"></canvas>
 
-
   <div id="hud">
-
-    Distance:
-    <span id="distance">
-      0
-    </span>
-    m
-
+    Distance: <span id="distance">0</span> m
     <br>
-
-    Position:
-    <span id="position">
-      1
-    </span>/4
-
+    Position: <span id="position">1</span>/4
     <br>
-
-    Fuel:
-    <span id="fuel">
-      100
-    </span>%
-
+    Fuel: <span id="fuel">100</span>%
   </div>
 
+  <button id="pauseBtn">PAUSE</button>
 
-  <button
-    id="pauseBtn">
-
-    PAUSE
-
-  </button>
-
-
-  <!-- BRAKE -->
-
-  <button
-    class="control"
-    id="brake"
-    type="button"
-    aria-label="Brake">
-
+  <button class="control" id="brake">
     BRAKE
-
   </button>
 
-
-  <!-- ACCELERATE -->
-
-  <button
-    class="control"
-    id="accelerate"
-    type="button"
-    aria-label="Accelerate">
-
+  <button class="control" id="accelerate">
     ACCELERATE
-
   </button>
 
+  <div id="pauseScreen" class="hidden">
 
-  <!-- PAUSE MENU -->
+    <h1>PAUSED</h1>
 
-  <div
-    id="pauseScreen"
-    class="hidden">
-
-    <h1>
-      PAUSED
-    </h1>
-
-    <button
-      class="primary"
-      id="resumeBtn">
-
+    <button class="primary" id="resumeBtn">
       RESUME
-
     </button>
 
-    <button
-      class="secondary"
-      id="menuBtn">
-
+    <button class="secondary" id="menuBtn">
       MAIN MENU
-
     </button>
 
   </div>
-
 
   <div id="countdown"></div>
 
 </div>
 
 
-
 <script>
-
-/* =========================================================
-   HILL WARRIORS
-   Touch-fixed version
-========================================================= */
 
 "use strict";
 
-
-/* =========================================================
+/* =========================
    BASIC VARIABLES
-========================================================= */
+========================= */
 
-const $ =
-  id =>
-    document.getElementById(id);
-
+const $ = id => document.getElementById(id);
 
 let playerName =
-  localStorage.getItem(
-    "hillWarriorsName"
-  ) || "";
+  localStorage.getItem("hillWarriorsName") || "";
 
+let selectedMap = "jungle";
+let gameMode = "single";
 
-let selectedMap =
-  "jungle";
-
-
-let gameMode =
-  "single";
-
-
-let running =
-  false;
-
-
-let paused =
-  false;
-
+let running = false;
+let paused = false;
 
 let animationID;
 
 
-/* =========================================================
-   DISABLE LONG-PRESS / TEXT CONTEXT MENU
-========================================================= */
-
-document.addEventListener(
-  "contextmenu",
-  function(e){
-
-    /*
-      Prevent Android's
-      Copy / Share / Read aloud
-      menu during gameplay.
-    */
-
-    if(
-      e.target.closest &&
-      e.target.closest(".control")
-    ){
-
-      e.preventDefault();
-
-      return false;
-
-    }
-
-  },
-  {
-    passive:false
-  }
-);
-
-
-/* =========================================================
-   SCREEN MANAGEMENT
-========================================================= */
+/* =========================
+   SCREENS
+========================= */
 
 function show(id){
 
@@ -1025,294 +409,185 @@ function show(id){
     "mapMenu",
     "lobby",
     "game"
-  ]
-  .forEach(
-    x =>
-      $(x).classList.add(
-        "hidden"
-      )
-  );
+  ].forEach(x => $(x).classList.add("hidden"));
 
-
-  $(id)
-    .classList.remove(
-      "hidden"
-    );
-
+  $(id).classList.remove("hidden");
 }
 
 
-/* =========================================================
-   MAIN MENU
-========================================================= */
+/* =========================
+   START MENU
+========================= */
 
-$("playerName").value =
-  playerName;
+$("playerName").value = playerName;
 
+$("startBtn").onclick = function(){
 
-$("startBtn").addEventListener(
-  "click",
-  function(){
+  const name = $("playerName").value.trim();
 
-    const name =
-      $("playerName")
-      .value
-      .trim();
+  if(!name){
 
+    $("playerName").focus();
 
-    if(!name){
-
-      $("playerName").focus();
-
-      return;
-
-    }
-
-
-    playerName =
-      name;
-
-
-    localStorage.setItem(
-      "hillWarriorsName",
-      playerName
-    );
-
-
-    show("mode");
-
+    return;
   }
-);
 
+  playerName = name;
 
-/* =========================================================
-   GAME MODE
-========================================================= */
-
-$("singleBtn").addEventListener(
-  "click",
-  function(){
-
-    gameMode =
-      "single";
-
-    show("mapMenu");
-
-  }
-);
-
-
-$("multiBtn").addEventListener(
-  "click",
-  function(){
-
-    gameMode =
-      "multi";
-
-    show("lobby");
-
-  }
-);
-
-
-$("backBtn").addEventListener(
-  "click",
-  function(){
-
-    show("menu");
-
-  }
-);
-
-
-/* =========================================================
-   MAP SELECTION
-========================================================= */
-
-document
-  .querySelectorAll(".mapBtn")
-  .forEach(
-    btn => {
-
-      btn.addEventListener(
-        "click",
-        function(){
-
-          selectedMap =
-            btn.dataset.map;
-
-
-          if(
-            gameMode ===
-            "single"
-          ){
-
-            startSinglePlayer();
-
-          }
-
-        }
-      );
-
-    }
+  localStorage.setItem(
+    "hillWarriorsName",
+    playerName
   );
 
-
-$("mapBack").addEventListener(
-  "click",
-  function(){
-
-    show("mode");
-
-  }
-);
+  show("mode");
+};
 
 
-/* =========================================================
+/* =========================
+   GAME MODE
+========================= */
+
+$("singleBtn").onclick = function(){
+
+  gameMode = "single";
+
+  show("mapMenu");
+
+};
+
+$("multiBtn").onclick = function(){
+
+  gameMode = "multi";
+
+  show("lobby");
+
+};
+
+$("backBtn").onclick = function(){
+
+  show("menu");
+
+};
+
+
+/* =========================
+   MAP
+========================= */
+
+document.querySelectorAll(".mapBtn")
+.forEach(btn => {
+
+  btn.onclick = function(){
+
+    selectedMap =
+      btn.dataset.map;
+
+    if(gameMode === "single"){
+
+      startSinglePlayer();
+
+    }
+
+  };
+
+});
+
+
+$("mapBack").onclick = function(){
+
+  show("mode");
+
+};
+
+
+/* =========================
    CANVAS
-========================================================= */
+========================= */
 
-const canvas =
-  $("canvas");
-
+const canvas = $("canvas");
 
 const ctx =
-  canvas.getContext(
-    "2d"
-  );
+  canvas.getContext("2d");
 
-
-let W;
-let H;
-
+let W,H;
 
 function resize(){
 
-  const dpr =
-    Math.min(
-      window.devicePixelRatio || 1,
-      2
-    );
+  W = canvas.width =
+    window.innerWidth *
+    devicePixelRatio;
 
-
-  W =
-    window.innerWidth;
-
-
-  H =
-    window.innerHeight;
-
-
-  canvas.width =
-    W * dpr;
-
-
-  canvas.height =
-    H * dpr;
-
+  H = canvas.height =
+    window.innerHeight *
+    devicePixelRatio;
 
   canvas.style.width =
-    W + "px";
-
+    window.innerWidth+"px";
 
   canvas.style.height =
-    H + "px";
-
+    window.innerHeight+"px";
 
   ctx.setTransform(
-    dpr,
+    devicePixelRatio,
     0,
     0,
-    dpr,
+    devicePixelRatio,
     0,
     0
   );
 
+  W = window.innerWidth;
+  H = window.innerHeight;
 }
-
 
 window.addEventListener(
   "resize",
   resize
 );
 
-
 resize();
 
 
-/* =========================================================
+/* =========================
    TERRAIN
-========================================================= */
+========================= */
 
-let terrain =
-  [];
-
+let terrain = [];
 
 function makeTerrain(){
 
   terrain = [];
 
-
-  for(
-    let x=0;
-    x<10000;
-    x+=20
-  ){
+  for(let x=0;x<6000;x+=20){
 
     let y;
 
-
-    if(
-      selectedMap ===
-      "jungle"
-    ){
+    if(selectedMap === "jungle"){
 
       y =
-        H * .70
-        +
-        Math.sin(
-          x * .008
-        ) * 55
-        +
-        Math.sin(
-          x * .021
-        ) * 25;
+        H*.70
+        + Math.sin(x*.008)*55
+        + Math.sin(x*.021)*25;
 
     }
 
-    else if(
-      selectedMap ===
-      "sand"
-    ){
+    else if(selectedMap === "sand"){
 
       y =
-        H * .72
-        +
-        Math.sin(
-          x * .006
-        ) * 65
-        +
-        Math.sin(
-          x * .017
-        ) * 20;
+        H*.72
+        + Math.sin(x*.006)*65
+        + Math.sin(x*.017)*20;
 
     }
 
     else{
 
       y =
-        H * .65
-        +
-        Math.sin(
-          x * .009
-        ) * 75
-        +
-        Math.sin(
-          x * .026
-        ) * 30;
+        H*.65
+        + Math.sin(x*.009)*75
+        + Math.sin(x*.026)*30;
 
     }
-
 
     terrain.push({
       x:x,
@@ -1324,84 +599,42 @@ function makeTerrain(){
 }
 
 
-/* =========================================================
-   GROUND HEIGHT
-========================================================= */
-
 function groundY(x){
 
-  if(x <= 0){
-
-    return terrain[0]
-      ? terrain[0].y
-      : H*.7;
-
-  }
-
+  if(x<0)
+    return terrain[0].y;
 
   let i =
-    Math.floor(
-      x / 20
-    );
+    Math.floor(x/20);
 
+  if(i >= terrain.length-1)
+    i=terrain.length-2;
 
-  if(
-    i >=
-    terrain.length - 1
-  ){
-
-    i =
-      terrain.length - 2;
-
-  }
-
-
-  if(i < 0)
-    i=0;
-
-
-  const a =
-    terrain[i];
-
-
-  const b =
-    terrain[i+1];
-
+  const a=terrain[i];
+  const b=terrain[i+1];
 
   const t =
-    (
-      x-a.x
-    ) /
-    (
-      b.x-a.x
-    );
+    (x-a.x) /
+    (b.x-a.x);
 
-
-  return (
-    a.y +
-    (
-      b.y-a.y
-    ) * t
-  );
-
+  return a.y +
+    (b.y-a.y)*t;
 }
 
 
-/* =========================================================
-   CAR CREATION
-========================================================= */
+/* =========================
+   CAR
+========================= */
 
-function createCar(
-  x,
-  color
-){
+let car;
+
+function createCar(x,color){
 
   return {
 
     x:x,
 
-    y:
-      groundY(x)-35,
+    y:groundY(x)-35,
 
     vx:0,
 
@@ -1420,360 +653,758 @@ function createCar(
 }
 
 
-/* =========================================================
-   RACERS
-========================================================= */
+/* =========================
+   PLAYERS
+========================= */
 
-let racers =
-  [];
-
-
-let car;
-
-
-/* =========================================================
-   SINGLE PLAYER RACE
-========================================================= */
+let racers=[];
 
 function createSingleRace(){
 
-  racers = [];
-
-
-  /*
-    USER
-  */
+  racers=[];
 
   racers.push(
-    createCar(
-      100,
-      "#2477ff"
-    )
+    createCar(100,"#2477ff")
   );
-
-
-  /*
-    BOT 1
-  */
 
   racers.push(
-    createCar(
-      50,
-      "#e53935"
-    )
+    createCar(50,"#e53935")
   );
-
-
-  /*
-    BOT 2
-  */
 
   racers.push(
-    createCar(
-      0,
-      "#20b45a"
-    )
+    createCar(0,"#20b45a")
   );
-
-
-  /*
-    BOT 3
-  */
 
   racers.push(
-    createCar(
-      -50,
-      "#ff8c00"
-    )
+    createCar(-50,"#ff8c00")
   );
 
-
-  car =
-    racers[0];
+  car=racers[0];
 
 }
 
 
-/* =========================================================
+/* =========================
    START SINGLE PLAYER
-========================================================= */
+========================= */
 
 function startSinglePlayer(){
 
   show("game");
 
-
   makeTerrain();
-
 
   createSingleRace();
 
+  running=true;
 
-  running =
-    true;
-
-
-  paused =
-    false;
-
+  paused=false;
 
   $("pauseScreen")
-    .classList.add(
-      "hidden"
-    );
-
-
-  /*
-    Reset buttons
-  */
-
-  accelerate =
-    false;
-
-  brake =
-    false;
-
+    .classList.add("hidden");
 
   startCountdown();
-
-
-  /*
-    IMPORTANT:
-    Start the game loop.
-  */
-
-  cancelAnimationFrame(
-    animationID
-  );
-
-
-  gameLoop();
 
 }
 
 
-/* =========================================================
+/* =========================
    COUNTDOWN
-========================================================= */
+========================= */
 
 function startCountdown(){
 
   let n=3;
 
+  $("countdown").textContent=n;
 
-  $("countdown")
-    .textContent =
-    n;
+  const timer=setInterval(()=>{
 
+    n--;
 
-  const timer =
-    setInterval(
-      function(){
+    if(n>0){
 
-        n--;
+      $("countdown")
+        .textContent=n;
 
+    }
+    else{
 
-        if(n>0){
+      $("countdown")
+        .textContent="GO!";
 
-          $("countdown")
-            .textContent =
-            n;
+      setTimeout(()=>{
 
-        }
+        $("countdown")
+          .textContent="";
 
-        else{
+      },500);
 
-          $("countdown")
-            .textContent =
-            "GO!";
+      clearInterval(timer);
 
+    }
 
-          setTimeout(
-            function(){
+  },700);
 
-              $("countdown")
-                .textContent =
-                "";
-
-            },
-            500
-          );
+}
 
 
-          clearInterval(
-            timer
-          );
+/* =========================
+   CONTROLS
+========================= */
 
-        }
+let accelerate=false;
+let brake=false;
 
-      },
-      700
+function controlDown(e){
+
+  e.preventDefault();
+
+  if(e.currentTarget.id==="accelerate")
+    accelerate=true;
+
+  if(e.currentTarget.id==="brake")
+    brake=true;
+
+}
+
+function controlUp(e){
+
+  e.preventDefault();
+
+  if(e.currentTarget.id==="accelerate")
+    accelerate=false;
+
+  if(e.currentTarget.id==="brake")
+    brake=false;
+
+}
+
+$("accelerate")
+.addEventListener("pointerdown",controlDown);
+
+$("accelerate")
+.addEventListener("pointerup",controlUp);
+
+$("accelerate")
+.addEventListener("pointercancel",controlUp);
+
+$("brake")
+.addEventListener("pointerdown",controlDown);
+
+$("brake")
+.addEventListener("pointerup",controlUp);
+
+$("brake")
+.addEventListener("pointercancel",controlUp);
+
+
+/* Keyboard support */
+
+window.addEventListener(
+"keydown",
+e=>{
+
+  if(e.key==="ArrowRight")
+    accelerate=true;
+
+  if(e.key==="ArrowLeft")
+    brake=true;
+
+});
+
+window.addEventListener(
+"keyup",
+e=>{
+
+  if(e.key==="ArrowRight")
+    accelerate=false;
+
+  if(e.key==="ArrowLeft")
+    brake=false;
+
+});
+
+
+/* =========================
+   PHYSICS
+========================= */
+
+function updateCar(c,isPlayer){
+
+  const gravity=.55;
+
+  if(isPlayer){
+
+    if(accelerate){
+
+      c.vx += .12;
+
+    }
+
+    if(brake){
+
+      c.vx -= .08;
+
+    }
+
+  }
+  else{
+
+    /* BOT */
+
+    c.vx += .075;
+
+  }
+
+  c.vx *= .985;
+
+  c.vx =
+    Math.max(
+      -3,
+      Math.min(8,c.vx)
+    );
+
+  c.x += c.vx;
+
+  c.vy += gravity;
+
+  c.y += c.vy;
+
+  const gy =
+    groundY(c.x)-35;
+
+  if(c.y > gy){
+
+    c.y=gy;
+
+    c.vy=0;
+
+    const slope =
+      groundY(c.x+20)
+      -groundY(c.x-20);
+
+    c.angle =
+      Math.atan2(
+        slope,
+        40
+      );
+
+  }
+
+  c.distance=c.x;
+
+}
+
+
+/* =========================
+   DRAW BACKGROUND
+========================= */
+
+function drawBackground(){
+
+  if(selectedMap==="jungle"){
+
+    ctx.fillStyle="#82d7ff";
+
+  }
+
+  else if(selectedMap==="sand"){
+
+    ctx.fillStyle="#f3c875";
+
+  }
+
+  else{
+
+    ctx.fillStyle="#090d2b";
+
+  }
+
+  ctx.fillRect(
+    0,0,W,H
+  );
+
+}
+
+
+/* =========================
+   DRAW TERRAIN
+========================= */
+
+function drawTerrain(){
+
+  const cameraX =
+    car.x-W*.35;
+
+  ctx.save();
+
+  ctx.translate(
+    -cameraX,
+    0
+  );
+
+  ctx.beginPath();
+
+  ctx.moveTo(
+    -100,
+    H
+  );
+
+  for(
+    let x=-100;
+    x<car.x+W+200;
+    x+=20
+  ){
+
+    ctx.lineTo(
+      x,
+      groundY(x)
+    );
+
+  }
+
+  ctx.lineTo(
+    car.x+W+200,
+    H
+  );
+
+  ctx.closePath();
+
+  if(selectedMap==="jungle")
+    ctx.fillStyle="#3e8b36";
+
+  else if(selectedMap==="sand")
+    ctx.fillStyle="#c99a45";
+
+  else
+    ctx.fillStyle="#34345d";
+
+  ctx.fill();
+
+  ctx.restore();
+
+}
+
+
+/* =========================
+   DRAW CAR
+========================= */
+
+function drawCar(c){
+
+  const cameraX =
+    car.x-W*.35;
+
+  ctx.save();
+
+  ctx.translate(
+    c.x-cameraX,
+    c.y
+  );
+
+  ctx.rotate(c.angle);
+
+  /* body */
+
+  ctx.fillStyle=c.color;
+
+  ctx.fillRect(
+    -30,
+    -22,
+    60,
+    22
+  );
+
+  /* roof */
+
+  ctx.beginPath();
+
+  ctx.moveTo(-18,-22);
+
+  ctx.lineTo(-8,-40);
+
+  ctx.lineTo(17,-40);
+
+  ctx.lineTo(25,-22);
+
+  ctx.closePath();
+
+  ctx.fill();
+
+  /* windows */
+
+  ctx.fillStyle="#bde8ff";
+
+  ctx.fillRect(
+    -5,-35,
+    17,10
+  );
+
+  /* wheels */
+
+  drawWheel(-20,5);
+
+  drawWheel(20,5);
+
+  ctx.restore();
+
+}
+
+
+function drawWheel(x,y){
+
+  ctx.beginPath();
+
+  ctx.arc(
+    x,y,
+    9,
+    0,
+    Math.PI*2
+  );
+
+  ctx.fillStyle="#222";
+
+  ctx.fill();
+
+  ctx.beginPath();
+
+  ctx.arc(
+    x,y,
+    4,
+    0,
+    Math.PI*2
+  );
+
+  ctx.fillStyle="#aaa";
+
+  ctx.fill();
+
+}
+
+
+/* =========================
+   GAME LOOP
+========================= */
+
+function gameLoop(){
+
+  if(!running){
+
+    return;
+
+  }
+
+  if(!paused){
+
+    racers.forEach(
+      (r,i)=>
+        updateCar(
+          r,
+          i===0
+        )
+    );
+
+    /* camera follows player */
+
+    drawBackground();
+
+    drawTerrain();
+
+    racers.forEach(
+      drawCar
+    );
+
+    updateHUD();
+
+  }
+
+  animationID =
+    requestAnimationFrame(
+      gameLoop
     );
 
 }
 
 
-/* =========================================================
-   MOBILE CONTROL VARIABLES
-========================================================= */
+function updateHUD(){
 
-let accelerate =
-  false;
+  $("distance").textContent =
+    Math.max(
+      0,
+      Math.floor(car.x/10)
+    );
 
+  const sorted =
+    [...racers]
+    .sort(
+      (a,b)=>
+        b.x-a.x
+    );
 
-let brake =
-  false;
+  const position =
+    sorted.indexOf(car)+1;
 
+  $("position").textContent =
+    position;
 
-const accelerateButton =
-  $("accelerate");
-
-
-const brakeButton =
-  $("brake");
-
-
-/* =========================================================
-   ACCELERATE TOUCH CONTROL
-========================================================= */
-
-function accelerateStart(e){
-
-  if(e){
-
-    e.preventDefault();
-
-    e.stopPropagation();
-
-  }
-
-
-  accelerate =
-    true;
-
-
-  /*
-    Keep ownership of
-    the touch pointer.
-  */
-
-  if(
-    e &&
-    e.pointerId !== undefined &&
-    accelerateButton
-      .setPointerCapture
-  ){
-
-    try{
-
-      accelerateButton
-        .setPointerCapture(
-          e.pointerId
-        );
-
-    }
-    catch(err){}
-
-  }
+  $("fuel").textContent =
+    Math.max(
+      0,
+      Math.floor(
+        100-car.x/500
+      )
+    );
 
 }
 
 
-function accelerateStop(e){
+/* =========================
+   PAUSE
+========================= */
 
-  if(e){
+$("pauseBtn").onclick=function(){
 
-    e.preventDefault();
+  paused=true;
 
-    e.stopPropagation();
+  $("pauseScreen")
+    .classList.remove("hidden");
 
-  }
+};
+
+$("resumeBtn").onclick=function(){
+
+  paused=false;
+
+  $("pauseScreen")
+    .classList.add("hidden");
+
+};
+
+$("menuBtn").onclick=function(){
+
+  running=false;
+
+  cancelAnimationFrame(
+    animationID
+  );
+
+  show("menu");
+
+};
 
 
-  accelerate =
-    false;
+/* =========================
+   MULTIPLAYER
+========================= */
 
+let socket=null;
 
-  if(
-    e &&
-    e.pointerId !== undefined &&
-    accelerateButton
-      .releasePointerCapture
-  ){
+let room="";
+
+function connectRoom(code){
+
+  room=code.toUpperCase();
+
+  const protocol =
+    location.protocol==="https:"
+    ? "wss:"
+    : "ws:";
+
+  socket =
+    new WebSocket(
+      protocol+
+      "//"+
+      location.host+
+      "/ws/"+
+      room
+    );
+
+  socket.onopen=function(){
+
+    socket.send(
+      JSON.stringify({
+        type:"join",
+        name:playerName
+      })
+    );
+
+  };
+
+  socket.onmessage=function(e){
+
+    let msg;
 
     try{
+      msg=JSON.parse(e.data);
+    }
+    catch{
+      return;
+    }
 
-      accelerateButton
-        .releasePointerCapture(
-          e.pointerId
-        );
+    if(msg.type==="lobby"){
+
+      $("players").innerHTML="";
+
+      msg.players.forEach(p=>{
+
+        const div =
+          document.createElement("div");
+
+        div.className="player";
+
+        div.textContent =
+          p.name+
+          " — "+
+          p.team+
+          (p.ready ? " ✓":"");
+
+        $("players")
+          .appendChild(div);
+
+      });
 
     }
-    catch(err){}
 
-  }
+    if(msg.type==="start"){
+
+      selectedMap=msg.map;
+
+      show("game");
+
+      makeTerrain();
+
+      racers=[];
+
+      msg.players.forEach(
+        (p,i)=>{
+
+          racers.push(
+            createCar(
+              100-i*50,
+              p.color || "#ff9900"
+            )
+          );
+
+        }
+      );
+
+      if(msg.bots){
+
+        msg.bots.forEach(
+          (b,i)=>{
+
+            racers.push(
+              createCar(
+                -100-i*50,
+                b.color || "#888"
+              )
+            );
+
+          }
+        );
+
+      }
+
+      car=racers[0];
+
+      running=true;
+
+      startCountdown();
+
+      gameLoop();
+
+    }
+
+  };
 
 }
 
 
-/* =========================================================
-   BRAKE TOUCH CONTROL
-========================================================= */
+/* CREATE ROOM */
 
-function brakeStart(e){
+$("createBtn").onclick=function(){
 
-  if(e){
+  const code =
+    Math.random()
+      .toString(36)
+      .substring(2,7)
+      .toUpperCase();
 
-    e.preventDefault();
+  $("roomCode").value=code;
 
-    e.stopPropagation();
+  $("readyBtn")
+    .classList.remove("hidden");
+
+  $("roomTitle")
+    .textContent=
+    "ROOM: "+code;
+
+  connectRoom(code);
+
+};
+
+
+/* JOIN ROOM */
+
+$("joinBtn").onclick=function(){
+
+  const code =
+    $("roomCode")
+    .value
+    .trim()
+    .toUpperCase();
+
+  if(!code)
+    return;
+
+  $("readyBtn")
+    .classList.remove("hidden");
+
+  $("roomTitle")
+    .textContent=
+    "ROOM: "+code;
+
+  connectRoom(code);
+
+};
+
+
+/* READY */
+
+$("readyBtn").onclick=function(){
+
+  if(socket &&
+     socket.readyState===WebSocket.OPEN){
+
+    socket.send(
+      JSON.stringify({
+        type:"ready"
+      })
+    );
 
   }
 
-
-  brake =
-    true;
+};
 
 
-  if(
-    e &&
-    e.pointerId !== undefined &&
-    brakeButton
-      .setPointerCapture
-  ){
+/* MAIN MENU */
 
-    try{
+$("lobbyBack").onclick=function(){
 
-      brakeButton
-        .setPointerCapture(
-          e.pointerId
-        );
+  if(socket){
 
-    }
-    catch(err){}
+    socket.close();
+
+    socket=null;
 
   }
 
-}
+  show("menu");
 
+};
 
-function brakeStop(e){
+</script>
 
-  if(e){
-
-    e.preventDefault();
-
-    e.stopPropagation();
-
-  }
-
-
-  brake =
-    false;
-
-
-  if(
-    e &&
-    e.pointerId !== undefined &&
-    brakeButton
-      .releasePointerCapture
+</body>
+</html>
