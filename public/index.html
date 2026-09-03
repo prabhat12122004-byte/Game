@@ -1,1596 +1,341 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width,
-      initial-scale=1,
-      maximum-scale=1,
-      user-scalable=no">
-
-<title>Holi Warriors</title>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#07111f">
+<title>Hill Warriors</title>
 <style>
-
-*{
-    box-sizing:border-box;
-    -webkit-tap-highlight-color:transparent;
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#07111f;color:#fff;font-family:Arial,Helvetica,sans-serif}
+body{touch-action:none}
+button,input{font:inherit}
+.screen{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 30%,#203b59,#07111f 72%);padding:20px}
+.screen.active{display:flex}
+.panel{width:min(92vw,620px);max-height:92vh;overflow:auto;padding:30px;border:1px solid #ffffff22;border-radius:24px;background:#0b1727ee;box-shadow:0 20px 70px #0008;text-align:center}
+h1{font-size:clamp(38px,8vw,76px);margin:0 0 8px;letter-spacing:2px}
+h2{margin:0 0 18px;font-size:30px}
+.sub{opacity:.75;margin:0 0 28px}
+input{width:100%;padding:15px;border-radius:12px;border:1px solid #ffffff30;background:#07111f;color:white;outline:none;margin:8px 0 14px}
+.menuBtns{display:grid;gap:12px}
+.btn{border:0;border-radius:14px;padding:15px 18px;background:#1c78ff;color:#fff;font-weight:800;cursor:pointer}
+.btn.alt{background:#ffffff12;border:1px solid #ffffff20}
+.btn.green{background:#17a673}
+.small{font-size:13px;opacity:.65;margin-top:18px}
+#game{position:fixed;inset:0;background:#101b2a;display:none}
+#game.active{display:block}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+#hud{position:absolute;left:0;right:0;top:0;padding:10px 14px;display:flex;gap:10px;align-items:flex-start;pointer-events:none}
+.hudBox{background:#07111fcc;border:1px solid #ffffff22;border-radius:12px;padding:7px 10px;font-weight:700;font-size:14px}
+#pauseBtn{margin-left:auto;pointer-events:auto;border:0;border-radius:12px;padding:9px 14px;background:#ffffffdd;color:#08111d;font-weight:900}
+#controls{position:absolute;left:0;right:0;bottom:0;padding:14px 18px 18px;display:flex;justify-content:space-between;pointer-events:none}
+.control{pointer-events:auto;width:100px;height:100px;border-radius:50%;border:2px solid #ffffff55;background:#07111fbb;color:white;font-size:15px;font-weight:900;box-shadow:0 8px 25px #0007}
+.control:active{transform:scale(.96);background:#ffffff22}
+#brake{margin-right:auto}
+#gas{margin-left:auto}
+#pauseOverlay{position:absolute;inset:0;background:#0008;display:none;align-items:center;justify-content:center}
+#pauseOverlay.show{display:flex}
+#countdown{position:absolute;inset:0;display:none;align-items:center;justify-content:center;font-size:100px;font-weight:900;text-shadow:0 5px 25px #000}
+#lobbyList{margin:12px 0 18px;text-align:left}
+.playerRow{padding:9px 11px;margin:6px 0;background:#ffffff0b;border-radius:10px}
+.tag{font-size:11px;opacity:.65;margin-left:6px}
+#roomCode{font-size:30px;letter-spacing:5px;margin:10px 0 20px}
+select{width:100%;padding:14px;border-radius:12px;background:#07111f;color:#fff;border:1px solid #ffffff30;margin:7px 0 14px}
+.note{font-size:12px;opacity:.65;line-height:1.5}
+@media(max-width:700px) and (orientation:portrait){
+ .screen:after{content:"Rotate your phone to landscape";position:fixed;inset:0;background:#07111f;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;text-align:center;padding:30px;z-index:99}
 }
-
-html,body{
-    margin:0;
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    font-family:Arial,sans-serif;
-    background:#062719;
-    color:white;
-}
-
-button,input,select{
-    font:inherit;
-}
-
-button{
-    cursor:pointer;
-}
-
-.screen{
-    position:fixed;
-    inset:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    background:
-    radial-gradient(circle at top,#165c3b,#062719 70%);
-    overflow:auto;
-}
-
-.card{
-    width:min(650px,94vw);
-    max-height:94vh;
-    overflow:auto;
-
-    background:#0d3b29;
-
-    border:3px solid #9de7b9;
-    border-radius:28px;
-
-    padding:30px;
-
-    text-align:center;
-
-    box-shadow:
-    0 20px 60px #0009;
-}
-
-h1{
-    font-size:clamp(35px,6vw,58px);
-    margin:0 0 5px;
-}
-
-.subtitle{
-    color:#bcefc9;
-    margin-bottom:25px;
-    font-size:16px;
-}
-
-.developer{
-    color:#bcefc9;
-    font-size:15px;
-    margin-bottom:25px;
-}
-
-.field,
-select{
-    width:100%;
-    padding:15px;
-    margin:7px 0;
-
-    border-radius:14px;
-    border:2px solid #9de7b9;
-
-    background:#062719;
-    color:white;
-
-    outline:none;
-}
-
-.field:focus,
-select:focus{
-    border-color:#40d87c;
-}
-
-.btn{
-    width:100%;
-
-    border:0;
-    border-radius:16px;
-
-    padding:16px;
-
-    margin:8px 0;
-
-    color:white;
-    font-weight:bold;
-    font-size:18px;
-
-    background:#3289e8;
-
-    transition:.15s;
-}
-
-.btn:active{
-    transform:scale(.97);
-}
-
-.green{
-    background:#28a95f;
-}
-
-.orange{
-    background:#e36b32;
-}
-
-.gray{
-    background:#53665d;
-}
-
-.hidden{
-    display:none !important;
-}
-
-.small{
-    font-size:14px;
-    color:#bcefc9;
-    line-height:1.5;
-}
-
-.titleBox{
-    margin-bottom:20px;
-}
-
-.sectionTitle{
-    font-size:24px;
-    margin:10px 0 15px;
-}
-
-.optionGrid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:10px;
-}
-
-.option{
-    padding:15px;
-
-    background:#092d20;
-
-    border:2px solid #438f64;
-    border-radius:14px;
-
-    color:white;
-}
-
-.option.selected{
-    border-color:#40e37d;
-    background:#17633d;
-}
-
-.roomCode{
-    font-size:38px;
-    font-weight:bold;
-    letter-spacing:8px;
-
-    padding:18px;
-
-    margin:15px 0;
-
-    border-radius:15px;
-
-    background:#062719;
-    border:2px solid #9de7b9;
-}
-
-.players{
-    text-align:left;
-
-    background:#082d20;
-
-    border-radius:15px;
-
-    padding:15px;
-
-    margin:15px 0;
-}
-
-.playerRow{
-    padding:9px 0;
-    border-bottom:1px solid #28583f;
-}
-
-.playerRow:last-child{
-    border-bottom:0;
-}
-
-.teamBlue{
-    color:#38b9ff;
-}
-
-.teamRed{
-    color:#ff7078;
-}
-
-#game{
-    position:fixed;
-    inset:0;
-
-    display:none;
-
-    background:#65b94f;
-
-    overflow:hidden;
-}
-
-#hud{
-    position:absolute;
-
-    top:8px;
-    left:8px;
-    right:8px;
-
-    display:flex;
-    gap:8px;
-
-    z-index:20;
-}
-
-.hud{
-    flex:1;
-
-    background:#103b29dd;
-
-    border:2px solid #9de7b9;
-
-    border-radius:14px;
-
-    padding:8px;
-
-    text-align:center;
-
-    min-width:0;
-}
-
-.hud b{
-    font-size:16px;
-}
-
-#arena{
-    position:absolute;
-
-    left:3%;
-    right:3%;
-
-    top:70px;
-    bottom:110px;
-
-    border:4px solid #e0f7d7;
-
-    overflow:hidden;
-
-    background:#65b94f;
-}
-
-#world{
-    position:absolute;
-    inset:0;
-
-    overflow:hidden;
-}
-
-.block{
-    position:absolute;
-
-    background:#704723;
-
-    border:3px solid #573417;
-
-    border-radius:5px;
-}
-
-.player{
-    position:absolute;
-
-    width:44px;
-    height:44px;
-
-    border-radius:50%;
-
-    border:3px solid white;
-
-    box-shadow:0 4px 8px #0007;
-
-    z-index:5;
-}
-
-.blue{
-    background:#18aee5;
-}
-
-.red{
-    background:#ed4c5a;
-}
-
-.playerName{
-    position:absolute;
-
-    top:-25px;
-    left:50%;
-
-    transform:translateX(-50%);
-
-    font-size:12px;
-    font-weight:bold;
-
-    white-space:nowrap;
-
-    text-shadow:0 2px 3px black;
-}
-
-.health{
-    position:absolute;
-
-    width:48px;
-    height:6px;
-
-    top:-9px;
-    left:50%;
-
-    transform:translateX(-50%);
-
-    background:#222;
-
-    border-radius:5px;
-
-    overflow:hidden;
-}
-
-.healthBar{
-    display:block;
-
-    height:100%;
-
-    background:#36dc65;
-}
-
-.balloon{
-    position:absolute;
-
-    width:14px;
-    height:14px;
-
-    border-radius:50%;
-
-    background:#ffcf3b;
-
-    box-shadow:0 0 8px white;
-
-    z-index:8;
-
-    pointer-events:none;
-}
-
-.control{
-    position:absolute;
-
-    bottom:10px;
-
-    width:120px;
-    height:120px;
-
-    border-radius:50%;
-
-    border:4px solid #dff4e5aa;
-
-    background:#123b2870;
-
-    z-index:30;
-}
-
-#leftControl{
-    left:25px;
-}
-
-#rightControl{
-    right:25px;
-}
-
-.stick{
-    position:absolute;
-
-    width:58px;
-    height:58px;
-
-    left:50%;
-    top:50%;
-
-    transform:translate(-50%,-50%);
-
-    border-radius:50%;
-
-    background:#e1f5e8cc;
-
-    border:3px solid #9bc9aa;
-}
-
-.fire{
-    position:absolute;
-
-    width:65px;
-    height:65px;
-
-    left:50%;
-    top:50%;
-
-    transform:translate(-50%,-50%);
-
-    border-radius:50%;
-
-    background:#ff7134;
-
-    border:4px solid #ffd2bb;
-
-    display:flex;
-
-    justify-content:center;
-    align-items:center;
-
-    font-size:25px;
-}
-
-.overlay{
-    position:absolute;
-
-    inset:0;
-
-    background:#061b10dd;
-
-    display:none;
-
-    align-items:center;
-    justify-content:center;
-
-    z-index:100;
-}
-
-.overlay .card{
-    width:min(450px,90vw);
-}
-
-.countdown{
-    font-size:65px;
-    font-weight:bold;
-}
-
-@media(max-height:500px){
-
-    .card{
-        padding:18px;
-    }
-
-    h1{
-        font-size:36px;
-    }
-
-    .btn{
-        padding:11px;
-        font-size:16px;
-    }
-
-    #arena{
-        top:60px;
-        bottom:90px;
-    }
-
-    .control{
-        width:95px;
-        height:95px;
-    }
-
-    .stick{
-        width:45px;
-        height:45px;
-    }
-
-}
-
 </style>
 </head>
-
 <body>
 
-<!-- =====================================================
-     START SCREEN
-===================================================== -->
-
-<div id="startScreen" class="screen">
-
-<div class="card">
-
-<div class="titleBox">
-
-<h1>🌈 HOLI WARRIORS</h1>
-
-<div class="developer">
-Developed by Prabhat Kumar Singh
-</div>
-
-</div>
-
-<input
-id="playerName"
-class="field"
-placeholder="Enter your name"
-maxlength="18"
-autocomplete="off">
-
-<button
-id="continueBtn"
-class="btn green">
-
-CONTINUE
-
-</button>
-
-</div>
-
-</div>
-
-
-<!-- =====================================================
-     MODE SCREEN
-===================================================== -->
-
-<div id="modeScreen" class="screen hidden">
-
-<div class="card">
-
-<h2 class="sectionTitle">
-Welcome, <span id="welcomeName"></span>!
-</h2>
-
-<p class="small">
-Choose your game mode
-</p>
-
-<button
-id="singleModeBtn"
-class="btn green">
-
-🎮 SINGLE PLAYER
-
-</button>
-
-<button
-id="multiModeBtn"
-class="btn">
-
-👥 MULTIPLAYER
-
-</button>
-
-<button
-id="backNameBtn"
-class="btn gray">
-
-BACK
-
-</button>
-
-</div>
-
-</div>
-
-
-<!-- =====================================================
-     SINGLE PLAYER SETUP
-===================================================== -->
-
-<div id="singleSetup" class="screen hidden">
-
-<div class="card">
-
-<h2 class="sectionTitle">
-🎮 SINGLE PLAYER
-</h2>
-
-<p class="small">
-Choose your battle settings
-</p>
-
-<label>Map</label>
-
-<select id="singleMap">
-
-<option value="jungle" selected>
-🌿 Jungle
-</option>
-
-<option value="sand">
-🏜️ Sand
-</option>
-
-<option value="space">
-🚀 Space
-</option>
-
-</select>
-
-<label>Time</label>
-
-<select id="singleTime">
-
-<option value="60">
-1 Minute
-</option>
-
-<option value="120">
-2 Minutes
-</option>
-
-<option value="180" selected>
-3 Minutes
-</option>
-
-<option value="300">
-5 Minutes
-</option>
-
-</select>
-
-<label>Level</label>
-
-<div class="optionGrid" id="levelGrid">
-
-</div>
-
-<p class="small">
-Default: Jungle • 3 Minutes • Level 1
-</p>
-
-<button
-id="startSingleBtn"
-class="btn green">
-
-START BATTLE
-
-</button>
-
-<button
-id="backModeBtn"
-class="btn gray">
-
-BACK
-
-</button>
-
-</div>
-
-</div>
-
-
-<!-- =====================================================
-     MULTIPLAYER SETUP
-===================================================== -->
-
-<div id="multiSetup" class="screen hidden">
-
-<div class="card">
-
-<h2 class="sectionTitle">
-👥 MULTIPLAYER
-</h2>
-
-<select id="multiMap">
-
-<option value="jungle">
-🌿 Jungle
-</option>
-
-<option value="sand">
-🏜️ Sand
-</option>
-
-<option value="space">
-🚀 Space
-</option>
-
-</select>
-
-<select id="multiTime">
-
-<option value="60">
-1 Minute
-</option>
-
-<option value="120">
-2 Minutes
-</option>
-
-<option value="180" selected>
-3 Minutes
-</option>
-
-<option value="300">
-5 Minutes
-</option>
-
-</select>
-
-<button
-id="createRoomBtn"
-class="btn green">
-
-CREATE ROOM
-
-</button>
-
-<input
-id="joinRoomInput"
-class="field"
-maxlength="6"
-placeholder="Enter room code">
-
-<button
-id="joinRoomBtn"
-class="btn">
-
-JOIN ROOM
-
-</button>
-
-<button
-id="backMultiBtn"
-class="btn gray">
-
-BACK
-
-</button>
-
-<p id="multiStatus" class="small"></p>
-
-</div>
-
-</div>
-
-
-<!-- =====================================================
-     MULTIPLAYER LOBBY
-===================================================== -->
-
-<div id="lobbyScreen" class="screen hidden">
-
-<div class="card">
-
-<h2>
-MULTIPLAYER LOBBY
-</h2>
-
-<p class="small">
-Share this room code with your friends
-</p>
-
-<div id="roomCodeDisplay"
-class="roomCode">
-
-------
-
-</div>
-
-<div id="playerList"
-class="players">
-
-<div class="playerRow">
-Waiting for players...
-</div>
-
-</div>
-
-<p class="small">
-Maximum 6 players • 3 Blue + 3 Red
-</p>
-
-<button
-id="readyBtn"
-class="btn green">
-
-READY
-
-</button>
-
-<button
-id="leaveRoomBtn"
-class="btn gray">
-
-LEAVE ROOM
-
-</button>
-
-</div>
-
-</div>
-
-
-<!-- =====================================================
-     GAME
-===================================================== -->
+<section id="home" class="screen active">
+ <div class="panel">
+  <h1>HILL WARRIORS</h1>
+  <p class="sub">Developed by Prabhat Kumar Singh</p>
+  <input id="name" maxlength="18" placeholder="Enter your name">
+  <div class="menuBtns">
+   <button class="btn" id="start">START GAME</button>
+  </div>
+  <p class="small">Original hill-driving game • Jungle • Sand • Space</p>
+ </div>
+</section>
+
+<section id="mode" class="screen">
+ <div class="panel">
+  <h2>Choose Race</h2>
+  <div class="menuBtns">
+   <button class="btn" id="single">SINGLE PLAYER</button>
+   <button class="btn alt" id="multi">MULTIPLAYER</button>
+   <button class="btn alt" id="backHome1">MAIN MENU</button>
+  </div>
+ </div>
+</section>
+
+<section id="setup" class="screen">
+ <div class="panel">
+  <h2>Race Setup</h2>
+  <label>Map</label>
+  <select id="map">
+   <option value="jungle">Jungle</option>
+   <option value="sand">Sand</option>
+   <option value="space">Space</option>
+  </select>
+  <label>Race length</label>
+  <select id="length">
+   <option value="120">2 minutes</option>
+   <option value="180" selected>3 minutes</option>
+   <option value="240">4 minutes</option>
+  </select>
+  <div class="menuBtns">
+   <button class="btn" id="launchSingle">START RACE</button>
+   <button class="btn alt" id="backMode">BACK</button>
+  </div>
+ </div>
+</section>
+
+<section id="online" class="screen">
+ <div class="panel">
+  <h2>Multiplayer</h2>
+  <p class="sub">Up to 4 racers. Missing places are filled by bots.</p>
+  <input id="roomInput" maxlength="8" placeholder="Room code (for friends)">
+  <select id="onlineMap">
+   <option value="jungle">Jungle</option>
+   <option value="sand">Sand</option>
+   <option value="space">Space</option>
+  </select>
+  <div class="menuBtns">
+   <button class="btn" id="createRoom">CREATE / JOIN ROOM</button>
+   <button class="btn alt" id="backMode2">BACK</button>
+  </div>
+  <p id="onlineStatus" class="small"></p>
+ </div>
+</section>
+
+<section id="lobby" class="screen">
+ <div class="panel">
+  <h2>Race Lobby</h2>
+  <div id="roomCode"></div>
+  <div id="lobbyList"></div>
+  <button class="btn green" id="ready">READY</button>
+  <button class="btn alt" id="leaveLobby">MAIN MENU</button>
+  <p class="note">Share the room code with your friends. The race starts when everyone connected is ready. If fewer than 4 humans are present, bots fill the remaining positions.</p>
+ </div>
+</section>
 
 <div id="game">
-
-<div id="hud">
-
-<div class="hud">
-
-<b class="teamBlue">
-BLUE
-</b>
-
-<div id="blueScore">
-0 points
+ <canvas id="canvas"></canvas>
+ <div id="hud">
+  <div class="hudBox">🏁 <span id="place">1/4</span></div>
+  <div class="hudBox">📏 <span id="distance">0</span> m</div>
+  <div class="hudBox">⛽ <span id="fuel">100</span>%</div>
+  <div class="hudBox">🗺️ <span id="mapHud">Jungle</span></div>
+  <button id="pauseBtn">PAUSE</button>
+ </div>
+ <div id="controls">
+  <button id="brake" class="control">BRAKE</button>
+  <button id="gas" class="control">ACCELERATE</button>
+ </div>
+ <div id="countdown"></div>
+ <div id="pauseOverlay">
+  <div class="panel" style="width:min(88vw,420px)">
+   <h2>PAUSED</h2>
+   <div class="menuBtns">
+    <button class="btn" id="resume">RESUME</button>
+    <button class="btn alt" id="quit">MAIN MENU</button>
+   </div>
+  </div>
+ </div>
 </div>
 
-</div>
-
-<div class="hud">
-
-<b id="timer">
-03:00
-</b>
-
-<div id="gameInfo">
-SINGLE PLAYER
-</div>
-
-</div>
-
-<div class="hud">
-
-<b class="teamRed">
-RED
-</b>
-
-<div id="redScore">
-0 points
-</div>
-
-</div>
-
-</div>
-
-
-<div id="arena">
-
-<div id="world"></div>
-
-</div>
-
-
-<div
-id="leftControl"
-class="control">
-
-<div class="stick"></div>
-
-</div>
-
-
-<div
-id="rightControl"
-class="control">
-
-<div class="fire">
-💦
-</div>
-
-</div>
-
-
-<!-- Pause -->
-
-<div
-id="pauseOverlay"
-class="overlay">
-
-<div class="card">
-
-<h2>PAUSED</h2>
-
-<button
-id="resumeBtn"
-class="btn green">
-
-RESUME
-
-</button>
-
-<button
-id="restartGameBtn"
-class="btn">
-
-RESTART
-
-</button>
-
-<button
-id="pauseMenuBtn"
-class="btn gray">
-
-MAIN MENU
-
-</button>
-
-</div>
-
-</div>
-
-
-<!-- End -->
-
-<div
-id="endOverlay"
-class="overlay">
-
-<div class="card">
-
-<h2 id="resultTitle">
-ROUND OVER
-</h2>
-
-<p id="resultText"></p>
-
-<button
-id="playAgainBtn"
-class="btn green">
-
-PLAY AGAIN
-
-</button>
-
-<button
-id="endMenuBtn"
-class="btn">
-
-MAIN MENU
-
-</button>
-
-</div>
-
-</div>
-
-
-<!-- Respawn -->
-
-<div
-id="respawnOverlay"
-class="overlay">
-
-<div class="card">
-
-<h2>
-YOU ARE OUT
-</h2>
-
-<div
-id="respawnCountdown"
-class="countdown">
-
-10
-
-</div>
-
-<p>
-You will return to the battle.
-</p>
-
-</div>
-
-</div>
-
-</div>
-
+<section id="result" class="screen">
+ <div class="panel">
+  <h2 id="resultTitle">Race Complete</h2>
+  <p id="resultText"></p>
+  <div class="menuBtns">
+   <button class="btn" id="again">PLAY AGAIN</button>
+   <button class="btn alt" id="resultMenu">MAIN MENU</button>
+  </div>
+ </div>
+</section>
 
 <script>
+"use strict";
+const $=id=>document.getElementById(id);
+const screens=["home","mode","setup","online","lobby","result"];
+function show(id){screens.forEach(x=>$(x).classList.remove("active")); if(id)$(id).classList.add("active");}
+let playerName=localStorage.getItem("hillWarriorsName")||"";
+$("name").value=playerName;
 
-/* =====================================================
-   BASIC HELPERS
-===================================================== */
+$("start").onclick=()=>{playerName=$("name").value.trim()||"Player";localStorage.setItem("hillWarriorsName",playerName);show("mode")};
+$("single").onclick=()=>show("setup");
+$("multi").onclick=()=>show("online");
+$("backHome1").onclick=()=>show("home");
+$("backMode").onclick=()=>show("mode");
+$("backMode2").onclick=()=>show("mode");
+$("resultMenu").onclick=()=>{stopGame();show("home")};
+$("again").onclick=()=>{stopGame();if(mode==="single")startSingle();else connectRoom(roomCodeValue)};
 
-const $ = id => document.getElementById(id);
+let mode="single",mapName="jungle",raceSeconds=180,gameRunning=false,paused=false,raf=0;
+let roomCodeValue="",socket=null,myId="",remotePlayers={},bots=[];
+let canvas=$("canvas"),ctx=canvas.getContext("2d"),W=0,H=0,dpr=1;
+let worldX=0,velocity=0,verticalVelocity=0,angle=0,angularVelocity=0,fuel=100,distance=0,startTime=0;
+let gas=false,brake=false,last=0,finishReason="";
+const car={x:170,y:0,w:74,h:34,vx:0,vy:0,angle:0};
 
+function resize(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;canvas.width=W*dpr;canvas.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}
+addEventListener("resize",resize);resize();
 
-/* =====================================================
-   GAME DATA
-===================================================== */
+function terrain(x){
+ const a=mapName==="jungle"?58:mapName==="sand"?72:50;
+ const b=mapName==="jungle"?120:mapName==="sand"?150:105;
+ return H*.66 + Math.sin(x*.0022)*a + Math.sin(x*.0061)*b*.28 + Math.sin(x*.012)*18;
+}
+function colorSet(){
+ if(mapName==="jungle")return {sky:"#76c7ff",ground:"#4b8f3c",detail:"#285c2a",wheel:"#182018"};
+ if(mapName==="sand")return {sky:"#f6c878",ground:"#c79a50",detail:"#8e672f",wheel:"#2a241b"};
+ return {sky:"#09133d",ground:"#5146a2",detail:"#24205f",wheel:"#111426"};
+}
+function drawBackground(){
+ const c=colorSet();ctx.fillStyle=c.sky;ctx.fillRect(0,0,W,H);
+ if(mapName==="space"){for(let i=0;i<70;i++){let x=(i*83)%W,y=(i*47)%(H*.55);ctx.fillStyle="#ffffffaa";ctx.fillRect(x,y,2,2)}}
+ else{
+  ctx.fillStyle=mapName==="jungle"?"#2d7e48":"#e5b15d";
+  for(let i=0;i<10;i++){let x=(i*170-(worldX*.12)%170);ctx.beginPath();ctx.moveTo(x,H*.68);ctx.lineTo(x+85,H*.38);ctx.lineTo(x+170,H*.68);ctx.fill()}
+ }
+}
+function drawTerrain(){
+ const c=colorSet();ctx.beginPath();ctx.moveTo(0,H);
+ for(let sx=0;sx<=W;sx+=8){let wx=worldX+sx-120;ctx.lineTo(sx,terrain(wx))}
+ ctx.lineTo(W,H);ctx.closePath();ctx.fillStyle=c.ground;ctx.fill();
+ ctx.beginPath();
+ for(let sx=0;sx<=W;sx+=8){let wx=worldX+sx-120;let y=terrain(wx);if(sx===0)ctx.moveTo(sx,y);else ctx.lineTo(sx,y)}
+ ctx.strokeStyle=c.detail;ctx.lineWidth=5;ctx.stroke();
+}
+function drawCar(p,color="#ff4b4b"){
+ const x=p.screenX??p.x,y=p.screenY??p.y,a=p.angle||0;
+ ctx.save();ctx.translate(x,y);ctx.rotate(a);
+ ctx.fillStyle="#111a26";ctx.fillRect(-36,-20,72,26);
+ ctx.fillStyle=color;ctx.fillRect(-28,-17,48,17);
+ ctx.fillStyle="#8ed6ff";ctx.fillRect(-9,-15,18,10);
+ ctx.fillStyle="#f0b33e";ctx.fillRect(18,-15,12,9);
+ for(const wx of [-25,25]){ctx.beginPath();ctx.arc(wx,8,11,0,Math.PI*2);ctx.fillStyle="#10151b";ctx.fill();ctx.beginPath();ctx.arc(wx,8,5,0,Math.PI*2);ctx.fillStyle="#a9b3bd";ctx.fill()}
+ ctx.restore();
+}
+function worldToScreen(wx){return wx-worldX+170}
+function localCarY(){return terrain(worldX+170)-35}
+function resetCar(){worldX=0;velocity=0;verticalVelocity=0;angle=0;angularVelocity=0;fuel=100;distance=0;car.x=170;car.y=localCarY();car.angle=0}
 
-let playerName =
-localStorage.getItem("holiWarriorsPlayerName") || "";
+function makeBots(){
+ bots=[0,1,2].map((i)=>({id:"bot"+i,name:"Bot "+(i+1),x:-60-i*70,speed:80+i*12,color:["#4c8dff","#ffb020","#a855f7"][i],angle:0}));
+ remotePlayers={};
+}
+function startSingle(){
+ mode="single";mapName=$("map").value;raceSeconds=+$("length").value;
+ show(null);$("game").classList.add("active");$("mapHud").textContent=mapName[0].toUpperCase()+mapName.slice(1);
+ resetCar();makeBots();startTime=performance.now();gameRunning=true;paused=false;finishReason="";last=performance.now();requestAnimationFrame(loop);
+}
+$("launchSingle").onclick=startSingle;
 
-let selectedLevel = 1;
-
-let gameMode = "single";
-
-let map = "jungle";
-
-let roundSeconds = 180;
-
-let timer = 180;
-
-let running = false;
-
-let paused = false;
-
-let firing = false;
-
-let lastFrame = 0;
-
-let leftInput = {
-    x:0,
-    y:0
+function makeCode(){return Math.random().toString(36).slice(2,8).toUpperCase()}
+$("createRoom").onclick=()=>{
+ mode="multi";mapName=$("onlineMap").value;roomCodeValue=($("roomInput").value.trim().toUpperCase()||makeCode());
+ $("onlineStatus").textContent="Connecting…";connectRoom(roomCodeValue);
 };
+function connectRoom(code){
+ roomCodeValue=code;myId=crypto.randomUUID();show("lobby");$("roomCode").textContent=code;
+ const proto=location.protocol==="https:"?"wss":"ws";
+ socket=new WebSocket(proto+"://"+location.host+"/ws/"+encodeURIComponent(code));
+ socket.onopen=()=>socket.send(JSON.stringify({type:"join",id:myId,name:playerName,map:mapName}));
+ socket.onmessage=e=>{let m;try{m=JSON.parse(e.data)}catch{return}
+  if(m.type==="error"){alert(m.message||"Room error");show("online");return}
+  if(m.type==="room"){roomCodeValue=m.room||roomCodeValue}
+  if(m.type==="lobby"){renderLobby(m.players||[]);if(m.map)mapName=m.map}
+  if(m.type==="start"){mapName=m.map||mapName;startMultiplayer(m)}
+  if(m.type==="state"){remotePlayers[m.player.id]=m.player}
+  if(m.type==="result"){finishRace(m.winner)}
+ };
+ socket.onclose=()=>{if(mode==="multi"&&!gameRunning)$("onlineStatus").textContent="Disconnected."};
+}
+function renderLobby(players){
+ $("lobbyList").innerHTML=players.map(p=>`<div class="playerRow">${escapeHtml(p.name)} <span class="tag">${p.ready?"READY":"NOT READY"}</span></div>`).join("");
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+$("ready").onclick=()=>{if(socket&&socket.readyState===1)socket.send(JSON.stringify({type:"ready"}));$("ready").textContent="READY ✓"};
+$("leaveLobby").onclick=()=>{if(socket)socket.close();show("home")};
 
-let roomCode = "";
-
-let ws = null;
-
-let connected = false;
-
-let ready = false;
-
-let bots = [];
-
-let remotePlayers = [];
-
-let me = {
-    id:"me",
-    name:"",
-    team:"blue",
-
-    x:15,
-    y:50,
-
-    hp:1000,
-
-    score:0,
-
-    out:false,
-
-    angle:0
-};
-
-
-/* =====================================================
-   START SCREEN
-===================================================== */
-
-$("playerName").value = playerName;
-
-function showScreen(id){
-
-    document
-    .querySelectorAll(".screen")
-    .forEach(s => s.classList.add("hidden"));
-
-    $(id).classList.remove("hidden");
+function startMultiplayer(m){
+ show(null);$("game").classList.add("active");$("mapHud").textContent=mapName[0].toUpperCase()+mapName.slice(1);
+ resetCar();bots=(m.players||[]).filter(p=>p.bot);remotePlayers={};startTime=performance.now();gameRunning=true;paused=false;finishReason="";last=performance.now();requestAnimationFrame(loop);
+}
+function sendState(){
+ if(socket&&socket.readyState===1)socket.send(JSON.stringify({type:"state",player:{id:myId,name:playerName,x:worldX,speed:velocity,angle:angle,distance:distance}}));
 }
 
-$("continueBtn").onclick = function(){
-
-    const name =
-    $("playerName").value.trim();
-
-    if(!name){
-
-        $("playerName").focus();
-
-        alert("Please enter your name.");
-
-        return;
-    }
-
-    playerName = name;
-
-    localStorage.setItem(
-        "holiWarriorsPlayerName",
-        playerName
-    );
-
-    $("welcomeName").textContent =
-    playerName;
-
-    showScreen("modeScreen");
-};
-
-
-/* =====================================================
-   MODE
-===================================================== */
-
-$("singleModeBtn").onclick = function(){
-
-    gameMode = "single";
-
-    showScreen("singleSetup");
-
-};
-
-$("multiModeBtn").onclick = function(){
-
-    gameMode = "multi";
-
-    showScreen("multiSetup");
-
-};
-
-$("backNameBtn").onclick = function(){
-
-    showScreen("startScreen");
-
-};
-
-
-/* =====================================================
-   LEVEL BUTTONS
-===================================================== */
-
-for(let i=1;i<=10;i++){
-
-    const button =
-    document.createElement("button");
-
-    button.className =
-    "option" + (i===1 ? " selected":"");
-
-    button.textContent =
-    "LEVEL " + i;
-
-    button.dataset.level = i;
-
-    button.onclick = function(){
-
-        selectedLevel = Number(
-            this.dataset.level
-        );
-
-        document
-        .querySelectorAll("#levelGrid .option")
-        .forEach(b =>
-            b.classList.remove("selected")
-        );
-
-        this.classList.add("selected");
-
-    };
-
-    $("levelGrid").appendChild(button);
+function update(dt){
+ const drive=gas&&fuel>0?1:0, reverse=brake?-1:0;
+ velocity += (drive*170 + reverse*-105 - velocity*1.15)*dt;
+ if(!drive && !reverse)velocity-=Math.sign(velocity)*Math.min(Math.abs(velocity),45*dt);
+ velocity=Math.max(0,Math.min(240,velocity));
+ if(drive)fuel=Math.max(0,fuel-7*dt);
+ worldX+=velocity*dt;distance=worldX/10;
+ const slope=(terrain(worldX+175)-terrain(worldX+165))/10;
+ const targetAngle=Math.atan(slope);
+ angle += (targetAngle-angle)*Math.min(1,dt*7);
+ car.y=localCarY();car.angle=angle;
+ bots.forEach(b=>{b.x+=b.speed*dt;b.screenX=worldToScreen(b.x);b.screenY=terrain(b.x)-35;b.angle=Math.atan((terrain(b.x+10)-terrain(b.x-10))/20)});
+ Object.values(remotePlayers).forEach(p=>{p.screenX=worldToScreen(p.x||0);p.screenY=terrain(p.x||0)-35});
+ $("distance").textContent=Math.floor(distance);
+ $("fuel").textContent=Math.ceil(fuel);
+ let all=[{id:myId,distance:distance}].concat(bots.map(b=>({id:b.id,distance:b.x/10})),Object.values(remotePlayers).map(p=>({id:p.id,distance:p.distance||0})));
+ all.sort((a,b)=>b.distance-a.distance);$("place").textContent=(all.findIndex(x=>x.id===myId)+1)+"/"+Math.max(4,all.length);
+ if(performance.now()-startTime>raceSeconds*1000)endRace("Time up");
+ if(distance>=2000)endRace("Finish!");
+ if(mode==="multi")sendState();
 }
-
-
-/* =====================================================
-   BACK BUTTONS
-===================================================== */
-
-$("backModeBtn").onclick =
-function(){
-
-    showScreen("modeScreen");
-
-};
-
-$("backMultiBtn").onclick =
-function(){
-
-    showScreen("modeScreen");
-
-};
-
-
-/* =====================================================
-   MAP
-===================================================== */
-
-const mapColors = {
-
-    jungle:"#67bd52",
-
-    sand:"#c59a61",
-
-    space:"#071020"
-
-};
-
-
-/* =====================================================
-   SINGLE PLAYER
-===================================================== */
-
-$("startSingleBtn").onclick =
-function(){
-
-    map =
-    $("singleMap").value;
-
-    roundSeconds =
-    Number($("singleTime").value);
-
-    gameMode = "single";
-
-    startSingleBattle();
-
-};
-
-
-/* =====================================================
-   SINGLE BATTLE
-===================================================== */
-
-function startSingleBattle(){
-
-    roomCode = "";
-
-    timer = roundSeconds;
-
-    running = true;
-
-    paused = false;
-
-    firing = false;
-
-    me = {
-
-        id:"me",
-
-        name:playerName,
-
-        team:"blue",
-
-        x:15,
-
-        y:50,
-
-        hp:1000,
-
-        score:0,
-
-        out:false,
-
-        angle:0
-
-    };
-
-    bots = [];
-
-    remotePlayers = [];
-
-    /*
-       Level 1 = 1 bot
-       Level 10 = 10 bots
-
-       But maximum 2 active at once.
-    */
-
-    for(
-        let i=0;
-        i<selectedLevel;
-        i++
-    ){
-
-        bots.push({
-
-            id:"bot_"+i,
-
-            name:"Bot "+(i+1),
-
-            team:"red",
-
-            hp:100,
-
-            score:0,
-
-            x:70,
-
-            y:20 + (i%5)*15,
-
-            angle:Math.PI,
-
-            out:false,
-
-            active:false
-
-        });
-
-    }
-
-    activateBots();
-
-    openGame();
-
+function draw(){
+ drawBackground();drawTerrain();
+ bots.forEach(b=>drawCar(b,b.color));
+ Object.values(remotePlayers).forEach(p=>drawCar(p,p.color||"#58a6ff"));
+ car.x=170;car.y=localCarY();drawCar(car,"#ff4b4b");
 }
-
-
-/* =====================================================
-   ACTIVE BOTS
-===================================================== */
-
-function activateBots(){
-
-    let activeCount =
-    bots.filter(b=>!b.out && b.active).length;
-
-    for(const bot of bots){
-
-        if(activeCount >= 2)
-            break;
-
-        if(!bot.out && !bot.active){
-
-            bot.active = true;
-
-            bot.hp = 100;
-
-            bot.x =
-            70 + Math.random()*15;
-
-            bot.y =
-            15 + Math.random()*70;
-
-            activeCount++;
-
-        }
-
-    }
-
+function loop(t){
+ if(!gameRunning)return;
+ const dt=Math.min(.033,(t-last)/1000);last=t;
+ if(!paused){update(dt);draw()}
+ raf=requestAnimationFrame(loop);
 }
-
-
-/* =====================================================
-   OPEN GAME
-===================================================== */
-
-function openGame(){
-
-    document
-    .querySelectorAll(".screen")
-    .forEach(s =>
-        s.classList.add("hidden")
-    );
-
-    $("game").style.display = "block";
-
-    $("gameInfo").textContent =
-    gameMode==="single"
-    ? "LEVEL "+selectedLevel
-    : "MULTIPLAYER";
-
-    setArenaMap();
-
-    clearWorld();
-
-    running = true;
-
-    lastFrame =
-    performance.now();
-
-    requestAnimationFrame(gameLoop);
-
+function stopGame(){
+ gameRunning=false;cancelAnimationFrame(raf);$("game").classList.remove("active");
+ if(socket){try{socket.close()}catch{}socket=null}
 }
-
-
-/* =====================================================
-   MAP
-===================================================== */
-
-function setArenaMap(){
-
-    $("arena").style.background =
-    mapColors[map];
-
-    $("world").style.background =
-    mapColors[map];
-
+function endRace(reason){
+ if(!gameRunning)return;
+ finishReason=reason;gameRunning=false;
+ const all=[{id:myId,distance:distance,name:playerName}].concat(bots.map(b=>({id:b.id,distance:b.x/10,name:b.name})),Object.values(remotePlayers).map(p=>({id:p.id,distance:p.distance||0,name:p.name})));
+ all.sort((a,b)=>b.distance-a.distance);
+ const pos=all.findIndex(x=>x.id===myId)+1;
+ $("resultTitle").textContent=pos===1?"🏆 YOU WIN!":"RACE COMPLETE";
+ $("resultText").textContent=`You finished ${pos} of ${all.length}. Distance: ${Math.floor(distance)} m. ${reason}`;
+ $("game").classList.remove("active");show("result");
+ if(mode==="multi"&&socket&&socket.readyState===1)socket.send(JSON.stringify({type:"finish",distance:distance,name:playerName}));
 }
+function finishRace(winner){if(!gameRunning)return;endRace("Multiplayer race finished");}
 
+$("pauseBtn").onclick=()=>{if(gameRunning){paused=true;$("pauseOverlay").classList.add("show")}};
+$("resume").onclick=()=>{paused=false;$("pauseOverlay").classList.remove("show");last=performance.now()};
+$("quit").onclick=()=>{paused=false;$("pauseOverlay").classList.remove("show");stopGame();show("home")};
 
-/* =====================================================
-   WORLD
-===================================================== */
-
-function clearWorld(){
-
-    $("world")
-    .querySelectorAll(
-        ".player,.balloon,.block"
-    )
-    .forEach(e=>e.remove());
-
+function hold(btn,down,up){
+ btn.addEventListener("pointerdown",e=>{e.preventDefault();down();btn.setPointerCapture?.(e.pointerId)});
+ ["pointerup","pointercancel","pointerleave"].forEach(ev=>btn.addEventListener(ev,e=>{e.preventDefault();up()}));
 }
+hold($("gas"),()=>gas=true,()=>gas=false);
+hold($("brake"),()=>brake=true,()=>brake=false);
+addEventListener("keydown",e=>{if(e.code==="ArrowRight"||e.code==="KeyD")gas=true;if(e.code==="ArrowLeft"||e.code==="KeyA")brake=true;if(e.code==="Escape"&&gameRunning) $("pauseBtn").click()});
+addEventListener("keyup",e=>{if(e.code==="ArrowRight"||e.code==="KeyD")gas=false;if(e.code==="ArrowLeft"||e.code==="KeyA")brake=false});
 
-
-/* =====================================================
-   DRAW OBSTACLES
-===================================================== */
-
-function drawBlocks(){
-
-    clearBlocks();
-
-    const blocks = [
-
-        [8,10,18,14],
-
-        [72,10,18,14],
-
-        [38,32,24,13],
-
-        [8,68,18,13],
-
-        [72,68,18,13]
-
-    ];
-
-    blocks.forEach(
-        ([x,y,w,h]) => {
-
-            const e =
-            document.createElement("div");
-
-            e.className = "block";
-
-            e.style.left = x+"%";
-            e.style.top = y+"%";
-            e.style.width = w+"%";
-            e.style.height = h+"%";
-
-            $("world").appendChild(e);
-
-        }
-    );
-
-}
-
-function clearBlocks(){
-
-    $("world")
-    .querySelectorAll(".block")
-    .forEach(e=>e.remove());
-
-}
-
-
-/* =====================================================
-   PLAYER RENDER
-===================================================== */
-
-function renderPlayer(p){
-
-    if(!p)
-        return;
-
-    const id =
-    "player_"+p.id;
-
-    let e =
-    document.getElementById(id);
-
-    if(!e){
-
-        e =
-        document.createElement("div");
-
-        e.id = id;
-
-        e.className =
-        "player "+
-        (p.team==="blue"
-        ?"blue"
-        :"red");
-
-        const name =
-        document.createElement("div");
-
-        name.className =
-        "playerName";
-
-        name.textContent =
-        p.name || "PLAYER";
-
-        e.appendChild(name);
-
-        const health =
-        document.createElement("div");
-
-        health.className =
-        "health";
-
-        const bar =
-        document.createElement("span");
-
-        bar.className =
-        "healthBar";
-
-        health.appendChild(bar);
-
-        e.appendChild(health);
-
-        $("world").appendChild(e);
-
-    }
-
-    e.style.left =
-    p.x+"%";
-
-    e.style.top =
-    p.y+"%";
-
-    e.style.transform =
-    `rotate(${p.angle||0}rad)`;
-
-    const percentage =
-    Math.max(
-        0,
-        (p.hp/100)*100
-    );
-
-    e.querySelector(
-        ".healthBar"
-    ).style.width =
-    percentage+"%";
-
-    e.style.opacity =
-    p.out ? "0.15":"1";
-
-}
-
-
-/* =====================================================
-   REMOVE
-===================================================== */
-
-function removePlayer(id){
-
-    document
-    .getElementById(
-        "player_"+id
-    )
-    ?.remove();
-
-}
-
-
-/* =====================================================
-   MOVEMENT
-===================================================== */
-
-function movePlayer(dt){
-
-    if(me.out)
-        return;
-
-    const speed = 22;
-
-    me.x +=
-    leftInput.x *
-    speed *
-    dt;
-
-    me.y +=
-    leftInput.y *
-    speed *
-    dt;
-
-    me.x =
-    Math.max(
-        2,
-        Math.min(94,m
+drawBackground();drawTerrain();
+</script>
+</body>
+</html>
